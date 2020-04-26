@@ -5,16 +5,16 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import SwipeableViews from "react-swipeable-views";
 
-// @material-ui/core components
+// material-ui components
 import { makeStyles } from "@material-ui/core/styles";
-import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 
-import styles from "assets/jss/material-kit-react/components/navPillsStyle.js";
+import styles from "assets/jss/material-dashboard-pro-react/components/navPillsStyle.js";
 
 const useStyles = makeStyles(styles);
 
@@ -27,7 +27,7 @@ export default function NavPills(props) {
     setActive(index);
   };
   const classes = useStyles();
-  const { tabs, direction, color, horizontal, alignCenter } = props;
+  const { tabs, color, horizontal, alignCenter } = props;
   const flexContainerClasses = classNames({
     [classes.flexContainer]: true,
     [classes.horizontalDisplay]: horizontal !== undefined
@@ -61,8 +61,7 @@ export default function NavPills(props) {
             {...icon}
             classes={{
               root: pillsClasses,
-              selected: classes[color],
-              wrapper: classes.tabWrapper
+              selected: classes[color]
             }}
           />
         );
@@ -72,9 +71,10 @@ export default function NavPills(props) {
   const tabContent = (
     <div className={classes.contentWrapper}>
       <SwipeableViews
-        axis={direction === "rtl" ? "x-reverse" : "x"}
+        axis={"x"}
         index={active}
         onChangeIndex={handleChangeIndex}
+        style={{ overflowY: "hidden" }}
       >
         {tabs.map((prop, key) => {
           return (
@@ -122,7 +122,6 @@ NavPills.propTypes = {
     "info",
     "rose"
   ]),
-  direction: PropTypes.string,
   horizontal: PropTypes.shape({
     tabsGrid: PropTypes.object,
     contentGrid: PropTypes.object

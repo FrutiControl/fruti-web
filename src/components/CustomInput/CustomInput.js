@@ -7,9 +7,10 @@ import classNames from "classnames";
 import { makeStyles } from "@material-ui/core/styles";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
 import Input from "@material-ui/core/Input";
 
-import styles from "assets/jss/material-kit-react/components/customInputStyle.js";
+import styles from "assets/jss/material-dashboard-pro-react/components/customInputStyle.js";
 
 const useStyles = makeStyles(styles);
 
@@ -24,7 +25,8 @@ export default function CustomInput(props) {
     error,
     white,
     inputRootCustomClasses,
-    success
+    success,
+    helperText
   } = props;
 
   const labelClasses = classNames({
@@ -53,6 +55,10 @@ export default function CustomInput(props) {
   } else {
     formControlClasses = classes.formControl;
   }
+  var helpTextClasses = classNames({
+    [classes.labelRootError]: error,
+    [classes.labelRootSuccess]: success && !error
+  });
   return (
     <FormControl {...formControlProps} className={formControlClasses}>
       {labelText !== undefined ? (
@@ -74,6 +80,11 @@ export default function CustomInput(props) {
         id={id}
         {...inputProps}
       />
+      {helperText !== undefined ? (
+        <FormHelperText id={id + "-text"} className={helpTextClasses}>
+          {helperText}
+        </FormHelperText>
+      ) : null}
     </FormControl>
   );
 }
@@ -87,5 +98,6 @@ CustomInput.propTypes = {
   inputRootCustomClasses: PropTypes.string,
   error: PropTypes.bool,
   success: PropTypes.bool,
-  white: PropTypes.bool
+  white: PropTypes.bool,
+  helperText: PropTypes.node
 };

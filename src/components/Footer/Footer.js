@@ -1,91 +1,79 @@
 /*eslint-disable*/
 import React from "react";
-// nodejs library to set properties for components
 import PropTypes from "prop-types";
-// nodejs library that concatenates classes
-import classNames from "classnames";
-// material-ui core components
-import { List, ListItem } from "@material-ui/core";
+import cx from "classnames";
+
+// @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 
-// @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
-
-import styles from "assets/jss/material-kit-react/components/footerStyle.js";
+import styles from "assets/jss/material-dashboard-pro-react/components/footerStyle.js";
 
 const useStyles = makeStyles(styles);
 
 export default function Footer(props) {
   const classes = useStyles();
-  const { whiteFont } = props;
-  const footerClasses = classNames({
-    [classes.footer]: true,
-    [classes.footerWhiteFont]: whiteFont
+  const { fluid, white } = props;
+  var container = cx({
+    [classes.container]: !fluid,
+    [classes.containerFluid]: fluid,
+    [classes.whiteColor]: white
   });
-  const aClasses = classNames({
-    [classes.a]: true,
-    [classes.footerWhiteFont]: whiteFont
+  var anchor =
+    classes.a +
+    cx({
+      [" " + classes.whiteColor]: white
+    });
+  var block = cx({
+    [classes.block]: true,
+    [classes.whiteColor]: white
   });
   return (
-    <footer className={footerClasses}>
-      <div className={classes.container}>
+    <footer className={classes.footer}>
+      <div className={container}>
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://www.creative-tim.com/?ref=mkr-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Creative Tim
+              <a href="#home" className={block}>
+                { "Home"}
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://www.creative-tim.com/presentation?ref=mkr-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                About us
+              <a href="#company" className={block}>
+                Company
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a
-                href="http://blog.creative-tim.com/?ref=mkr-footer"
-                className={classes.block}
-                target="_blank"
-              >
+              <a href="#portfolio" className={block}>
+                Portfolio
+              </a>
+            </ListItem>
+            <ListItem className={classes.inlineBlock}>
+              <a href="#blog" className={block}>
                 Blog
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://www.creative-tim.com/license?ref=mkr-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Licenses
               </a>
             </ListItem>
           </List>
         </div>
-        <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} , made with{" "}
-          <Favorite className={classes.icon} /> by{" "}
+        <p className={classes.right}>
+          &copy; {1900 + new Date().getYear()}{" "}
+          FrutiControl{", "}
+          Usando Material Dashboard por
           <a
-            href="https://www.creative-tim.com?ref=mkr-footer"
-            className={aClasses}
+            href="https://www.creative-tim.com?ref=mdpr-footer"
+            className={anchor}
             target="_blank"
           >
             Creative Tim
-          </a>{" "}
-          for a better web.
-        </div>
+          </a>
+        </p>
       </div>
     </footer>
   );
 }
 
 Footer.propTypes = {
-  whiteFont: PropTypes.bool
+  fluid: PropTypes.bool,
+  white: PropTypes.bool,
 };
