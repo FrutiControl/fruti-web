@@ -3,9 +3,9 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 // @material-ui/icons
-import Chat from "@material-ui/icons/Chat";
-import VerifiedUser from "@material-ui/icons/VerifiedUser";
-import Fingerprint from "@material-ui/icons/Fingerprint";
+import Decisiones from "assets/img/decisiones.png";
+import Contabilidad from "assets/img/contabilidad.png";
+import Monitoreo from "assets/img/monitoreo.png";
 // core components
 import GridContainer from "components/Landing/Grid/GridContainer.js";
 import GridItem from "components/Landing/Grid/GridItem.js";
@@ -21,13 +21,11 @@ export default function ProductSection() {
     <div className={classes.section}>
       <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={8}>
-          <h2 className={classes.title}>Let{"'"}s talk product</h2>
+          <h2 className={classes.title}>Acerca del producto</h2>
           <h5 className={classes.description}>
-            This is the paragraph where you can write more details about your
-            product. Keep you user engaged by providing meaningful information.
-            Remember that by this time, the user is curious, otherwise he wouldn
-            {"'"}t scroll to get here. Add a button if you want the user to see
-            more.
+            FrutiControl es un sistema de información enfocado al monitoreo de árboles frutales para los campesinos
+            de fincas productivas, con el fin de ayudarlos a llevar un mejor control sobre actividades productivas
+            y apoyar la toma de decisiones de los usuarios.
           </h5>
         </GridItem>
       </GridContainer>
@@ -35,27 +33,30 @@ export default function ProductSection() {
         <GridContainer>
           <GridItem xs={12} sm={12} md={4}>
             <InfoArea
-              title="Free Chat"
-              description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-              icon={Chat}
+              title="Control de Árboles Frutales"
+              description="Contribuye a llevar un seguimiento de las actividades productivas realizadas a los árboles
+              frutales del usuario."
+              icon={Monitoreo}
               iconColor="info"
               vertical
             />
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
             <InfoArea
-              title="Verified Users"
-              description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-              icon={VerifiedUser}
+              title="Toma de decisiones"
+              description="Al lograr optimizar el uso de insumos agrícolas y el tiempo de mano de obra empleado en cada actividad
+              realizada en el cultivo el usuario está en capacidad de tomar decisiones."
+              icon={Decisiones}
               iconColor="success"
               vertical
             />
           </GridItem>
           <GridItem xs={12} sm={12} md={4}>
             <InfoArea
-              title="Fingerprint"
-              description="Divide details about your product or agency work into parts. Write a few lines about each one. A paragraph describing a feature will be enough."
-              icon={Fingerprint}
+              title="Control de presupuesto"
+              description="Realiza un control de ingresos y gastos para realizar un seguimiento de los costos de cada actividad productiva
+               y calcula un presupuesto estimado de costos en todo el ciclo de producción."
+              icon={Contabilidad}
               iconColor="danger"
               vertical
             />

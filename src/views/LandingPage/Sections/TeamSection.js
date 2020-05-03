@@ -139,6 +139,8 @@ export default function TeamSection() {
                 </Button>
                 <Button
                   justIcon
+                  href = "https://www.linkedin.com/in/michael-rincon-tellez-6b9a58139/"
+                  target="_blank"
                   color="transparent"
                   className={classes.margin5}
                 >
