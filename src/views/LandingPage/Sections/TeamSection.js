@@ -17,8 +17,9 @@ import CardFooter from "components/Landing/Card/CardFooter.js";
 import styles from "assets/jss/material-kit-react/views/landingPageSections/teamStyle.js";
 
 import team1 from "assets/img/faces/avatar.jpg";
-import team2 from "assets/img/faces/christian.jpg";
-import team3 from "assets/img/faces/kendall.jpg";
+import team2 from "assets/img/faces/diego.jpg";
+import team3 from "assets/img/faces/michael.jpg";
+import team4 from "assets/img/faces/carlos.jpg";
 
 const useStyles = makeStyles(styles);
 
@@ -31,77 +32,110 @@ export default function TeamSection() {
   );
   return (
     <div className={classes.section}>
-      <h2 className={classes.title}>Here is our team</h2>
+      <h2 className={classes.title}>Nuestro Equipo</h2>
       <div>
         <GridContainer>
-          <GridItem xs={12} sm={12} md={4}>
+          <GridItem xs={12} sm={12} md={3}>
             <Card plain>
               <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
                 <img src={team1} alt="..." className={imageClasses} />
               </GridItem>
               <h4 className={classes.cardTitle}>
-                Gigi Hadid
+                Valentina Escobar
                 <br />
-                <small className={classes.smallTitle}>Model</small>
+                <small className={classes.smallTitle}>CTO y desarrolladora</small>
               </h4>
               <CardBody>
                 <p className={classes.description}>
-                  You can write here details about one of your team members. You
-                  can give more details about what they do. Feel free to add
-                  some <a href="#pablo">links</a> for people to be able to
-                  follow them outside the site.
+                  Estudiante de Ingeniería de Sistemas de de la Pontificia Universidad Javeriana. Practicante de Accenture.
+                  <br />Co-fundadora de FrutiControl.
                 </p>
               </CardBody>
               <CardFooter className={classes.justifyCenter}>
                 <Button
                   justIcon
+                  href = "https://github.com/valentinaescobarg"
+                  target="_blank"
                   color="transparent"
                   className={classes.margin5}
                 >
-                  <i className={classes.socials + " fab fa-twitter"} />
+                  <i className={classes.socials + " fab fa-github"} />
                 </Button>
                 <Button
                   justIcon
+                  href = "https://www.linkedin.com/in/valentina-escobar-g%C3%B3mez-b700291a4/"
+                  target="_blank"
                   color="transparent"
                   className={classes.margin5}
                 >
-                  <i className={classes.socials + " fab fa-instagram"} />
-                </Button>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-facebook"} />
+                  <i className={classes.socials + " fab fa-linkedin"} />
                 </Button>
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
+          <GridItem xs={12} sm={12} md={3}>
             <Card plain>
               <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
                 <img src={team2} alt="..." className={imageClasses} />
               </GridItem>
               <h4 className={classes.cardTitle}>
-                Christian Louboutin
+                Diego Guevara
                 <br />
-                <small className={classes.smallTitle}>Designer</small>
+                <small className={classes.smallTitle}>CEO y desarrollador</small>
               </h4>
               <CardBody>
                 <p className={classes.description}>
-                  You can write here details about one of your team members. You
-                  can give more details about what they do. Feel free to add
-                  some <a href="#pablo">links</a> for people to be able to
-                  follow them outside the site.
+                  Estudiante de Ingeniería de Sistemas de de la Pontificia Universidad Javeriana.
+                  Desarrollador Web FullStack. Co-fundador de FrutiControl.
                 </p>
               </CardBody>
               <CardFooter className={classes.justifyCenter}>
                 <Button
                   justIcon
                   color="transparent"
+                  href="https://github.com/diegogguevarab"
+                  target="_blank"
                   className={classes.margin5}
                 >
-                  <i className={classes.socials + " fab fa-twitter"} />
+                  <i className={classes.socials + " fab fa-github"} />
+                </Button>
+                <Button
+                  justIcon
+                  href="https://www.linkedin.com/in/diegogguevarab/"
+                  target="_blank"
+                  color="transparent"
+                  className={classes.margin5}
+                >
+                  <i className={classes.socials + " fab fa-linkedin"} />
+                </Button>
+              </CardFooter>
+            </Card>
+          </GridItem>
+          <GridItem xs={12} sm={12} md={3}>
+            <Card plain>
+              <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
+                <img src={team3} alt="..." className={imageClasses} />
+              </GridItem>
+              <h4 className={classes.cardTitle}>
+                Michael Rincon
+                <br />
+                <small className={classes.smallTitle}>CCO y desarrollador</small>
+              </h4>
+              <CardBody>
+                <p className={classes.description}>
+                  Estudiante de Ingeniería de Sistemas de de la Pontificia Universidad Javeriana. Practicante en Homecenter.
+                  <br />Co-fundador de FrutiControl.
+                </p>
+              </CardBody>
+              <CardFooter className={classes.justifyCenter}>
+                <Button
+                  justIcon
+                  href ="https://github.com/michaelrincon"
+                  target="_blank"
+                  color="transparent"
+                  className={classes.margin5}
+                >
+                  <i className={classes.socials + " fab fa-github"} />
                 </Button>
                 <Button
                   justIcon
@@ -113,45 +147,40 @@ export default function TeamSection() {
               </CardFooter>
             </Card>
           </GridItem>
-          <GridItem xs={12} sm={12} md={4}>
+          <GridItem xs={12} sm={12} md={3}>
             <Card plain>
               <GridItem xs={12} sm={12} md={6} className={classes.itemGrid}>
-                <img src={team3} alt="..." className={imageClasses} />
+                <img src={team4} alt="..." className={imageClasses} />
               </GridItem>
               <h4 className={classes.cardTitle}>
-                Kendall Jenner
+                Carlos Yañez
                 <br />
-                <small className={classes.smallTitle}>Model</small>
+                <small className={classes.smallTitle}>VP Ingeniería y desarrollador</small>
               </h4>
               <CardBody>
                 <p className={classes.description}>
-                  You can write here details about one of your team members. You
-                  can give more details about what they do. Feel free to add
-                  some <a href="#pablo">links</a> for people to be able to
-                  follow them outside the site.
+                  Estudiante de Ingeniería de Sistemas de de la Pontificia Universidad Javeriana. Practicante en Ban. Santander.
+                  <br />Co-fundador de FrutiControl.
                 </p>
               </CardBody>
               <CardFooter className={classes.justifyCenter}>
                 <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
+                    justIcon
+                    href = "https://github.com/gitAccCarlo"
+                    target="_blank"
+                    color="transparent"
+                    className={classes.margin5}
                 >
-                  <i className={classes.socials + " fab fa-twitter"} />
+                  <i className={classes.socials + " fab fa-github"} />
                 </Button>
                 <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
+                    justIcon
+                    href = "https://www.linkedin.com/in/carlos-david-705803191/"
+                    target="_blank"
+                    color="transparent"
+                    className={classes.margin5}
                 >
-                  <i className={classes.socials + " fab fa-instagram"} />
-                </Button>
-                <Button
-                  justIcon
-                  color="transparent"
-                  className={classes.margin5}
-                >
-                  <i className={classes.socials + " fab fa-facebook"} />
+                  <i className={classes.socials + " fab fa-linkedin"} />
                 </Button>
               </CardFooter>
             </Card>
