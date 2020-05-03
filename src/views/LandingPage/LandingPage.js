@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 
 // core components
+//import { createRef } from "react";
 import Header from "components/Landing/Header/Header.js";
 import Footer from "components/Landing/Footer/Footer.js";
 import GridContainer from "components/Landing/Grid/GridContainer.js";
@@ -28,7 +29,8 @@ const useStyles = makeStyles(styles);
 export default function LandingPage(props) {
   const classes = useStyles();
   const { ...rest } = props;
-  return (
+
+    return (
     <div>
       <Header
         color="transparent"
@@ -37,7 +39,7 @@ export default function LandingPage(props) {
         rightLinks={<HeaderLinks />}
         fixed
         changeColorOnScroll={{
-          height: 400,
+          height: 250,
           color: "white"
         }}
         {...rest}
@@ -55,9 +57,7 @@ export default function LandingPage(props) {
               <Button
                 color="danger"
                 size="lg"
-                href="https://www.youtube.com/watch?v=dQw4w9WgXcQ&ref=creativetim"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#product"
               >
                 Más información
               </Button>
@@ -67,7 +67,7 @@ export default function LandingPage(props) {
       </Parallax>
       <div className={classNames(classes.main, classes.mainRaised)}>
         <div className={classes.container}>
-          <ProductSection />
+          <ProductSection id={'producto'}/>
           <TeamSection />
         </div>
       </div>

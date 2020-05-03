@@ -45,27 +45,20 @@ export default function Footer(props) {
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#portfolio" className={block}>
-                Portfolio
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a href="#blog" className={block}>
-                Blog
+              <a href="#manual" className={block}>
+                Manual de usuario
               </a>
             </ListItem>
           </List>
         </div>
         <p className={classes.right}>
           &copy; {1900 + new Date().getYear()}{" "}
-          FrutiControl{", "}
-          Usando Material Dashboard por
+          FrutiControl.
           <a
             href="https://www.creative-tim.com?ref=mdpr-footer"
             className={anchor}
             target="_blank"
           >
-            Creative Tim
           </a>
         </p>
       </div>

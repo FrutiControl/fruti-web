@@ -9,7 +9,6 @@ import FullScreenMap from "views/Maps/FullScreenMap.js";
 import GoogleMaps from "views/Maps/GoogleMaps.js";
 import GridSystem from "views/Components/GridSystem.js";
 import Icons from "views/Components/Icons.js";
-import LockScreenPage from "views/Pages/LockScreenPage.js";
 import LoginPage from "views/Pages/LoginPage.js";
 import Notifications from "views/Components/Notifications.js";
 import Panels from "views/Components/Panels.js";
@@ -67,7 +66,7 @@ var dashRoutes = [
       },
       {
         path: "/login-page",
-        name: "Login Page",
+        name: "Página de inicio",
         mini: "L",
         component: LoginPage,
         layout: "/auth"
@@ -77,13 +76,6 @@ var dashRoutes = [
         name: "Register Page",
         mini: "R",
         component: RegisterPage,
-        layout: "/auth"
-      },
-      {
-        path: "/lock-screen-page",
-        name: "Lock Screen Page",
-        mini: "LS",
-        component: LockScreenPage,
         layout: "/auth"
       },
       {

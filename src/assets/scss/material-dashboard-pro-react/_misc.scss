@@ -3,6 +3,9 @@ html * {
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: normal !important;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
   background-color: #eeeeee;
   color: #3c4858;
