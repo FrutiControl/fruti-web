@@ -12,7 +12,7 @@ import routes from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/authStyle.js";
 
-import register from "assets/img/register.jpeg";
+import register from "assets/img/register.jpg";
 import login from "assets/img/login.jpg";
 import lock from "assets/img/lock.jpeg";
 import error from "assets/img/clint-mckoy.jpg";

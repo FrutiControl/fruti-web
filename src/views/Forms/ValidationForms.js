@@ -273,7 +273,7 @@ export default function ValidationForms() {
                 onClick={registerClick}
                 className={classes.registerButton}
               >
-                Register
+                Registro
               </Button>
             </form>
           </CardBody>

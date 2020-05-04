@@ -67,6 +67,10 @@ const registerPageStyle = {
     fontSize: "0.875rem",
     marginLeft: "6px",
     color: "rgba(" + hexToRgb(blackColor) + ", 0.26)"
+  },
+
+  justify: {
+    textAlign: "justify"
   }
 };
 

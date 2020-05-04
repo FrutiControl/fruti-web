@@ -73,7 +73,7 @@ var dashRoutes = [
       },
       {
         path: "/register-page",
-        name: "Register Page",
+        name: "Registro de usuarios",
         mini: "R",
         component: RegisterPage,
         layout: "/auth"

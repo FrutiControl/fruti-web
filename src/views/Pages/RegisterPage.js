@@ -8,8 +8,8 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-import Timeline from "@material-ui/icons/Timeline";
-import Code from "@material-ui/icons/Code";
+import LocalAtmIcon from "@material-ui/icons/LocalAtm";
+import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import Group from "@material-ui/icons/Group";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
@@ -48,25 +48,27 @@ export default function RegisterPage() {
       <GridContainer justify="center">
         <GridItem xs={12} sm={12} md={10}>
           <Card className={classes.cardSignup}>
-            <h2 className={classes.cardTitle}>Register</h2>
+            <h2 className={classes.cardTitle}>Registro</h2>
             <CardBody>
-              <GridContainer justify="center">
+              <GridContainer className={classes.justify} justify="center">
                 <GridItem xs={12} sm={12} md={5}>
                   <InfoArea
-                    title="Marketing"
-                    description="We've created the marketing campaign of the website. It was a very interesting collaboration."
-                    icon={Timeline}
-                    iconColor="rose"
+                    title="Presupuesto"
+                    description="Generación de presupuesto estimado con base en cifras oficiales para conocer sus ingresos y gastos antes de ejecutar actividades."
+                    icon={LocalAtmIcon}
+                    iconColor="success"
                   />
                   <InfoArea
-                    title="Fully Coded in HTML5"
-                    description="We've developed the website with HTML5 and CSS3. The client has access to the code using GitHub."
-                    icon={Code}
-                    iconColor="primary"
+                    title="Alertas"
+                    description="Generación de alertas de limpieza para que el usuario tenga en cuenta el procedimiento antes de pasar a otras etapas. Con el fin
+                    de contar con un cultivo sano y prevenir factores de riesgo."
+                    icon={NotificationsActiveIcon}
+                    iconColor="warning"
                   />
                   <InfoArea
-                    title="Built Audience"
-                    description="There is also a Fully Customizable CMS Admin Dashboard for this product."
+                    title="Usuarios"
+                    description="Los agricultores de árboles frutales cuyos cultivos contemplan el mango, el banano, los cítricos y el aguacate pueden realizar seguimiento
+                    de sus actividades ya que el sistema maneja información precisa de dichos tipos de fruto."
                     icon={Group}
                     iconColor="info"
                   />
@@ -74,18 +76,18 @@ export default function RegisterPage() {
                 <GridItem xs={12} sm={8} md={5}>
                   <div className={classes.center}>
                     <Button justIcon round color="twitter">
-                      <i className="fab fa-twitter" />
+                      <i className="fas fa-lemon" />
                     </Button>
                     {` `}
-                    <Button justIcon round color="dribbble">
-                      <i className="fab fa-dribbble" />
+                    <Button justIcon round color="linkedin">
+                      <i className="fas fa-seedling" />
                     </Button>
                     {` `}
                     <Button justIcon round color="facebook">
-                      <i className="fab fa-facebook-f" />
+                      <i className="fas fa-tree" />
                     </Button>
                     {` `}
-                    <h4 className={classes.socialTitle}>or be classical</h4>
+                    <h4 className={classes.socialTitle}>Registrate aquí</h4>
                   </div>
                   <form className={classes.form}>
                     <CustomInput
@@ -102,7 +104,7 @@ export default function RegisterPage() {
                             <Face className={classes.inputAdornmentIcon} />
                           </InputAdornment>
                         ),
-                        placeholder: "First Name..."
+                        placeholder: "Nombre"
                       }}
                     />
                     <CustomInput
@@ -119,7 +121,7 @@ export default function RegisterPage() {
                             <Email className={classes.inputAdornmentIcon} />
                           </InputAdornment>
                         ),
-                        placeholder: "Email..."
+                        placeholder: "Correo"
                       }}
                     />
                     <CustomInput
@@ -138,7 +140,7 @@ export default function RegisterPage() {
                             </Icon>
                           </InputAdornment>
                         ),
-                        placeholder: "Password..."
+                        placeholder: "Contraseña"
                       }}
                     />
                     <FormControlLabel
@@ -162,14 +164,14 @@ export default function RegisterPage() {
                       }
                       label={
                         <span>
-                          I agree to the{" "}
-                          <a href="#pablo">terms and conditions</a>.
+                          Acepto los {" "}
+                          <a href="#pablo">términos y condiciones</a>.
                         </span>
                       }
                     />
                     <div className={classes.center}>
                       <Button round color="primary">
-                        Get started
+                        Registrarme
                       </Button>
                     </div>
                   </form>

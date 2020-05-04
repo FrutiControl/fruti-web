@@ -48,6 +48,10 @@ const cardFooterStyle = {
   },
   cardFooterChart: {
     borderTop: "1px solid" + grayColor[8]
+  },
+
+  justify: {
+    textAlign: "justify"
   }
 };
 
