@@ -153,7 +153,7 @@ export default function GoogleMaps() {
           </CardHeader>
           <CardBody>
             <SatelliteMap
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyXNgKS0gtLrB611nCh-J3gVqu7v_via0"
               loadingElement={<div style={{ height: `100%` }} />}
               containerElement={
                 <div
