@@ -6,7 +6,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-import Face from "@material-ui/icons/Face";
+//import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
 
@@ -38,45 +38,13 @@ export default function LoginPage() {
             <Card login className={classes[cardAnimaton]}>
               <CardHeader
                 className={`${classes.cardHeader} ${classes.textCenter}`}
-                color="rose"
+                color="primary"
               >
-                <h4 className={classes.cardTitle}>Log in</h4>
-                <div className={classes.socialLine}>
-                  {[
-                    "fab fa-facebook-square",
-                    "fab fa-twitter",
-                    "fab fa-google-plus"
-                  ].map((prop, key) => {
-                    return (
-                      <Button
-                        color="transparent"
-                        justIcon
-                        key={key}
-                        className={classes.customButtonClass}
-                      >
-                        <i className={prop} />
-                      </Button>
-                    );
-                  })}
-                </div>
+                <h4 className={classes.cardTitle}>Inicio de sesión</h4>
               </CardHeader>
               <CardBody>
                 <CustomInput
-                  labelText="First Name.."
-                  id="firstname"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Face className={classes.inputAdornmentIcon} />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-                <CustomInput
-                  labelText="Email..."
+                  labelText="Correo"
                   id="email"
                   formControlProps={{
                     fullWidth: true
@@ -90,7 +58,7 @@ export default function LoginPage() {
                   }}
                 />
                 <CustomInput
-                  labelText="Password"
+                  labelText="Contraseña"
                   id="password"
                   formControlProps={{
                     fullWidth: true
@@ -109,8 +77,8 @@ export default function LoginPage() {
                 />
               </CardBody>
               <CardFooter className={classes.justifyContentCenter}>
-                <Button color="rose" simple size="lg" block>
-                  Let{"'"}s Go
+                <Button color="primary" simple size="lg" block>
+                  Iniciar
                 </Button>
               </CardFooter>
             </Card>

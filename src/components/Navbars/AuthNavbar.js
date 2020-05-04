@@ -17,9 +17,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Dashboard from "@material-ui/icons/Dashboard";
 import Menu from "@material-ui/icons/Menu";
 import PersonAdd from "@material-ui/icons/PersonAdd";
-import Fingerprint from "@material-ui/icons/Fingerprint";
-import LockOpen from "@material-ui/icons/LockOpen";
-import MonetizationOn from "@material-ui/icons/MonetizationOn";
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 
 // core components
 import Button from "components/CustomButtons/Button";
@@ -56,21 +54,6 @@ export default function AuthNavbar(props) {
       </ListItem>
       <ListItem className={classes.listItem}>
         <NavLink
-          to={"/auth/pricing-page"}
-          className={cx(classes.navLink, {
-            [classes.navLinkActive]: activeRoute("/auth/pricing-page")
-          })}
-        >
-          <MonetizationOn className={classes.listItemIcon} />
-          <ListItemText
-            primary={"Pricing"}
-            disableTypography={true}
-            className={classes.listItemText}
-          />
-        </NavLink>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <NavLink
           to={"/auth/register-page"}
           className={cx(classes.navLink, {
             [classes.navLinkActive]: activeRoute("/auth/register-page")
@@ -78,7 +61,7 @@ export default function AuthNavbar(props) {
         >
           <PersonAdd className={classes.listItemIcon} />
           <ListItemText
-            primary={"Register"}
+            primary={"Registro"}
             disableTypography={true}
             className={classes.listItemText}
           />
@@ -91,24 +74,9 @@ export default function AuthNavbar(props) {
             [classes.navLinkActive]: activeRoute("/auth/login-page")
           })}
         >
-          <Fingerprint className={classes.listItemIcon} />
+          <LockOpenIcon className={classes.listItemIcon} />
           <ListItemText
-            primary={"Login"}
-            disableTypography={true}
-            className={classes.listItemText}
-          />
-        </NavLink>
-      </ListItem>
-      <ListItem className={classes.listItem}>
-        <NavLink
-          to={"/auth/lock-screen-page"}
-          className={cx(classes.navLink, {
-            [classes.navLinkActive]: activeRoute("/auth/lock-screen-page")
-          })}
-        >
-          <LockOpen className={classes.listItemIcon} />
-          <ListItemText
-            primary={"Lock"}
+            primary={"Inicio"}
             disableTypography={true}
             className={classes.listItemText}
           />

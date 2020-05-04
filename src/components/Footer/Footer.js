@@ -35,13 +35,13 @@ export default function Footer(props) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a href="#home" className={block}>
+              <a href="/" className={block}>
                 { "Home"}
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a href="#company" className={block}>
-                Company
+                Sobre FrutiControl
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
@@ -53,7 +53,7 @@ export default function Footer(props) {
         </div>
         <p className={classes.right}>
           &copy; {1900 + new Date().getYear()}{" "}
-          FrutiControl.
+          FrutiControl
           <a
             href="https://www.creative-tim.com?ref=mdpr-footer"
             className={anchor}

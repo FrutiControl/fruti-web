@@ -31,7 +31,7 @@ export default function HeaderLinks(props) {
                     <Button
                         color="primary"
                         size="md">
-                        Login
+                        Iniciar sesión
                     </Button>
                 </Link>
             </ListItem>

@@ -103,7 +103,7 @@ const defaultFont = {
   lineHeight: "1.5em"
 };
 
-const primaryColor = ["#964f2d", "#ab47bc", "#8e24aa", "#af2cc5", "#7b1fa2"];
+const primaryColor = ["#964f2d", "#964f2d", "#964f2d", "#964f2d", "#964f2d"];
 const warningColor = [
   "#ff9800",
   "#ffa726",

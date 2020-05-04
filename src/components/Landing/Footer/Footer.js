@@ -33,9 +33,8 @@ export default function Footer(props) {
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="https://www.creative-tim.com/?ref=mkr-footer"
+                href="#product"
                 className={classes.block}
-                target="_blank"
               >
                 Sobre FrutiControl
               </a>
