@@ -19,6 +19,9 @@ import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardFooter from "components/Card/CardFooter.js";
+import AuthNavbar from "components/Navbars/AuthNavbar.js";
+import Footer from "components/Footer/Footer.js";
+import Parallax from "components/Landing/Parallax/Parallax";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
 
@@ -29,62 +32,75 @@ export default function LoginPage() {
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
+  const wrapper = React.createRef();
   const classes = useStyles();
   return (
-    <div className={classes.container}>
-      <GridContainer justify="center">
-        <GridItem xs={12} sm={6} md={4}>
-          <form>
-            <Card login className={classes[cardAnimaton]}>
-              <CardHeader
-                className={`${classes.cardHeader} ${classes.textCenter}`}
-                color="primary"
-              >
-                <h4 className={classes.cardTitle}>Inicio de sesión</h4>
-              </CardHeader>
-              <CardBody>
-                <CustomInput
-                  labelText="Correo"
-                  id="email"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Email className={classes.inputAdornmentIcon} />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-                <CustomInput
-                  labelText="Contraseña"
-                  id="password"
-                  formControlProps={{
-                    fullWidth: true
-                  }}
-                  inputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Icon className={classes.inputAdornmentIcon}>
-                          lock_outline
-                        </Icon>
-                      </InputAdornment>
-                    ),
-                    type: "password",
-                    autoComplete: "off"
-                  }}
-                />
-              </CardBody>
-              <CardFooter className={classes.justifyContentCenter}>
-                <Button color="primary" simple size="lg" block>
-                  Iniciar
-                </Button>
-              </CardFooter>
-            </Card>
-          </form>
-        </GridItem>
-      </GridContainer>
+    <div>
+      <AuthNavbar brandText={"Login page"} />
+      <div className={classes.wrapper} ref={wrapper}>
+        <Parallax
+          className={classes.fullPage}
+          filter
+          image={require("assets/img/login.jpg")}
+        >
+          <div className={classes.container}>
+            <GridContainer justify="center">
+              <GridItem xs={12} sm={6} md={4}>
+                <form>
+                  <Card login className={classes[cardAnimaton]}>
+                    <CardHeader
+                      className={`${classes.cardHeader} ${classes.textCenter}`}
+                      color="primary"
+                    >
+                      <h4 className={classes.cardTitle}>Inicio de sesión</h4>
+                    </CardHeader>
+                    <CardBody>
+                      <CustomInput
+                        labelText="Correo"
+                        id="email"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Email className={classes.inputAdornmentIcon} />
+                            </InputAdornment>
+                          )
+                        }}
+                      />
+                      <CustomInput
+                        labelText="Contraseña"
+                        id="password"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        inputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Icon className={classes.inputAdornmentIcon}>
+                                lock_outline
+                              </Icon>
+                            </InputAdornment>
+                          ),
+                          type: "password",
+                          autoComplete: "off"
+                        }}
+                      />
+                    </CardBody>
+                    <CardFooter className={classes.justifyContentCenter}>
+                      <Button color="primary" simple size="lg" block>
+                        Iniciar
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </form>
+              </GridItem>
+            </GridContainer>
+          </div>
+          <Footer white />
+        </Parallax>
+      </div>
     </div>
   );
 }

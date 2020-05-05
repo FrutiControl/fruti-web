@@ -203,9 +203,9 @@ const events = [
   },
   {
     title: "Meeting",
-    start: new Date(y, m, d - 1, 10, 30),
-    end: new Date(y, m, d - 1, 11, 30),
-    allDay: false,
+    start: new Date(y, m, d - 1),
+    end: new Date(y, m, d + 2),
+    allDay: true,
     color: "green"
   },
   {

@@ -24,6 +24,8 @@ import AdminLayout from "layouts/Admin.js";
 
 import "assets/scss/material-dashboard-pro-react.scss?v=1.8.0";
 import LandingPage from "views/LandingPage/LandingPage";
+import LoginPage from "views/Pages/LoginPage";
+import RegisterPage from "./views/Pages/RegisterPage";
 
 const hist = createBrowserHistory();
 
@@ -32,7 +34,9 @@ ReactDOM.render(
     <Switch>
       <Route path="/auth" component={AuthLayout} />
       <Route path="/admin" component={AdminLayout} />
-      <Route path="/" component={LandingPage} />
+      <Route path="/" exact component={LandingPage} />
+      <Route path="/login" exact component={LoginPage} />
+      <Route path="/register" exact component={RegisterPage} />
     </Switch>
   </Router>,
   document.getElementById("root")

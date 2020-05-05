@@ -65,20 +65,6 @@ var dashRoutes = [
         layout: "/admin"
       },
       {
-        path: "/login-page",
-        name: "Página de inicio",
-        mini: "L",
-        component: LoginPage,
-        layout: "/auth"
-      },
-      {
-        path: "/register-page",
-        name: "Registro de usuarios",
-        mini: "R",
-        component: RegisterPage,
-        layout: "/auth"
-      },
-      {
         path: "/user-page",
         name: "User Profile",
         mini: "UP",
