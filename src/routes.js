@@ -12,6 +12,7 @@ import CreateActivity from "views/Activities/CreateActivity.js";
 import SeeActivity from "views/Activities/SeeActivity.js";
 import CreateTransaction from "views/Finances/CreateTransaction.js";
 import SeeTransaction from "views/Finances/SeeTransaction.js";
+import Widgets from "views/Widgets/Widgets.js";
 
 // @material-ui/icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -116,19 +117,27 @@ var dashRoutes = [
     state: "mapsCollapse",
     views: [
       {
-        path: "/createtransaction",
-        name: "Crear Transacción",
+        path: "/createmovements",
+        name: "Crear Movimiento",
         mini: "CT",
         component: CreateTransaction,
         layout: "/admin",
       },
       {
-        path: "/seetransaction",
-        name: "Ver Transacciones",
+        path: "/movements",
+        name: "Ver Movimientos",
         mini: "VT",
         component: SeeTransaction,
         layout: "/admin",
+      },
+      {
+        path: "/budget",
+        name: "Presupuesto",
+        mini: "PR",
+        component: Widgets,
+        layout: "/admin",
       }
+
 
     ]
   },
@@ -141,7 +150,7 @@ var dashRoutes = [
   },
   {
     path: "/calendar",
-    name: "Calendar",
+    name: "Calendario",
     icon: DateRange,
     component: Calendar,
     layout: "/admin"

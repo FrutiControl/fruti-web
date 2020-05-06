@@ -11,10 +11,6 @@ import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
 // import ContentCopy from "@material-ui/icons/ContentCopy";
-import Store from "@material-ui/icons/Store";
-// import InfoOutline from "@material-ui/icons/InfoOutline";
-import Warning from "@material-ui/icons/Warning";
-import DateRange from "@material-ui/icons/DateRange";
 import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
@@ -24,6 +20,8 @@ import Edit from "@material-ui/icons/Edit";
 import Place from "@material-ui/icons/Place";
 import ArtTrack from "@material-ui/icons/ArtTrack";
 import Language from "@material-ui/icons/Language";
+import UpdateIcon from "@material-ui/icons/Update";
+import HomeIcon from "@material-ui/icons/Home";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -31,6 +29,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Table from "components/Table/Table.js";
 import Button from "components/CustomButtons/Button.js";
 import Danger from "components/Typography/Danger.js";
+import Success from "../../components/Typography/Success.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
@@ -81,21 +80,19 @@ export default function Dashboard() {
           <Card>
             <CardHeader color="warning" stats icon>
               <CardIcon color="warning">
-                <Icon>content_copy</Icon>
+                <Icon> library_add_check_icon </Icon>
               </CardIcon>
-              <p className={classes.cardCategory}>Used Space</p>
+              <p className={classes.cardCategory}>Actividades en curso</p>
               <h3 className={classes.cardTitle}>
-                49/50 <small>GB</small>
+                8 <small>Act.</small>
               </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <Danger>
-                  <Warning />
+                  <UpdateIcon />
                 </Danger>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Get more space
-                </a>
+                <div>Estado: En desarrollo</div>
               </div>
             </CardFooter>
           </Card>
@@ -104,15 +101,17 @@ export default function Dashboard() {
           <Card>
             <CardHeader color="success" stats icon>
               <CardIcon color="success">
-                <Store />
+                <i className="fas fa-tree" />
               </CardIcon>
-              <p className={classes.cardCategory}>Revenue</p>
-              <h3 className={classes.cardTitle}>$34,245</h3>
+              <p className={classes.cardCategory}>Total de árboles</p>
+              <h3 className={classes.cardTitle}>110</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
-                <DateRange />
-                Last 24 Hours
+                <Success>
+                  <HomeIcon />
+                </Success>
+                En todas las granjas
               </div>
             </CardFooter>
           </Card>
@@ -121,15 +120,15 @@ export default function Dashboard() {
           <Card>
             <CardHeader color="danger" stats icon>
               <CardIcon color="danger">
-                <Icon>info_outline</Icon>
+                <i className="fas fa-arrow-right" />
               </CardIcon>
-              <p className={classes.cardCategory}>Fixed Issues</p>
-              <h3 className={classes.cardTitle}>75</h3>
+              <p className={classes.cardCategory}>Próximas actividades</p>
+              <h3 className={classes.cardTitle}>15</h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
                 <LocalOffer />
-                Tracked from Github
+                Estado: No iniciadas
               </div>
             </CardFooter>
           </Card>
@@ -138,16 +137,21 @@ export default function Dashboard() {
           <Card>
             <CardHeader color="info" stats icon>
               <CardIcon color="info">
-                <i className="fab fa-twitter" />
+                <i className="fas fa-cloud" />
               </CardIcon>
-              <p className={classes.cardCategory}>Followers</p>
-              <h3 className={classes.cardTitle}>+245</h3>
+              <p className={classes.cardCategory}>Pronóstico de mañana</p>
+              <h3 className={classes.cardTitle}>29C°</h3>
             </CardHeader>
             <CardFooter stats>
-              <div className={classes.stats}>
+              <a
+                className={classes.stats}
+                href="https://darksky.net"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 <Update />
-                Just Updated
-              </div>
+                Tomado de DarkSky
+              </a>
             </CardFooter>
           </Card>
         </GridItem>
