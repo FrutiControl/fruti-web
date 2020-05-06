@@ -27,7 +27,7 @@ const useStyles = makeStyles(styles);
 export default function UserProfile() {
   const classes = useStyles();
   return (
-    <div>
+    <div id="profile">
       <GridContainer>
         <GridItem xs={12} sm={12} md={8}>
           <Card>

@@ -1,42 +1,39 @@
-import Buttons from "views/Components/Buttons.js";
+
 import Calendar from "views/Calendar/Calendar.js";
 import Charts from "views/Charts/Charts.js";
 import Dashboard from "views/Dashboard/Dashboard.js";
-import ErrorPage from "views/Pages/ErrorPage.js";
-import ExtendedForms from "views/Forms/ExtendedForms.js";
-import ExtendedTables from "views/Tables/ExtendedTables.js";
 import FullScreenMap from "views/Maps/FullScreenMap.js";
-import GoogleMaps from "views/Maps/GoogleMaps.js";
-import GridSystem from "views/Components/GridSystem.js";
-import Icons from "views/Components/Icons.js";
-import LoginPage from "views/Pages/LoginPage.js";
-import Notifications from "views/Components/Notifications.js";
-import Panels from "views/Components/Panels.js";
-import PricingPage from "views/Pages/PricingPage.js";
-import ReactTables from "views/Tables/ReactTables.js";
-import RegisterPage from "views/Pages/RegisterPage.js";
-import RegularForms from "views/Forms/RegularForms.js";
-import RegularTables from "views/Tables/RegularTables.js";
-import SweetAlert from "views/Components/SweetAlert.js";
-import TimelinePage from "views/Pages/Timeline.js";
-import Typography from "views/Components/Typography.js";
 import UserProfile from "views/Pages/UserProfile.js";
-import ValidationForms from "views/Forms/ValidationForms.js";
-import VectorMap from "views/Maps/VectorMap.js";
-import Widgets from "views/Widgets/Widgets.js";
-import Wizard from "views/Forms/Wizard.js";
+import CreateFarm from "views/Farms/CreateFarm.js";
+import SeeFarm from "views/Farms/SeeFarm.js";
+import CreateTree from "views/Trees/CreateTree.js";
+import SeeTree from "views/Trees/SeeTree.js";
+import CreateActivity from "views/Activities/CreateActivity.js";
+import SeeActivity from "views/Activities/SeeActivity.js";
+import CreateTransaction from "views/Finances/CreateTransaction.js";
+import SeeTransaction from "views/Finances/SeeTransaction.js";
 
 // @material-ui/icons
-import Apps from "@material-ui/icons/Apps";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import DateRange from "@material-ui/icons/DateRange";
-import GridOn from "@material-ui/icons/GridOn";
-import Image from "@material-ui/icons/Image";
 import Place from "@material-ui/icons/Place";
-import Timeline from "@material-ui/icons/Timeline";
-import WidgetsIcon from "@material-ui/icons/Widgets";
+import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
+import InfoIcon from '@material-ui/icons/Info';
+import FaceIcon from '@material-ui/icons/Face';
+import HomeIcon from '@material-ui/icons/Home';
+import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
+import RowingIcon from '@material-ui/icons/Rowing';
+
+
 
 var dashRoutes = [
+  {
+    path: "/profile",
+    name: "Mi Perfil",
+    icon: FaceIcon,
+    component: UserProfile,
+    layout: "/admin"
+  },
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -46,218 +43,100 @@ var dashRoutes = [
   },
   {
     collapse: true,
-    name: "Pages",
-    icon: Image,
-    state: "pageCollapse",
-    views: [
-      {
-        path: "/pricing-page",
-        name: "Pricing Page",
-        mini: "PP",
-        component: PricingPage,
-        layout: "/auth"
-      },
-      {
-        path: "/timeline-page",
-        name: "Timeline Page",
-        mini: "T",
-        component: TimelinePage,
-        layout: "/admin"
-      },
-      {
-        path: "/user-page",
-        name: "User Profile",
-        mini: "UP",
-        component: UserProfile,
-        layout: "/admin"
-      },
-      {
-        path: "/error-page",
-        name: "Error Page",
-        mini: "E",
-        component: ErrorPage,
-        layout: "/auth"
-      }
-    ]
-  },
-  {
-    collapse: true,
-    name: "Components",
-    icon: Apps,
+    name: "Granjas",
+    icon: HomeIcon,
     state: "componentsCollapse",
     views: [
       {
-        collapse: true,
-        name: "Multi Level Collapse",
-        mini: "MC",
-        state: "multiCollapse",
-        views: [
-          {
-            path: "/buttons",
-            name: "Buttons",
-            mini: "B",
-            component: Buttons,
-            layout: "/admin"
-          }
-        ]
+        path: "/createfarm",
+        name: "Crear Granja",
+        mini: "CG",
+        component: CreateFarm,
+        layout: "/admin",
       },
       {
-        path: "/buttons",
-        name: "Buttons",
-        mini: "B",
-        component: Buttons,
-        layout: "/admin"
-      },
-      {
-        path: "/grid-system",
-        name: "Grid System",
-        mini: "GS",
-        component: GridSystem,
-        layout: "/admin"
-      },
-      {
-        path: "/panels",
-        name: "Panels",
-        mini: "P",
-        component: Panels,
-        layout: "/admin"
-      },
-      {
-        path: "/sweet-alert",
-        name: "Sweet Alert",
-        mini: "SA",
-        component: SweetAlert,
-        layout: "/admin"
-      },
-      {
-        path: "/notifications",
-        name: "Notifications",
-        mini: "N",
-        component: Notifications,
-        layout: "/admin"
-      },
-      {
-        path: "/icons",
-        name: "Icons",
-        mini: "I",
-        component: Icons,
-        layout: "/admin"
-      },
-      {
-        path: "/typography",
-        name: "Typography",
-        mini: "T",
-        component: Typography,
-        layout: "/admin"
+        path: "/seefarm",
+        name: "Ver Granjas",
+        mini: "VG",
+        component: SeeFarm,
+        layout: "/admin",
       }
-    ]
-  },
+        ],
+      },
   {
     collapse: true,
-    name: "Forms",
-    icon: "content_paste",
+    name: "Árboles",
+    icon: NaturePeopleIcon,
     state: "formsCollapse",
     views: [
       {
-        path: "/regular-forms",
-        name: "Regular Forms",
-        mini: "RF",
-        component: RegularForms,
-        layout: "/admin"
+        path: "/createtree",
+        name: "Crear Árbol",
+        mini: "CA",
+        component: CreateTree,
+        layout: "/admin",
       },
       {
-        path: "/extended-forms",
-        name: "Extended Forms",
-        mini: "EF",
-        component: ExtendedForms,
-        layout: "/admin"
-      },
-      {
-        path: "/validation-forms",
-        name: "Validation Forms",
-        mini: "VF",
-        component: ValidationForms,
-        layout: "/admin"
-      },
-      {
-        path: "/wizard",
-        name: "Wizard",
-        mini: "W",
-        component: Wizard,
-        layout: "/admin"
+        path: "/seetree",
+        name: "Ver Árboles",
+        mini: "VA",
+        component: SeeTree,
+        layout: "/admin",
       }
     ]
   },
   {
     collapse: true,
-    name: "Tables",
-    icon: GridOn,
+    name: "Actividades",
+    icon: RowingIcon,
     state: "tablesCollapse",
     views: [
+
       {
-        path: "/regular-tables",
-        name: "Regular Tables",
-        mini: "RT",
-        component: RegularTables,
-        layout: "/admin"
+        path: "/createactivity",
+        name: "Crear Actividad",
+        mini: "CA",
+        component: CreateActivity,
+        layout: "/admin",
       },
       {
-        path: "/extended-tables",
-        name: "Extended Tables",
-        mini: "ET",
-        component: ExtendedTables,
-        layout: "/admin"
-      },
-      {
-        path: "/react-tables",
-        name: "React Tables",
-        mini: "RT",
-        component: ReactTables,
-        layout: "/admin"
+        path: "/seeactivity",
+        name: "Ver Actividades",
+        mini: "VA",
+        component: SeeActivity,
+        layout: "/admin",
       }
+
     ]
   },
   {
     collapse: true,
-    name: "Maps",
-    icon: Place,
+    name: "Finanzas",
+    icon: MonetizationOnIcon,
     state: "mapsCollapse",
     views: [
       {
-        path: "/google-maps",
-        name: "Google Maps",
-        mini: "GM",
-        component: GoogleMaps,
-        layout: "/admin"
+        path: "/createtransaction",
+        name: "Crear Transacción",
+        mini: "CT",
+        component: CreateTransaction,
+        layout: "/admin",
       },
       {
-        path: "/full-screen-maps",
-        name: "Full Screen Map",
-        mini: "FSM",
-        component: FullScreenMap,
-        layout: "/admin"
-      },
-      {
-        path: "/vector-maps",
-        name: "Vector Map",
-        mini: "VM",
-        component: VectorMap,
-        layout: "/admin"
+        path: "/seetransaction",
+        name: "Ver Transacciones",
+        mini: "VT",
+        component: SeeTransaction,
+        layout: "/admin",
       }
+
     ]
   },
   {
-    path: "/widgets",
-    name: "Widgets",
-    icon: WidgetsIcon,
-    component: Widgets,
-    layout: "/admin"
-  },
-  {
-    path: "/charts",
-    name: "Charts",
-    icon: Timeline,
-    component: Charts,
+    path: "/full-screen-maps",
+    name: "Mapa",
+    icon: Place,
+    component: FullScreenMap,
     layout: "/admin"
   },
   {
@@ -265,6 +144,13 @@ var dashRoutes = [
     name: "Calendar",
     icon: DateRange,
     component: Calendar,
+    layout: "/admin"
+  },
+  {
+    path: "/information",
+    name: "Información Agrícola",
+    icon: InfoIcon,
+    component: Charts,
     layout: "/admin"
   }
 ];

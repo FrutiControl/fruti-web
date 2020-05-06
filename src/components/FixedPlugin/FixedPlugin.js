@@ -53,7 +53,7 @@ export default function FixedPlugin(props) {
           <i className="fa fa-cog fa-2x" />
         </div>
         <ul className="dropdown-menu">
-          <li className="header-title">SIDEBAR FILTERS</li>
+          <li className="header-title">FILTROS DEL MENÚ LATERAL</li>
           <li className="adjustments-line">
             <a className="switch-trigger active-color">
               <div className="badge-colors text-center">
@@ -138,7 +138,7 @@ export default function FixedPlugin(props) {
               <div className="clearfix" />
             </a>
           </li>
-          <li className="header-title">SIDEBAR BACKGROUND</li>
+          <li className="header-title">COLOR DE FONDO DEL MENÚ LATERAL</li>
           <li className="adjustments-line">
             <a className="switch-trigger active-color">
               <div className="badge-colors text-center">
@@ -181,7 +181,7 @@ export default function FixedPlugin(props) {
           </li>
           <li className="adjustments-line">
             <a className="switch-trigger">
-              <p className="switch-label">Sidebar Mini</p>
+              <p className="switch-label">Ocultar menú lateral</p>
               <Switch
                 checked={props.miniActive}
                 onChange={handleChange("miniActive")}
@@ -198,7 +198,7 @@ export default function FixedPlugin(props) {
           </li>
           <li className="adjustments-line">
             <a className="switch-trigger">
-              <p className="switch-label">Sidebar Image</p>
+              <p className="switch-label">Poner imagen de fondo</p>
               <Switch
                 checked={showImage}
                 onChange={handleChange("image")}
@@ -213,7 +213,7 @@ export default function FixedPlugin(props) {
               <div className="clearfix" />
             </a>
           </li>
-          <li className="header-title">Images</li>
+          <li className="header-title">Imágenes</li>
           <li className={bgImage === imagine1 ? "active" : ""}>
             <a
               className="img-holder switch-trigger"
@@ -264,31 +264,11 @@ export default function FixedPlugin(props) {
           </li>
           <li className="button-container">
             <div>
-              <Button
-                color="warning"
-                href="https://www.creative-tim.com/product/material-dashboard-pro-react?ref=mdpr-fixed-plugin"
-                target="_blank"
-                fullWidth
-              >
-                Buy now
-              </Button>
             </div>
           </li>
           <li className="button-container">
             <div>
-              <Button
-                color="warning"
-                href="https://demos.creative-tim.com/material-dashboard-pro-react/#/documentation/tutorial?ref=mdpr-fixed-plugin"
-                target="_blank"
-                fullWidth
-              >
-                Buy now
-              </Button>
             </div>
-          </li>
-          <li className="header-title" id="sharrreTitle">
-            Thank you for sharing!
-            <br />
           </li>
         </ul>
       </div>

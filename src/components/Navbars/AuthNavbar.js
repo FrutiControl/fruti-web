@@ -14,7 +14,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 
 // @material-ui/icons
-import Dashboard from "@material-ui/icons/Dashboard";
 import Menu from "@material-ui/icons/Menu";
 import PersonAdd from "@material-ui/icons/PersonAdd";
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -42,16 +41,6 @@ export default function AuthNavbar(props) {
   });
   var list = (
     <List className={classes.list}>
-      <ListItem className={classes.listItem}>
-        <NavLink to={"/admin/dashboard"} className={classes.navLink}>
-          <Dashboard className={classes.listItemIcon} />
-          <ListItemText
-            primary={"Dashboard"}
-            disableTypography={true}
-            className={classes.listItemText}
-          />
-        </NavLink>
-      </ListItem>
       <ListItem className={classes.listItem}>
         <NavLink
           to={"/register"}
@@ -97,7 +86,7 @@ export default function AuthNavbar(props) {
         <Hidden mdUp>
           <div className={classes.flex}>
             <Button href="#" className={classes.title} color="transparent">
-              MD Pro React
+              Página de Inicio
             </Button>
           </div>
         </Hidden>

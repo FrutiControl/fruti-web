@@ -70,9 +70,9 @@ export default function Calendar() {
   };
   return (
     <div>
-      <Heading
+      <Headings
         textAlign="center"
-        title="React Big Calendar"
+        title="Mi Calendario de Actividades"
         category={
           <span>
             A beautiful react component made by{" "}

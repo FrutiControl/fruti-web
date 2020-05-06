@@ -48,12 +48,12 @@ export default function RegisterPage() {
   const classes = useStyles();
   return (
     <div>
-      <AuthNavbar brandText={"Login page"} />
+      <AuthNavbar brandText={"Registro de usuarios"} />
       <div className={classes.wrapper} ref={wrapper}>
         <Parallax
           className={classes.fullPage}
           filter
-          image={require("assets/img/login.jpg")}
+          image={require("assets/img/register.jpg")}
         >
           <div className={classes.container}>
             <GridContainer justify="center">
@@ -142,6 +142,7 @@ export default function RegisterPage() {
                             }}
                           />
                           <CustomInput
+                            id="password"
                             formControlProps={{
                               fullWidth: true,
                               className: classes.customFormControlClasses
@@ -157,8 +158,30 @@ export default function RegisterPage() {
                                   </Icon>
                                 </InputAdornment>
                               ),
-                              placeholder: "Contraseña"
+                              placeholder: "Contraseña",
+                              type: "password"
                             }}
+                          />
+                          <CustomInput
+                              id="confirmacion"
+                              formControlProps={{
+                                fullWidth: true,
+                                className: classes.customFormControlClasses
+                              }}
+                              inputProps={{
+                                startAdornment: (
+                                    <InputAdornment
+                                        position="start"
+                                        className={classes.inputAdornment}
+                                    >
+                                      <Icon className={classes.inputAdornmentIcon}>
+                                        lock_outline
+                                      </Icon>
+                                    </InputAdornment>
+                                ),
+                                placeholder: "Confirmar Contraseña",
+                                type: "password"
+                              }}
                           />
                           <FormControlLabel
                             classes={{

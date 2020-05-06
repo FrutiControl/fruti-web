@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import {Link} from "react-router-dom";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -16,18 +17,18 @@ import Divider from "@material-ui/core/Divider";
 import Person from "@material-ui/icons/Person";
 import Notifications from "@material-ui/icons/Notifications";
 import Dashboard from "@material-ui/icons/Dashboard";
-import Search from "@material-ui/icons/Search";
 
 // core components
-import CustomInput from "components/CustomInput/CustomInput.js";
 import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/components/adminNavbarLinksStyle.js";
+
 
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
   const [openNotification, setOpenNotification] = React.useState(null);
+    // verifies if routeName is the one active (in browser input)
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
@@ -50,33 +51,12 @@ export default function HeaderLinks(props) {
     setOpenProfile(null);
   };
   const classes = useStyles();
-  const searchButton = classes.top + " " + classes.searchButton + " ";
   const dropdownItem = classNames(classes.dropdownItem, classes.primaryHover);
   const managerClasses = classNames({
     [classes.managerClasses]: true
   });
   return (
     <div>
-      <CustomInput
-        formControlProps={{
-          className: classes.top + " " + classes.search
-        }}
-        inputProps={{
-          placeholder: "Search",
-          inputProps: {"aria-label": "Search",
-            className: classes.searchInput
-          }
-        }}
-      />
-      <Button
-        color="white"
-        aria-label="edit"
-        justIcon
-        round
-        className={searchButton}
-      >
-        <Search className={classes.headerLinksSvg + " " + classes.searchIcon} />
-      </Button>
       <Button
         color="transparent"
         simple
@@ -215,25 +195,23 @@ export default function HeaderLinks(props) {
               <Paper className={classes.dropdown}>
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
+                      <Link to ='/admin/user-page' >
                     <MenuItem
                       onClick={handleCloseProfile}
                       className={dropdownItem}
                     >
-                      Profile
+                        Mi Perfil
                     </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={dropdownItem}
-                    >
-                      Settings
-                    </MenuItem>
+                      </Link>
                     <Divider light />
+                    <Link to ='/login' >
                     <MenuItem
                       onClick={handleCloseProfile}
                       className={dropdownItem}
                     >
-                      Log out
+                      Cerrar sesión
                     </MenuItem>
+                    </Link>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

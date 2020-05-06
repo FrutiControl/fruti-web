@@ -25,7 +25,7 @@ import AdminLayout from "layouts/Admin.js";
 import "assets/scss/material-dashboard-pro-react.scss?v=1.8.0";
 import LandingPage from "views/LandingPage/LandingPage";
 import LoginPage from "views/Pages/LoginPage";
-import RegisterPage from "./views/Pages/RegisterPage";
+import RegisterPage from "views/Pages/RegisterPage";
 
 const hist = createBrowserHistory();
 

@@ -194,7 +194,7 @@ const completedTasksChart = {
 
 const roundedLineChart = {
   data: {
-    labels: ["M", "T", "W", "T", "F", "S", "S"],
+    labels: ["M", "T", "W", "A", "F", "S", "S"],
     series: [[12, 17, 7, 17, 23, 18, 38]]
   },
   options: {

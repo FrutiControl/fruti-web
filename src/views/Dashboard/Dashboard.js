@@ -277,12 +277,12 @@ export default function Dashboard() {
                   </Button>
                 </Tooltip>
               </div>
-              <h4 className={classes.cardTitle}>Daily Sales</h4>
+              <h4 className={classes.cardTitle}>Ingresos</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
                 </span>{" "}
-                increase in today sales.
+                de incremento en los ingresos.
               </p>
             </CardBody>
             <CardFooter chart>
@@ -327,7 +327,7 @@ export default function Dashboard() {
                   </Button>
                 </Tooltip>
               </div>
-              <h4 className={classes.cardTitle}>Email Subscriptions</h4>
+              <h4 className={classes.cardTitle}>Gastos</h4>
               <p className={classes.cardCategory}>Last Campaign Performance</p>
             </CardBody>
             <CardFooter chart>
@@ -371,7 +371,7 @@ export default function Dashboard() {
                   </Button>
                 </Tooltip>
               </div>
-              <h4 className={classes.cardTitle}>Completed Tasks</h4>
+              <h4 className={classes.cardTitle}>Actividades Completadas</h4>
               <p className={classes.cardCategory}>Last Campaign Performance</p>
             </CardBody>
             <CardFooter chart>

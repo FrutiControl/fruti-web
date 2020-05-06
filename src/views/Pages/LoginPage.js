@@ -24,6 +24,7 @@ import Footer from "components/Footer/Footer.js";
 import Parallax from "components/Landing/Parallax/Parallax";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
@@ -36,7 +37,7 @@ export default function LoginPage() {
   const classes = useStyles();
   return (
     <div>
-      <AuthNavbar brandText={"Login page"} />
+      <AuthNavbar brandText={"Página de inicio"} />
       <div className={classes.wrapper} ref={wrapper}>
         <Parallax
           className={classes.fullPage}
@@ -90,7 +91,7 @@ export default function LoginPage() {
                     </CardBody>
                     <CardFooter className={classes.justifyContentCenter}>
                       <Button color="primary" simple size="lg" block>
-                        Iniciar
+                        <Link to ='/admin/dashboard' > Iniciar </Link>
                       </Button>
                     </CardFooter>
                   </Card>
