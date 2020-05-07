@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Datetime from "react-datetime";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -9,13 +13,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import InputLabel from "@material-ui/core/InputLabel";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Datetime from "react-datetime";
-import { grayColor } from "../../../assets/jss/material-dashboard-pro-react";
-import customSelectStyle from "../../../assets/jss/material-dashboard-pro-react/customSelectStyle";
+import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle";
 
 const style = {
   infoText: {
@@ -30,17 +28,16 @@ const style = {
     position: "relative"
   },
   datePicker: {
-    marginTop: "10px",
-    fontSize: "16px",
+    marginTop: "16px",
+    fontSize: "14px",
     fontWeight: "400",
     lineHeight: "1.42857",
     textDecoration: "none",
     letterSpacing: "0",
-    color: grayColor[2]
+    color: "#3c4858"
   },
   ...customSelectStyle
 };
-
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -210,13 +207,13 @@ class Step1 extends React.Component {
           </FormControl>
         </GridItem>
         <GridItem xs={8}>
-            <Datetime
-              timeFormat={false}
-              inputProps={{
-                placeholder: "Seleccione fecha de siembra",
-                style: style.datePicker
-              }}
-            />
+          <Datetime
+            timeFormat={false}
+            inputProps={{
+              placeholder: "Seleccione fecha de siembra",
+              style: style.datePicker
+            }}
+          />
         </GridItem>
       </GridContainer>
     );
