@@ -13,8 +13,6 @@ import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
 import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
-import Refresh from "@material-ui/icons/Refresh";
-import Edit from "@material-ui/icons/Edit";
 import Place from "@material-ui/icons/Place";
 import UpdateIcon from "@material-ui/icons/Update";
 import HomeIcon from "@material-ui/icons/Home";
@@ -25,7 +23,7 @@ import GridItem from "components/Grid/GridItem.js";
 import Table from "components/Table/Table.js";
 import Button from "components/CustomButtons/Button.js";
 import Danger from "components/Typography/Danger.js";
-import Success from "../../components/Typography/Success.js";
+import Success from "components/Typography/Success.js";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
 import CardIcon from "components/Card/CardIcon.js";
@@ -44,7 +42,7 @@ import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle
 import corpoica from "assets/img/corpoica.png";
 import ministerio from "assets/img/minagricultura.png";
 import asohofrucol from "assets/img/asohofrucol.png";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
@@ -164,7 +162,7 @@ export default function Dashboard() {
           <Card>
             <CardHeader color="danger" icon>
               <CardIcon color="danger">
-                <i className="fas fa-leaf"></i>
+                <i className="fas fa-leaf" />
               </CardIcon>
               <h4 className={classes.cardIconTitle}>
                 Árboles por tipo de fruto
@@ -179,7 +177,6 @@ export default function Dashboard() {
               />
             </CardBody>
             <CardFooter stats className={classes.cardFooter}>
-              <h6 className={classes.legendTitle}>Legend</h6>
               <i className={"fas fa-circle " + classes.lightBlue} /> Mango{` `}
               <i className={"fas fa-circle " + classes.lightRed} /> Banano
               {` `}
@@ -215,9 +212,9 @@ export default function Dashboard() {
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Link to ='/admin/movements' >
+                  <Link to="/admin/movements">
                     <Button color="transparent">
-                      <i className="fas fa-arrow-circle-up"></i>
+                      <i className="fas fa-arrow-circle-up" />
                     </Button>
                   </Link>
                 </Tooltip>
@@ -232,7 +229,7 @@ export default function Dashboard() {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <i class="fas fa-info-circle"></i>
+                <i className="fas fa-info-circle" />
                 Gráfica de ingresos a lo largo de los meses
               </div>
             </CardFooter>
@@ -258,9 +255,9 @@ export default function Dashboard() {
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Link to ='/admin/movements' >
+                  <Link to="/admin/movements">
                     <Button color="transparent">
-                      <i className="fas fa-arrow-circle-up"></i>
+                      <i className="fas fa-arrow-circle-up" />
                     </Button>
                   </Link>
                 </Tooltip>
@@ -276,7 +273,7 @@ export default function Dashboard() {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <i className="fas fa-info-circle"></i> Gráfica de gastos a lo
+                <i className="fas fa-info-circle" /> Gráfica de gastos a lo
                 largo de los meses.
               </div>
             </CardFooter>
@@ -301,9 +298,9 @@ export default function Dashboard() {
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Link to ='/admin/seeactivity' >
+                  <Link to="/admin/seeactivity">
                     <Button color="transparent">
-                      <i className="fas fa-arrow-circle-up"></i>
+                      <i className="fas fa-arrow-circle-up" />
                     </Button>
                   </Link>
                 </Tooltip>
@@ -311,14 +308,14 @@ export default function Dashboard() {
               <h4 className={classes.cardTitle}>Actividades Completadas</h4>
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
-                  <i className="fas fa-check-circle"></i>
+                  <i className="fas fa-check-circle" />
                 </span>{" "}
                 14 actividades completadas en la semana.
               </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <i className="fas fa-info-circle"></i> Gráfica de actividades
+                <i className="fas fa-info-circle" /> Gráfica de actividades
                 completadas en la última semana.
               </div>
             </CardFooter>
@@ -353,7 +350,7 @@ export default function Dashboard() {
                     target="_blank"
                   >
                     <Button color="transparent">
-                      <i className="fas fa-arrow-circle-left"></i>
+                      <i className="fas fa-arrow-circle-left" />
                     </Button>
                   </a>
                 </Tooltip>
@@ -369,7 +366,7 @@ export default function Dashboard() {
                     target="_blank"
                   >
                     <Button color="transparent">
-                      <i className="fas fa-arrow-circle-right"></i>
+                      <i className="fas fa-arrow-circle-right" />
                     </Button>
                   </a>
                 </Tooltip>
@@ -425,7 +422,7 @@ export default function Dashboard() {
                     target="_blank"
                   >
                     <Button color="transparent">
-                      <i className="fab fa-facebook-square"></i>
+                      <i className="fab fa-facebook-square" />
                     </Button>
                   </a>
                 </Tooltip>
@@ -441,13 +438,18 @@ export default function Dashboard() {
                     target="_blank"
                   >
                     <Button color="transparent">
-                      <i className="fab fa-youtube"></i>
+                      <i className="fab fa-youtube" />
                     </Button>
                   </a>
                 </Tooltip>
               </div>
               <h4 className={classes.cardProductTitle}>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
+                <a
+                  href="http://www.asohofrucol.com.co/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  onClick={e => e.preventDefault()}
+                >
                   Asohofrucol
                 </a>
               </h4>
@@ -494,7 +496,7 @@ export default function Dashboard() {
                     target="_blank"
                   >
                     <Button color="transparent">
-                      <i className="fas fa-arrow-circle-left"></i>
+                      <i className="fas fa-arrow-circle-left" />
                     </Button>
                   </a>
                 </Tooltip>
@@ -510,13 +512,18 @@ export default function Dashboard() {
                     target="_blank"
                   >
                     <Button color="transparent">
-                      <i className="fas fa-arrow-circle-right"></i>
+                      <i className="fas fa-arrow-circle-right" />
                     </Button>
                   </a>
                 </Tooltip>
               </div>
               <h4 className={classes.cardProductTitle}>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
+                <a
+                  href="https://www.minagricultura.gov.co/paginas/default.aspx"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  onClick={e => e.preventDefault()}
+                >
                   Ministerio de Agricultura
                 </a>
               </h4>

@@ -123,13 +123,13 @@ const dashboardStyle = {
     color: "#f4c63d"
   },
   lightBrown: {
-    color:"#d17905"
+    color: "#d17905"
   },
   darkBlue: {
-    color:"#2b2ba1"
+    color: "#2b2ba1"
   },
   darkGreen: {
-    color:"#59922b"
+    color: "#59922b"
   },
   pieStyle: {
     "& .ct-series-e .ct-slice-pie": { fill: "#2b2ba1" },

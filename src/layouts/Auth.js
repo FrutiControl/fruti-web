@@ -39,7 +39,8 @@ export default function Pages(props) {
       if (prop.layout === "/auth") {
         return (
           <Route
-            path={prop.layout + prop.path} exact
+            path={prop.layout + prop.path}
+            exact
             component={prop.component}
             key={key}
           />

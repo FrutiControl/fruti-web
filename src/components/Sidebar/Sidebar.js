@@ -21,8 +21,6 @@ import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 
 import sidebarStyle from "assets/jss/material-dashboard-pro-react/components/sidebarStyle.js";
 
-import avatar from "assets/img/faces/avatar.jpg";
-
 var ps;
 
 // We've created this component so we can have a ref to the wrapper of the links that appears in our sidebar.
@@ -127,16 +125,16 @@ class Sidebar extends React.Component {
           " " +
           cx({
             [classes.itemTextMini]:
-              this.props.miniActive && this.state.miniActive,
+              this.props.miniActive && this.state.miniActive
           });
         const collapseItemText =
           classes.collapseItemText +
           " " +
           cx({
             [classes.collapseItemTextMini]:
-              this.props.miniActive && this.state.miniActive,
+              this.props.miniActive && this.state.miniActive
           });
-        const itemIcon = classes.itemIcon ;
+        const itemIcon = classes.itemIcon;
         const caret = classes.caret;
         const collapseItemMini = classes.collapseItemMini;
         return (
@@ -162,9 +160,7 @@ class Sidebar extends React.Component {
                   <prop.icon className={itemIcon} />
                 )
               ) : (
-                <span className={collapseItemMini}>
-                  {prop.mini}
-                </span>
+                <span className={collapseItemMini}>{prop.mini}</span>
               )}
               <ListItemText
                 primary={prop.name}
@@ -209,8 +205,7 @@ class Sidebar extends React.Component {
         classes.itemText +
         " " +
         cx({
-          [classes.itemTextMini]:
-            this.props.miniActive && this.state.miniActive
+          [classes.itemTextMini]: this.props.miniActive && this.state.miniActive
         });
       const collapseItemText =
         classes.collapseItemText +
@@ -242,9 +237,7 @@ class Sidebar extends React.Component {
                 <prop.icon className={itemIcon} />
               )
             ) : (
-              <span className={collapseItemMini}>
-                {prop.mini}
-              </span>
+              <span className={collapseItemMini}>{prop.mini}</span>
             )}
             <ListItemText
               primary={prop.name}
@@ -260,14 +253,7 @@ class Sidebar extends React.Component {
     });
   };
   render() {
-    const {
-      classes,
-      logo,
-      image,
-      logoText,
-      routes,
-      bgColor,
-    } = this.props;
+    const { classes, logo, image, logoText, routes, bgColor } = this.props;
     const itemText =
       classes.itemText +
       " " +

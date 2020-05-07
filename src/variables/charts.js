@@ -23,7 +23,7 @@ var delays2 = 80,
 const dailySalesChart = {
   data: {
     labels: ["E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"],
-    series: [[12, 17, 7, 17, 23, 18, 38, 10, 42, 23, 13, 11 ]]
+    series: [[12, 17, 7, 17, 23, 18, 38, 10, 42, 23, 13, 11]]
   },
   options: {
     lineSmooth: Chartist.Interpolation.cardinal({
@@ -566,11 +566,11 @@ const colouredLinesChart = {
 
 const pieChart = {
   data: {
-    labels: ["20%","20%","10%","15%","20%","15%"],
+    labels: ["20%", "20%", "10%", "15%", "20%", "15%"],
     series: [20, 20, 10, 15, 20, 15]
   },
   options: {
-    height: "212px"
+    height: "230px"
   }
 };
 

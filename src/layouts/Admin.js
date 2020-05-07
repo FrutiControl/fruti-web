@@ -30,7 +30,6 @@ export default function Dashboard(props) {
   const [image, setImage] = React.useState(require("assets/img/sidebar-2.jpg"));
   const [color, setColor] = React.useState("blue");
   const [bgColor, setBgColor] = React.useState("black");
-  // const [hasImage, setHasImage] = React.useState(true);
   const [fixedClasses, setFixedClasses] = React.useState("dropdown");
   const [logo, setLogo] = React.useState(require("assets/img/logo.png"));
   // styles
@@ -121,7 +120,8 @@ export default function Dashboard(props) {
       if (prop.layout === "/admin") {
         return (
           <Route
-            path={prop.layout + prop.path} exact
+            path={prop.layout + prop.path}
+            exact
             component={prop.component}
             key={key}
           />

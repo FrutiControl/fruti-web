@@ -1,4 +1,3 @@
-
 import Calendar from "views/Calendar/Calendar.js";
 import Charts from "views/Charts/Charts.js";
 import Dashboard from "views/Dashboard/Dashboard.js";
@@ -18,14 +17,12 @@ import Widgets from "views/Widgets/Widgets.js";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import DateRange from "@material-ui/icons/DateRange";
 import Place from "@material-ui/icons/Place";
-import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
-import InfoIcon from '@material-ui/icons/Info';
-import FaceIcon from '@material-ui/icons/Face';
-import HomeIcon from '@material-ui/icons/Home';
-import NaturePeopleIcon from '@material-ui/icons/NaturePeople';
-import RowingIcon from '@material-ui/icons/Rowing';
-
-
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import InfoIcon from "@material-ui/icons/Info";
+import FaceIcon from "@material-ui/icons/Face";
+import HomeIcon from "@material-ui/icons/Home";
+import NaturePeopleIcon from "@material-ui/icons/NaturePeople";
+import RowingIcon from "@material-ui/icons/Rowing";
 
 var dashRoutes = [
   {
@@ -46,17 +43,17 @@ var dashRoutes = [
         name: "Crear Granja",
         mini: "CG",
         component: CreateFarm,
-        layout: "/admin",
+        layout: "/admin"
       },
       {
         path: "/seefarm",
         name: "Ver Granjas",
         mini: "VG",
         component: SeeFarm,
-        layout: "/admin",
+        layout: "/admin"
       }
-        ],
-      },
+    ]
+  },
   {
     collapse: true,
     name: "Árboles",
@@ -68,14 +65,14 @@ var dashRoutes = [
         name: "Crear Árbol",
         mini: "CA",
         component: CreateTree,
-        layout: "/admin",
+        layout: "/admin"
       },
       {
         path: "/seetree",
         name: "Ver Árboles",
         mini: "VA",
         component: SeeTree,
-        layout: "/admin",
+        layout: "/admin"
       }
     ]
   },
@@ -85,22 +82,20 @@ var dashRoutes = [
     icon: RowingIcon,
     state: "tablesCollapse",
     views: [
-
       {
         path: "/createactivity",
         name: "Crear Actividad",
         mini: "CA",
         component: CreateActivity,
-        layout: "/admin",
+        layout: "/admin"
       },
       {
         path: "/seeactivity",
         name: "Ver Actividades",
         mini: "VA",
         component: SeeActivity,
-        layout: "/admin",
+        layout: "/admin"
       }
-
     ]
   },
   {
@@ -114,24 +109,22 @@ var dashRoutes = [
         name: "Crear Movimiento",
         mini: "CT",
         component: CreateTransaction,
-        layout: "/admin",
+        layout: "/admin"
       },
       {
         path: "/movements",
         name: "Ver Movimientos",
         mini: "VT",
         component: SeeTransaction,
-        layout: "/admin",
+        layout: "/admin"
       },
       {
         path: "/budget",
         name: "Presupuesto",
         mini: "PR",
         component: Widgets,
-        layout: "/admin",
+        layout: "/admin"
       }
-
-
     ]
   },
   {

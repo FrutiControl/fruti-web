@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,12 +23,11 @@ import Button from "components/CustomButtons/Button.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/components/adminNavbarLinksStyle.js";
 
-
 const useStyles = makeStyles(styles);
 
 export default function HeaderLinks(props) {
   const [openNotification, setOpenNotification] = React.useState(null);
-    // verifies if routeName is the one active (in browser input)
+  // verifies if routeName is the one active (in browser input)
   const handleClickNotification = event => {
     if (openNotification && openNotification.contains(event.target)) {
       setOpenNotification(null);
@@ -64,13 +63,9 @@ export default function HeaderLinks(props) {
         justIcon
         className={classes.buttonLink}
       >
-        <Dashboard
-          className={classes.headerLinksSvg + " " + classes.links}
-        />
+        <Dashboard className={classes.headerLinksSvg + " " + classes.links} />
         <Hidden mdUp implementation="css">
-          <span className={classes.linkText}>
-            Dashboard
-          </span>
+          <span className={classes.linkText}>Dashboard</span>
         </Hidden>
       </Button>
       <div className={managerClasses}>
@@ -121,19 +116,19 @@ export default function HeaderLinks(props) {
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                        Mike John responded to your email
+                      Mike John responded to your email
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                    You have 5 new tasks
+                      You have 5 new tasks
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                     You're now friend with Andrew
+                      You{"'"}re now friend with Andrew
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
@@ -145,7 +140,7 @@ export default function HeaderLinks(props) {
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                     Another One
+                      Another One
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
@@ -165,9 +160,7 @@ export default function HeaderLinks(props) {
           onClick={handleClickProfile}
           className={classes.buttonLink}
         >
-          <Person
-            className={classes.headerLinksSvg + " " + classes.links}
-          />
+          <Person className={classes.headerLinksSvg + " " + classes.links} />
         </Button>
         <Popper
           open={Boolean(openProfile)}
@@ -190,22 +183,22 @@ export default function HeaderLinks(props) {
               <Paper className={classes.dropdown}>
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
-                      <Link to ='/admin/profile' >
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={dropdownItem}
-                    >
+                    <Link to="/admin/profile">
+                      <MenuItem
+                        onClick={handleCloseProfile}
+                        className={dropdownItem}
+                      >
                         Mi Perfil
-                    </MenuItem>
-                      </Link>
+                      </MenuItem>
+                    </Link>
                     <Divider light />
-                    <Link to ='/login' >
-                    <MenuItem
-                      onClick={handleCloseProfile}
-                      className={dropdownItem}
-                    >
-                      Cerrar sesión
-                    </MenuItem>
+                    <Link to="/login">
+                      <MenuItem
+                        onClick={handleCloseProfile}
+                        className={dropdownItem}
+                      >
+                        Cerrar sesión
+                      </MenuItem>
                     </Link>
                   </MenuList>
                 </ClickAwayListener>

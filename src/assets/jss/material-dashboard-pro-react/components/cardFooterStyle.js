@@ -10,7 +10,8 @@ const cardFooterStyle = {
     alignItems: "center",
     display: "flex",
     backgroundColor: "transparent",
-    border: "0"
+    border: "0",
+    textAlign: "baseline"
   },
   cardFooterProfile: {
     marginTop: "-15px"
@@ -39,7 +40,6 @@ const cardFooterStyle = {
     },
     "& .fab,& .fas,& .far,& .fal,& .material-icons": {
       position: "relative",
-      top: "4px",
       marginRight: "3px",
       marginLeft: "3px",
       fontSize: "16px",
