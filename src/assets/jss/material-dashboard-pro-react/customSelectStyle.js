@@ -14,7 +14,6 @@ const customSelectStyle = {
     fontWeight: "400",
     lineHeight: "1.42857",
     textDecoration: "none",
-    textTransform: "uppercase",
     color: grayColor[2],
     letterSpacing: "0",
     "&:focus": {
@@ -40,8 +39,7 @@ const customSelectStyle = {
     }
   },
   selectLabel: {
-    fontSize: "12px",
-    textTransform: "uppercase",
+    fontSize: "15px",
     color: grayColor[2] + " !important",
     top: "8px"
   },

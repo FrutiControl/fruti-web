@@ -328,12 +328,12 @@ CreateFarm.defaultProps = {
     color: "rose",
     title: "Here should go your title",
     subtitle: "And this would be your subtitle",
-    previousButtonText: "Previous",
+    previousButtonText: "Anterior",
     previousButtonClasses: "",
     nextButtonClasses: "",
     nextButtonText: "Next",
     finishButtonClasses: "",
-    finishButtonText: "Finish"
+    finishButtonText: "Finalizar"
 };
 
 CreateFarm.propTypes = {

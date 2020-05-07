@@ -23,7 +23,8 @@ const wizardStyle = {
     color: "rgba(" + hexToRgb(blackColor) + ", 0.87)",
     background: whiteColor,
     transition: "all 300ms linear",
-    minHeight: "410px"
+    minHeight: "410px",
+    paddingBottom: "10px"
   },
   wizardHeader: {
     textAlign: "center",

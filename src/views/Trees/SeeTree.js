@@ -133,27 +133,33 @@ export default function SeeTree() {
                     </CardHeader>
                     <CardBody>
                         <ReactTable
+                            nextText={"Siguiente"}
+                            previousText={"Anterior"}
+                            pageJumpText={"filas"}
+                            pageText={"Páginas"}
+                            ofText={"de"}
+                            rowsText={"filas"}
                             data={data}
                             filterable
                             columns={[
                                 {
-                                    Header: "Name",
+                                    Header: "Número",
                                     accessor: "name"
                                 },
                                 {
-                                    Header: "Position",
+                                    Header: "Tipo de fruto",
                                     accessor: "position"
                                 },
                                 {
-                                    Header: "Office",
+                                    Header: "Fecha de Siembra",
                                     accessor: "office"
                                 },
                                 {
-                                    Header: "Age",
+                                    Header: "Granja",
                                     accessor: "age"
                                 },
                                 {
-                                    Header: "Actions",
+                                    Header: "Acciones",
                                     accessor: "actions",
                                     sortable: false,
                                     filterable: false

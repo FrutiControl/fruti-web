@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
 import Dvr from "@material-ui/icons/Dvr";
-import Favorite from "@material-ui/icons/Favorite";
 import Close from "@material-ui/icons/Close";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -66,7 +65,6 @@ export default function SeeFarm() {
                             color="info"
                             className="like"
                         >
-                            <Favorite />
                         </Button>{" "}
                         {/* use this button to add a edit kind of action */}
                         <Button
@@ -133,27 +131,22 @@ export default function SeeFarm() {
                     </CardHeader>
                     <CardBody>
                         <ReactTable
+
+                            nextText={"Siguiente"}
+                            previousText={"Anterior"}
+                            pageJumpText={"filas"}
+                            pageText={"Páginas"}
+                            ofText={"de"}
+                            rowsText={"filas"}
                             data={data}
                             filterable
                             columns={[
                                 {
-                                    Header: "Name",
+                                    Header: "Nombre",
                                     accessor: "name"
                                 },
                                 {
-                                    Header: "Position",
-                                    accessor: "position"
-                                },
-                                {
-                                    Header: "Office",
-                                    accessor: "office"
-                                },
-                                {
-                                    Header: "Age",
-                                    accessor: "age"
-                                },
-                                {
-                                    Header: "Actions",
+                                    Header: "Acciones",
                                     accessor: "actions",
                                     sortable: false,
                                     filterable: false

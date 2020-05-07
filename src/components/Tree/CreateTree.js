@@ -249,10 +249,9 @@ class CreateTree extends React.Component {
                                         style={{ width: this.state.width }}
                                     >
                                         <a
-                                            href="#pablo"
+                                            href="#account"
                                             className={classes.stepsAnchor}
                                             onClick={e => {
-                                                e.preventDefault();
                                                 this.navigationStepChange(key);
                                             }}
                                         >
@@ -328,12 +327,12 @@ CreateTree.defaultProps = {
     color: "rose",
     title: "Here should go your title",
     subtitle: "And this would be your subtitle",
-    previousButtonText: "Previous",
+    previousButtonText: "Volver",
     previousButtonClasses: "",
     nextButtonClasses: "",
-    nextButtonText: "Next",
+    nextButtonText: "Siguiente",
     finishButtonClasses: "",
-    finishButtonText: "Finish"
+    finishButtonText: "Finalizar"
 };
 
 CreateTree.propTypes = {
