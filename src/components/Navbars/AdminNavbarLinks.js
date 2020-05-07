@@ -92,7 +92,7 @@ export default function HeaderLinks(props) {
               onClick={handleClickNotification}
               className={classes.linkText}
             >
-              Notification
+              Notificaciones
             </span>
           </Hidden>
         </Button>
@@ -168,11 +168,6 @@ export default function HeaderLinks(props) {
           <Person
             className={classes.headerLinksSvg + " " + classes.links}
           />
-          <Hidden mdUp implementation="css">
-            <span onClick={handleClickProfile} className={classes.linkText}>
-              Profile
-            </span>
-          </Hidden>
         </Button>
         <Popper
           open={Boolean(openProfile)}
@@ -195,7 +190,7 @@ export default function HeaderLinks(props) {
               <Paper className={classes.dropdown}>
                 <ClickAwayListener onClickAway={handleCloseProfile}>
                   <MenuList role="menu">
-                      <Link to ='/admin/user-page' >
+                      <Link to ='/admin/profile' >
                     <MenuItem
                       onClick={handleCloseProfile}
                       className={dropdownItem}

@@ -1,8 +1,6 @@
 import React from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
-// react plugin for creating vector maps
-import { VectorMap } from "react-jvectormap";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -10,16 +8,14 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-// import ContentCopy from "@material-ui/icons/ContentCopy";
+import InsertChartIcon from "@material-ui/icons/InsertChart";
 import LocalOffer from "@material-ui/icons/LocalOffer";
 import Update from "@material-ui/icons/Update";
 import ArrowUpward from "@material-ui/icons/ArrowUpward";
-import AccessTime from "@material-ui/icons/AccessTime";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 import Refresh from "@material-ui/icons/Refresh";
 import Edit from "@material-ui/icons/Edit";
 import Place from "@material-ui/icons/Place";
-import ArtTrack from "@material-ui/icons/ArtTrack";
-import Language from "@material-ui/icons/Language";
 import UpdateIcon from "@material-ui/icons/Update";
 import HomeIcon from "@material-ui/icons/Home";
 
@@ -39,35 +35,16 @@ import CardFooter from "components/Card/CardFooter.js";
 import {
   dailySalesChart,
   emailsSubscriptionChart,
-  completedTasksChart
+  completedTasksChart,
+  pieChart
 } from "variables/charts";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.js";
 
-import priceImage1 from "assets/img/card-2.jpeg";
-import priceImage2 from "assets/img/card-3.jpeg";
-import priceImage3 from "assets/img/card-1.jpeg";
-
-const us_flag = require("assets/img/flags/US.png");
-const de_flag = require("assets/img/flags/DE.png");
-const au_flag = require("assets/img/flags/AU.png");
-const gb_flag = require("assets/img/flags/GB.png");
-const ro_flag = require("assets/img/flags/RO.png");
-const br_flag = require("assets/img/flags/BR.png");
-
-var mapData = {
-  AU: 760,
-  BR: 550,
-  CA: 120,
-  DE: 1300,
-  FR: 540,
-  GB: 690,
-  GE: 200,
-  IN: 200,
-  RO: 600,
-  RU: 300,
-  US: 2920
-};
+import corpoica from "assets/img/corpoica.png";
+import ministerio from "assets/img/minagricultura.png";
+import asohofrucol from "assets/img/asohofrucol.png";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
@@ -157,92 +134,64 @@ export default function Dashboard() {
         </GridItem>
       </GridContainer>
       <GridContainer>
-        <GridItem xs={12}>
+        <GridItem xs={12} s={12} md={6}>
           <Card>
             <CardHeader color="success" icon>
               <CardIcon color="success">
-                <Language />
+                <InsertChartIcon />
               </CardIcon>
-              <h4 className={classes.cardIconTitle}>
-                Global Sales by Top Locations
-              </h4>
+              <h4 className={classes.cardIconTitle}>Progreso de Actividades</h4>
             </CardHeader>
             <CardBody>
               <GridContainer justify="space-between">
-                <GridItem xs={12} sm={12} md={5}>
+                <GridItem xs={12}>
                   <Table
+                    tableHead={["Actividad", "Fecha Fin", "Porcentaje"]}
                     tableData={[
-                      [
-                        <img src={us_flag} alt="us_flag" key={"flag"} />,
-                        "USA",
-                        "2.920",
-                        "53.23%"
-                      ],
-                      [
-                        <img src={de_flag} alt="us_flag" key={"flag"} />,
-                        "Germany",
-                        "1.300",
-                        "20.43%"
-                      ],
-                      [
-                        <img src={au_flag} alt="us_flag" key={"flag"} />,
-                        "Australia",
-                        "760",
-                        "10.35%"
-                      ],
-                      [
-                        <img src={gb_flag} alt="us_flag" key={"flag"} />,
-                        "United Kingdom",
-                        "690",
-                        "7.87%"
-                      ],
-                      [
-                        <img src={ro_flag} alt="us_flag" key={"flag"} />,
-                        "Romania",
-                        "600",
-                        "5.94%"
-                      ],
-                      [
-                        <img src={br_flag} alt="us_flag" key={"flag"} />,
-                        "Brasil",
-                        "550",
-                        "4.34%"
-                      ]
+                      ["Poda sanitaria", "06/06/20", "53%"],
+                      ["Fumigación contra ácaros", "08/06/20", "20%"],
+                      ["Riego manual", "10/06/20", "10%"],
+                      ["Fertilización para producción", "11/06/20", "7%"],
+                      ["Poda de formación", "11/06/20", "4%"]
                     ]}
-                  />
-                </GridItem>
-                <GridItem xs={12} sm={12} md={6}>
-                  <VectorMap
-                    map={"world_mill"}
-                    backgroundColor="transparent"
-                    zoomOnScroll={false}
-                    containerStyle={{
-                      width: "100%",
-                      height: "280px"
-                    }}
-                    containerClassName="map"
-                    regionStyle={{
-                      initial: {
-                        fill: "#e4e4e4",
-                        "fill-opacity": 0.9,
-                        stroke: "none",
-                        "stroke-width": 0,
-                        "stroke-opacity": 0
-                      }
-                    }}
-                    series={{
-                      regions: [
-                        {
-                          values: mapData,
-                          scale: ["#AAAAAA", "#444444"],
-                          normalizeFunction: "polynomial"
-                        }
-                      ]
-                    }}
                   />
                 </GridItem>
               </GridContainer>
             </CardBody>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} s={12} md={6}>
+          <Card>
+            <CardHeader color="danger" icon>
+              <CardIcon color="danger">
+                <i className="fas fa-leaf"></i>
+              </CardIcon>
+              <h4 className={classes.cardIconTitle}>
+                Árboles por tipo de fruto
+              </h4>
+            </CardHeader>
+            <CardBody>
+              <ChartistGraph
+                data={pieChart.data}
+                type="Pie"
+                className={classes.pieStyle}
+                options={pieChart.options}
+              />
+            </CardBody>
+            <CardFooter stats className={classes.cardFooter}>
+              <h6 className={classes.legendTitle}>Legend</h6>
+              <i className={"fas fa-circle " + classes.lightBlue} /> Mango{` `}
+              <i className={"fas fa-circle " + classes.lightRed} /> Banano
+              {` `}
+              <i className={"fas fa-circle " + classes.yellow} /> Limón
+              {` `}
+              <i className={"fas fa-circle " + classes.lightBrown} /> Naranja
+              {` `}
+              <i className={"fas fa-circle " + classes.darkBlue} /> Mandarina
+              {` `}
+              <i className={"fas fa-circle " + classes.darkGreen} /> Aguacate
+              {` `}
+            </CardFooter>
           </Card>
         </GridItem>
       </GridContainer>
@@ -262,23 +211,15 @@ export default function Dashboard() {
               <div className={classes.cardHoverUnder}>
                 <Tooltip
                   id="tooltip-top"
-                  title="Refresh"
+                  title="Ver datos de ingresos"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button simple color="info" justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Change Date"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
+                  <Link to ='/admin/movements' >
+                    <Button color="transparent">
+                      <i className="fas fa-arrow-circle-up"></i>
+                    </Button>
+                  </Link>
                 </Tooltip>
               </div>
               <h4 className={classes.cardTitle}>Ingresos</h4>
@@ -291,7 +232,8 @@ export default function Dashboard() {
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> updated 4 minutes ago
+                <i class="fas fa-info-circle"></i>
+                Gráfica de ingresos a lo largo de los meses
               </div>
             </CardFooter>
           </Card>
@@ -312,31 +254,30 @@ export default function Dashboard() {
               <div className={classes.cardHoverUnder}>
                 <Tooltip
                   id="tooltip-top"
-                  title="Refresh"
+                  title="Ver datos de gastos"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button simple color="info" justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Change Date"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
+                  <Link to ='/admin/movements' >
+                    <Button color="transparent">
+                      <i className="fas fa-arrow-circle-up"></i>
+                    </Button>
+                  </Link>
                 </Tooltip>
               </div>
               <h4 className={classes.cardTitle}>Gastos</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                  <ArrowDownwardIcon className={classes.upArrowCardCategory} />{" "}
+                  25%
+                </span>{" "}
+                de disminución en los gastos.
+              </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <i className="fas fa-info-circle"></i> Gráfica de gastos a lo
+                largo de los meses.
               </div>
             </CardFooter>
           </Card>
@@ -356,96 +297,105 @@ export default function Dashboard() {
               <div className={classes.cardHoverUnder}>
                 <Tooltip
                   id="tooltip-top"
-                  title="Refresh"
+                  title="Ver Actividades"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button simple color="info" justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Change Date"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="transparent" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
+                  <Link to ='/admin/seeactivity' >
+                    <Button color="transparent">
+                      <i className="fas fa-arrow-circle-up"></i>
+                    </Button>
+                  </Link>
                 </Tooltip>
               </div>
               <h4 className={classes.cardTitle}>Actividades Completadas</h4>
-              <p className={classes.cardCategory}>Last Campaign Performance</p>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                  <i className="fas fa-check-circle"></i>
+                </span>{" "}
+                14 actividades completadas en la semana.
+              </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
-                <AccessTime /> campaign sent 2 days ago
+                <i className="fas fa-info-circle"></i> Gráfica de actividades
+                completadas en la última semana.
               </div>
             </CardFooter>
           </Card>
         </GridItem>
       </GridContainer>
-      <h3>Manage Listings</h3>
+      <h3>Enlaces de Interés</h3>
       <br />
       <GridContainer>
         <GridItem xs={12} sm={12} md={4}>
           <Card product className={classes.cardHover}>
             <CardHeader image className={classes.cardHeaderHover}>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={priceImage1} alt="..." />
+              <a
+                href="http://web.corpoica.org.co/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img src={corpoica} alt="..." />
               </a>
             </CardHeader>
             <CardBody>
               <div className={classes.cardHoverUnder}>
                 <Tooltip
                   id="tooltip-top"
-                  title="View"
+                  title="Siembra"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button color="transparent" simple justIcon>
-                    <ArtTrack className={classes.underChartIcons} />
-                  </Button>
+                  <a
+                    href="http://www.siembra.gov.co/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button color="transparent">
+                      <i className="fas fa-arrow-circle-left"></i>
+                    </Button>
+                  </a>
                 </Tooltip>
                 <Tooltip
                   id="tooltip-top"
-                  title="Edit"
+                  title="MAPA"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button color="success" simple justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Remove"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="danger" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
+                  <a
+                    href="http://web.corpoica.org.co/site-mapa/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button color="transparent">
+                      <i className="fas fa-arrow-circle-right"></i>
+                    </Button>
+                  </a>
                 </Tooltip>
               </div>
               <h4 className={classes.cardProductTitle}>
-                <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Cozy 5 Stars Apartment
+                <a
+                  href="http://web.corpoica.org.co/"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Corpoica - Agrosavia
                 </a>
               </h4>
               <p className={classes.cardProductDesciprion}>
-                The place is close to Barceloneta Beach and bus stop just 2 min
-                by walk and near to {'"'}Naviglio{'"'} where you can enjoy the
-                main night life in Barcelona.
+                La Corporación Colombiana de Investigación Agropecuaria,
+                AGROSAVIA, tiene como objeto desarrollar y ejecutar actividades
+                de Investigación, Tecnología y transferir procesos de Innovación
+                tecnológica al sector agropecuario.
               </p>
             </CardBody>
             <CardFooter product>
               <div className={classes.price}>
-                <h4>$899/night</h4>
+                <h4>Investigación</h4>
               </div>
               <div className={`${classes.stats} ${classes.productStats}`}>
-                <Place /> Barcelona, Spain
+                <Place /> Colombia
               </div>
             </CardFooter>
           </Card>
@@ -453,60 +403,68 @@ export default function Dashboard() {
         <GridItem xs={12} sm={12} md={4}>
           <Card product className={classes.cardHover}>
             <CardHeader image className={classes.cardHeaderHover}>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={priceImage2} alt="..." />
+              <a
+                href="http://www.asohofrucol.com.co/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img src={asohofrucol} alt="..." />
               </a>
             </CardHeader>
             <CardBody>
               <div className={classes.cardHoverUnder}>
                 <Tooltip
                   id="tooltip-top"
-                  title="View"
+                  title="Facebook"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button color="transparent" simple justIcon>
-                    <ArtTrack className={classes.underChartIcons} />
-                  </Button>
+                  <a
+                    href="https://www.facebook.com/asohofrucol/"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button color="transparent">
+                      <i className="fab fa-facebook-square"></i>
+                    </Button>
+                  </a>
                 </Tooltip>
                 <Tooltip
                   id="tooltip-top"
-                  title="Edit"
+                  title="YouTube"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button color="success" simple justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Remove"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="danger" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
+                  <a
+                    href="https://www.youtube.com/user/AsohofrucolFNFH"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button color="transparent">
+                      <i className="fab fa-youtube"></i>
+                    </Button>
+                  </a>
                 </Tooltip>
               </div>
               <h4 className={classes.cardProductTitle}>
                 <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Office Studio
+                  Asohofrucol
                 </a>
               </h4>
               <p className={classes.cardProductDesciprion}>
-                The place is close to Metro Station and bus stop just 2 min by
-                walk and near to {'"'}Naviglio{'"'} where you can enjoy the
-                night life in London, UK.
+                Asohofrucol es el fondo nacional de fomento frutícola. Tiene
+                como objetivo identificar las necesidades de los productores
+                hortifrutícolas asi como representar, asesorar y defender los
+                intereses de los productores de frutas y hortalizas del país
+                ante las entidades.
               </p>
             </CardBody>
             <CardFooter product>
               <div className={classes.price}>
-                <h4>$1.119/night</h4>
+                <h4>Gremio</h4>
               </div>
               <div className={`${classes.stats} ${classes.productStats}`}>
-                <Place /> London, UK
+                <Place /> Colombia
               </div>
             </CardFooter>
           </Card>
@@ -514,60 +472,67 @@ export default function Dashboard() {
         <GridItem xs={12} sm={12} md={4}>
           <Card product className={classes.cardHover}>
             <CardHeader image className={classes.cardHeaderHover}>
-              <a href="#pablo" onClick={e => e.preventDefault()}>
-                <img src={priceImage3} alt="..." />
+              <a
+                href="https://www.minagricultura.gov.co/paginas/default.aspx"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <img src={ministerio} alt="..." />
               </a>
             </CardHeader>
             <CardBody>
               <div className={classes.cardHoverUnder}>
                 <Tooltip
                   id="tooltip-top"
-                  title="View"
+                  title="Agronet"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button color="transparent" simple justIcon>
-                    <ArtTrack className={classes.underChartIcons} />
-                  </Button>
+                  <a
+                    href="https://www.agronet.gov.co/Paginas/inicio.aspx"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button color="transparent">
+                      <i className="fas fa-arrow-circle-left"></i>
+                    </Button>
+                  </a>
                 </Tooltip>
                 <Tooltip
                   id="tooltip-top"
-                  title="Edit"
+                  title="Colombia Siembra"
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Button color="success" simple justIcon>
-                    <Refresh className={classes.underChartIcons} />
-                  </Button>
-                </Tooltip>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Remove"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Button color="danger" simple justIcon>
-                    <Edit className={classes.underChartIcons} />
-                  </Button>
+                  <a
+                    href="https://www.minagricultura.gov.co/Colombia-Siembra/Paginas/default.aspx"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Button color="transparent">
+                      <i className="fas fa-arrow-circle-right"></i>
+                    </Button>
+                  </a>
                 </Tooltip>
               </div>
               <h4 className={classes.cardProductTitle}>
                 <a href="#pablo" onClick={e => e.preventDefault()}>
-                  Beautiful Castle
+                  Ministerio de Agricultura
                 </a>
               </h4>
               <p className={classes.cardProductDesciprion}>
-                The place is close to Metro Station and bus stop just 2 min by
-                walk and near to {'"'}Naviglio{'"'} where you can enjoy the main
-                night life in Milan.
+                Es un Ministerio de la República de Colombia que tiene como
+                objetivos primordiales la formulación, coordinación y adopción
+                de las políticas, planes, programas y proyectos del Sector
+                Agropecuario, Pesquero y de Desarrollo Rural.​
               </p>
             </CardBody>
             <CardFooter product>
               <div className={classes.price}>
-                <h4>$459/night</h4>
+                <h4>Sector Público</h4>
               </div>
               <div className={`${classes.stats} ${classes.productStats}`}>
-                <Place /> Milan, Italy
+                <Place /> Colombia
               </div>
             </CardFooter>
           </Card>

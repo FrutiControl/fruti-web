@@ -70,7 +70,7 @@ export default function Calendar() {
   };
   return (
     <div>
-      <Headings
+      <Heading
         textAlign="center"
         title="Mi Calendario de Actividades"
         category={

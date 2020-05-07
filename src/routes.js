@@ -29,13 +29,6 @@ import RowingIcon from '@material-ui/icons/Rowing';
 
 var dashRoutes = [
   {
-    path: "/profile",
-    name: "Mi Perfil",
-    icon: FaceIcon,
-    component: UserProfile,
-    layout: "/admin"
-  },
-  {
     path: "/dashboard",
     name: "Dashboard",
     icon: DashboardIcon,
@@ -142,7 +135,7 @@ var dashRoutes = [
     ]
   },
   {
-    path: "/full-screen-maps",
+    path: "/map",
     name: "Mapa",
     icon: Place,
     component: FullScreenMap,
@@ -160,6 +153,13 @@ var dashRoutes = [
     name: "Información Agrícola",
     icon: InfoIcon,
     component: Charts,
+    layout: "/admin"
+  },
+  {
+    path: "/profile",
+    name: "Mi Perfil",
+    icon: FaceIcon,
+    component: UserProfile,
     layout: "/admin"
   }
 ];

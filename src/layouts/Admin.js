@@ -121,7 +121,7 @@ export default function Dashboard(props) {
       if (prop.layout === "/admin") {
         return (
           <Route
-            path={prop.layout + prop.path}
+            path={prop.layout + prop.path} exact
             component={prop.component}
             key={key}
           />
