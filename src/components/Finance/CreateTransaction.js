@@ -287,16 +287,6 @@ class CreateTransaction extends React.Component {
                         })}
                     </div>
                     <div className={classes.footer}>
-                        <div className={classes.left}>
-                            {this.state.previousButton ? (
-                                <Button
-                                    className={this.props.previousButtonClasses}
-                                    onClick={() => this.previousButtonClick()}
-                                >
-                                    {this.props.previousButtonText}
-                                </Button>
-                            ) : null}
-                        </div>
                         <div className={classes.right}>
                             {this.state.nextButton ? (
                                 <Button
@@ -329,12 +319,12 @@ CreateTransaction.defaultProps = {
     color: "rose",
     title: "Here should go your title",
     subtitle: "And this would be your subtitle",
-    previousButtonText: "Previous",
+    previousButtonText: "Ingreso",
     previousButtonClasses: "",
     nextButtonClasses: "",
-    nextButtonText: "Next",
+    nextButtonText: "Finalizar",
     finishButtonClasses: "",
-    finishButtonText: "Finish"
+    finishButtonText: "Finalizar"
 };
 
 CreateTransaction.propTypes = {

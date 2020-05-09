@@ -331,7 +331,7 @@ CreateFarm.defaultProps = {
     previousButtonText: "Anterior",
     previousButtonClasses: "",
     nextButtonClasses: "",
-    nextButtonText: "Next",
+    nextButtonText: "Siguiente",
     finishButtonClasses: "",
     finishButtonText: "Finalizar"
 };

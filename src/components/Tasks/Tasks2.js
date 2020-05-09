@@ -16,7 +16,7 @@ import styles from "assets/jss/material-dashboard-pro-react/components/tasksStyl
 
 const useStyles = makeStyles(styles);
 
-export default function Tasks(props) {
+export default function Tasks2(props) {
   const classes = useStyles();
   const { tasks } = props;
   const tableCellClasses = classnames(classes.tableCell);
@@ -28,8 +28,8 @@ export default function Tasks(props) {
             <TableCell className={classes.tableActions}>
               <Tooltip
                 id="tooltip-top-start"
-                title="Mosca de la fruta"
-                href="https://www.syngenta.es/mosca-de-la-fruta"
+                title="Antracnosis"
+                href="https://www.deccoiberica.es/que-es-la-antracnosis-y-como-afecta-a-los-cultivos/"
                 target="_blank"
                 rel="noopener noreferrer"
                 placement="top"
@@ -53,11 +53,11 @@ export default function Tasks(props) {
           <TableCell className={classes.tableActions}>
             <Tooltip
                 id="tooltip-top-start"
-                title="Trips"
-                placement="top"
-                href="https://www.seminis.mx/blog-que-son-los-trips-y-como-manejarlos/"
+                title="Lasiodiplodia"
+                href="https://www.ecured.cu/Lasiodiplodia_theobromae"
                 target="_blank"
                 rel="noopener noreferrer"
+                placement="top"
                 classes={{ tooltip: classes.tooltip }}
             >
               <IconButton
@@ -78,8 +78,8 @@ export default function Tasks(props) {
           <TableCell className={classes.tableActions}>
             <Tooltip
                 id="tooltip-top-start"
-                title="Hormiga Arriera"
-                href="https://sioc.minagricultura.gov.co/Aguacate/Normatividad/Manual%20Hormiga%20Arriera.pdf"
+                title="Mildiu"
+                href="http://www.massogarden.com/es/plagas-y-enfermedades-es/mildiu-mildium"
                 target="_blank"
                 rel="noopener noreferrer"
                 placement="top"
@@ -103,8 +103,8 @@ export default function Tasks(props) {
           <TableCell className={classes.tableActions}>
             <Tooltip
                 id="tooltip-top-start"
-                title="Hemípteros"
-                href="http://plaguicidas-y-alternativas.org/contenido/2012-06-20-hem%C3%ADpteros-depredadores"
+                title="Mancha foliar"
+                href="https://seminis-andina.com/recursos/guias-de-enfermedades/cruciferas/bacterial-leaf-spot/"
                 target="_blank"
                 rel="noopener noreferrer"
                 placement="top"
@@ -130,7 +130,7 @@ export default function Tasks(props) {
   );
 }
 
-Tasks.propTypes = {
+Tasks2.propTypes = {
   tasksIndexes: PropTypes.arrayOf(PropTypes.number),
   tasks: PropTypes.arrayOf(PropTypes.node),
   checkedIndexes: PropTypes.array

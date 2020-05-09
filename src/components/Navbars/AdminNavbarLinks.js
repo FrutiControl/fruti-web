@@ -116,31 +116,19 @@ export default function HeaderLinks(props) {
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                      Mike John responded to your email
+                      Alerta de limpieza del cultivo
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                      You have 5 new tasks
+                      Recomedación de poda a árboles
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                      You{"'"}re now friend with Andrew
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={dropdownItem}
-                    >
-                      Another Notification
-                    </MenuItem>
-                    <MenuItem
-                      onClick={handleCloseNotification}
-                      className={dropdownItem}
-                    >
-                      Another One
+                     Recomedación de riego
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
