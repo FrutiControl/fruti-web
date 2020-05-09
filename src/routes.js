@@ -1,5 +1,4 @@
 import Calendar from "views/Calendar/Calendar.js";
-import Charts from "views/Charts/Charts.js";
 import Dashboard from "views/Dashboard/Dashboard.js";
 import FullScreenMap from "views/Maps/FullScreenMap.js";
 import UserProfile from "views/Pages/UserProfile.js";
@@ -10,8 +9,10 @@ import SeeTree from "views/Trees/SeeTree.js";
 import CreateActivity from "views/Activities/CreateActivity.js";
 import SeeActivity from "views/Activities/SeeActivity.js";
 import CreateTransaction from "views/Finances/CreateTransaction.js";
-import SeeTransaction from "views/Finances/SeeTransaction.js";
+import SeeIncome from "views/Finances/SeeIncome.js";
+import SeeExpense from "views/Finances/SeeExpense.js";
 import Widgets from "views/Widgets/Widgets.js";
+import Budget from "views/Finances/Budget";
 
 // @material-ui/icons
 import DashboardIcon from "@material-ui/icons/Dashboard";
@@ -112,17 +113,24 @@ var dashRoutes = [
         layout: "/admin"
       },
       {
-        path: "/movements",
-        name: "Ver Movimientos",
-        mini: "VT",
-        component: SeeTransaction,
+        path: "/incomes",
+        name: "Ver Ingresos",
+        mini: "VI",
+        component: SeeIncome,
+        layout: "/admin"
+      },
+      {
+        path: "/expenses",
+        name: "Ver Gastos",
+        mini: "VG",
+        component: SeeExpense,
         layout: "/admin"
       },
       {
         path: "/budget",
         name: "Presupuesto",
         mini: "PR",
-        component: Widgets,
+        component: Budget,
         layout: "/admin"
       }
     ]
@@ -145,7 +153,7 @@ var dashRoutes = [
     path: "/information",
     name: "Información Agrícola",
     icon: InfoIcon,
-    component: Charts,
+    component: Widgets,
     layout: "/admin"
   },
   {

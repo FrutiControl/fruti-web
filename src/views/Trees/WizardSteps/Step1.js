@@ -99,9 +99,6 @@ class Step1 extends React.Component {
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
-  handleChangeDate = date => event => {
-    this.setState({ date: date });
-  };
 
   render() {
     const { classes } = this.props;

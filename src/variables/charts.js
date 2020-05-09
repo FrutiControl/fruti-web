@@ -258,8 +258,8 @@ const straightLinesChart = {
     lineSmooth: Chartist.Interpolation.cardinal({
       tension: 0
     }),
-    low: 0,
-    high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    low: 500,
+    high: 5000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
     chartPadding: {
       top: 0,
       right: 0,
@@ -325,7 +325,9 @@ const simpleBarChart = {
     series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]]
   },
   options: {
-    seriesBarDistance: 10,
+    seriesBarDistance: 5,
+    low: 500,
+    high: 2000,
     axisX: {
       showGrid: false
     }

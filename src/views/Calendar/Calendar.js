@@ -4,6 +4,7 @@ import React from "react";
 import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
 // dependency plugin for react-big-calendar
 import moment from "moment";
+import "moment/locale/es";
 // react component used to create alerts
 import SweetAlert from "react-bootstrap-sweetalert";
 
@@ -38,11 +39,14 @@ export default function Calendar() {
         input
         showCancel
         style={{ display: "block", marginTop: "-100px" }}
-        title="Input something"
+        title="Ingrese una nueva actividad"
         onConfirm={e => addNewEvent(e, slotInfo)}
         onCancel={() => hideAlert()}
-        confirmBtnCssClass={classes.button + " " + classes.success}
-        cancelBtnCssClass={classes.button + " " + classes.danger}
+        cancelBtnText={"Cancelar"}
+        confirmBtnText={"Aceptar"}
+        validationMsg={"Por favor ingrese una actividad"}
+        confirmBtnCssClass={classes.button + " " + classes.info}
+        cancelBtnCssClass={classes.button + " " +classes.danger}
       />
     );
   };
@@ -75,20 +79,8 @@ export default function Calendar() {
         title="Mi Calendario de Actividades"
         category={
           <span>
-            A beautiful react component made by{" "}
-            <a
-              href="https://github.com/intljusticemission?ref=creativetim"
-              target="_blank"
-            >
-              International Justice Mission
-            </a>
-            . Please checkout their{" "}
-            <a
-              href="https://github.com/intljusticemission/react-big-calendar?ref=creativetim"
-              target="_blank"
-            >
-              full documentation.
-            </a>
+            El Calendario tiene todas las actividades disponibles para
+            visualizar.
           </span>
         }
       />
@@ -98,6 +90,22 @@ export default function Calendar() {
           <Card>
             <CardBody calendar>
               <BigCalendar
+                messages={{
+                  next: "Siguiente",
+                  previous: "Atrás",
+                  today: "Hoy",
+                  month: "Mes",
+                  week: "Semana",
+                  day: "Dia",
+                  date: "Fecha",
+                  time: "Hora",
+                  event: "Actividad",
+                  yesterday: "Ayer",
+                  tomorrow: "Mañana",
+                  allDay: "Todo el día",
+                  noEventsInRange:
+                    "No hay actividades para realizar en esta franja."
+                }}
                 selectable
                 localizer={localizer}
                 events={events}

@@ -1,19 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-// @material-ui/icons
-import Face from "@material-ui/icons/Face";
-import RecordVoiceOver from "@material-ui/icons/RecordVoiceOver";
-import Email from "@material-ui/icons/Email";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import PictureUpload from "components/CustomUpload/PictureUpload.js";
-import CustomInput from "components/CustomInput/CustomInput.js";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Datetime from "react-datetime";
 
 const style = {
   infoText: {
@@ -26,6 +24,15 @@ const style = {
   },
   inputAdornment: {
     position: "relative"
+  },
+  datePicker: {
+    marginTop: "16px",
+    fontSize: "14px",
+    fontWeight: "400",
+    lineHeight: "1.42857",
+    textDecoration: "none",
+    letterSpacing: "0",
+    color: "#3c4858"
   }
 };
 
@@ -33,6 +40,8 @@ class Step1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      simpleSelectTipoActividad: "",
+      simpleSelectSubTipo: "",
       firstname: "",
       firstnameState: "",
       lastname: "",
@@ -80,112 +89,160 @@ class Step1 extends React.Component {
     }
     this.setState({ [stateName]: event.target.value });
   }
-  isValidated() {
-    if (
-      this.state.firstnameState === "success" &&
-      this.state.lastnameState === "success" &&
-      this.state.emailState === "success"
-    ) {
-      return true;
-    } else {
-      if (this.state.firstnameState !== "success") {
-        this.setState({ firstnameState: "error" });
-      }
-      if (this.state.lastnameState !== "success") {
-        this.setState({ lastnameState: "error" });
-      }
-      if (this.state.emailState !== "success") {
-        this.setState({ emailState: "error" });
-      }
-    }
-    return false;
-  }
+  handleSimple = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
   render() {
     const { classes } = this.props;
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
           <h4 className={classes.infoText}>
-            Let{"'"}s start with the basic information (with validation)
+            A continuación se solicitan datos sobre la actividad correspondiente.
           </h4>
         </GridItem>
-        <GridItem xs={12} sm={4}>
-          <PictureUpload />
+        <GridItem xs={12} sm={8}>
+          <FormControl fullWidth className={classes.selectFormControl}>
+            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
+              Seleccione tipo de actividad
+            </InputLabel>
+            <Select
+              MenuProps={{
+                className: classes.selectMenu
+              }}
+              classes={{
+                select: classes.select
+              }}
+              value={this.state.simpleSelectTipoActividad}
+              onChange={this.handleSimple}
+              inputProps={{
+                name: "simpleSelectTipoActividad",
+                id: "simpleSelectTipoActividad"
+              }}
+            >
+              <MenuItem
+                disabled
+                classes={{
+                  root: classes.selectMenuItem
+                }}
+              >
+                Tipo de actividad
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="2"
+              >
+                Siembra
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="3"
+              >
+                Fertilización
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="4"
+              >
+                Fumigación
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="5"
+              >
+                Riego
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="6"
+              >
+                Poda
+              </MenuItem>
+            </Select>
+          </FormControl>
         </GridItem>
-        <GridItem xs={12} sm={6}>
-          <CustomInput
-            success={this.state.firstnameState === "success"}
-            error={this.state.firstnameState === "error"}
-            labelText={
-              <span>
-                First Name <small>(required)</small>
-              </span>
-            }
-            id="firstname"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              onChange: event => this.change(event, "firstname", "length", 3),
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  className={classes.inputAdornment}
-                >
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
-          <CustomInput
-            success={this.state.lastnameState === "success"}
-            error={this.state.lastnameState === "error"}
-            labelText={
-              <span>
-                Last Name <small>(required)</small>
-              </span>
-            }
-            id="lastname"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              onChange: event => this.change(event, "lastname", "length", 3),
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  className={classes.inputAdornment}
-                >
-                  <RecordVoiceOver className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
+        <GridItem xs={12} sm={8}>
+          <FormControl fullWidth className={classes.selectFormControl}>
+            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
+              Seleccione subtipo de actividad
+            </InputLabel>
+            <Select
+              MenuProps={{
+                className: classes.selectMenu
+              }}
+              classes={{
+                select: classes.select
+              }}
+              value={this.state.simpleSelectSubTipo}
+              onChange={this.handleSimple}
+              inputProps={{
+                name: "simpleSelectSubTipo",
+                id: "simpleSelectSubTipo"
+              }}
+            >
+              <MenuItem
+                disabled
+                classes={{
+                  root: classes.selectMenuItem
+                }}
+              >
+                Subtipo de actividad
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="2"
+              >
+                Subtipo 1
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="3"
+              >
+                Subtipo 2
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </GridItem>
+        <GridItem xs={8}>
+          <Datetime
+              timeFormat={false}
+              inputProps={{
+                placeholder: "Seleccione fecha de inicio de actividad",
+                style: style.datePicker
+              }}
           />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={10}>
-          <CustomInput
-            success={this.state.emailState === "success"}
-            error={this.state.emailState === "error"}
-            labelText={
-              <span>
-                Email <small>(required)</small>
-              </span>
-            }
-            id="email"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              onChange: event => this.change(event, "email", "email"),
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  className={classes.inputAdornment}
-                >
-                  <Email className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
+        <GridItem xs={8}>
+          <Datetime
+              timeFormat={false}
+              inputProps={{
+                placeholder: "Seleccione fecha de fin de actividad",
+                style: style.datePicker
+              }}
           />
         </GridItem>
       </GridContainer>

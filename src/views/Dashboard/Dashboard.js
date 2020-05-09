@@ -146,11 +146,11 @@ export default function Dashboard() {
                   <Table
                     tableHead={["Actividad", "Fecha Fin", "Porcentaje"]}
                     tableData={[
-                      ["Poda sanitaria", "06/06/20", "53%"],
-                      ["Fumigación contra ácaros", "08/06/20", "20%"],
-                      ["Riego manual", "10/06/20", "10%"],
-                      ["Fertilización para producción", "11/06/20", "7%"],
-                      ["Poda de formación", "11/06/20", "4%"]
+                      ["Poda sanitaria", "08/05/20", "53%"],
+                      ["Fumigación contra ácaros", "08/05/20", "20%"],
+                      ["Riego manual", "10/05/20", "10%"],
+                      ["Fertilización para producción", "11/05/20", "1%"],
+                      ["Poda de formación", "11/05/20", "0%"]
                     ]}
                   />
                 </GridItem>

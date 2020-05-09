@@ -7,7 +7,6 @@ import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
 import Dvr from "@material-ui/icons/Dvr";
-import Favorite from "@material-ui/icons/Favorite";
 import Close from "@material-ui/icons/Close";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -32,7 +31,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function SeeTransaction() {
+export default function Budget() {
     const [data, setData] = React.useState(
         dataTable.dataRows.map((prop, key) => {
             return {
@@ -44,30 +43,6 @@ export default function SeeTransaction() {
                 actions: (
                     // we've added some custom button actions
                     <div className="actions-right">
-                        {/* use this button to add a like kind of action */}
-                        <Button
-                            justIcon
-                            round
-                            simple
-                            onClick={() => {
-                                let obj = data.find(o => o.id === key);
-                                alert(
-                                    "You've clicked LIKE button on \n{ \nName: " +
-                                    obj.name +
-                                    ", \nposition: " +
-                                    obj.position +
-                                    ", \noffice: " +
-                                    obj.office +
-                                    ", \nage: " +
-                                    obj.age +
-                                    "\n}."
-                                );
-                            }}
-                            color="info"
-                            className="like"
-                        >
-                            <Favorite />
-                        </Button>{" "}
                         {/* use this button to add a edit kind of action */}
                         <Button
                             justIcon
@@ -122,38 +97,44 @@ export default function SeeTransaction() {
     );
     const classes = useStyles();
     return (
-        <GridContainer>
-            <GridItem xs={12}>
+        <GridContainer justify="center">
+            <GridItem xs={10}>
                 <Card>
-                    <CardHeader color="primary" icon>
-                        <CardIcon color="primary">
+                    <CardHeader color="danger" icon>
+                        <CardIcon color="danger">
                             <Assignment />
                         </CardIcon>
-                        <h4 className={classes.cardIconTitle}>Lista de Ingresos y Gastos</h4>
+                        <h4 className={classes.cardIconTitle}>Presupuesto Estimado</h4>
                     </CardHeader>
                     <CardBody>
                         <ReactTable
-                            data={data}
+                            nextText={"Siguiente"}
+                            previousText={"Anterior"}
+                            pageJumpText={"filas"}
+                            pageText={"Páginas"}
+                            ofText={"de"}
+                            rowsText={"filas"}
+                            noDataText={"No hay datos"}
                             filterable
                             columns={[
                                 {
-                                    Header: "Name",
+                                    Header: "Actividad",
                                     accessor: "name"
                                 },
                                 {
-                                    Header: "Position",
+                                    Header: "Subtipo de actividad",
                                     accessor: "position"
                                 },
                                 {
-                                    Header: "Office",
+                                    Header: "Fecha",
                                     accessor: "office"
                                 },
                                 {
-                                    Header: "Age",
+                                    Header: "Monto",
                                     accessor: "age"
                                 },
                                 {
-                                    Header: "Actions",
+                                    Header: "Editar - Eliminar",
                                     accessor: "actions",
                                     sortable: false,
                                     filterable: false

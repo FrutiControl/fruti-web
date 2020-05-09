@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-// @material-ui/icons
-import Face from "@material-ui/icons/Face";
-import RecordVoiceOver from "@material-ui/icons/RecordVoiceOver";
-import Email from "@material-ui/icons/Email";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import PictureUpload from "components/CustomUpload/PictureUpload.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import Datetime from "react-datetime";
+import customSelectStyle from "../../../assets/jss/material-dashboard-pro-react/customSelectStyle";
 
 const style = {
   infoText: {
@@ -26,13 +26,30 @@ const style = {
   },
   inputAdornment: {
     position: "relative"
-  }
+  },
+  datePicker: {
+    marginTop: "16px",
+    fontSize: "14px",
+    fontWeight: "400",
+    lineHeight: "1.42857",
+    textDecoration: "none",
+    letterSpacing: "0",
+    color: "#3c4858"
+  },
+  label: {
+    fontFamily: "Helvetica",
+    fontSize: "15px",
+    color: "#3c4858"
+  },
+  ...customSelectStyle
 };
 
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      simpleSelectTipoVendido: "",
+      simpleSelectSubTipo: "",
       firstname: "",
       firstnameState: "",
       lastname: "",
@@ -52,24 +69,18 @@ class Step1 extends React.Component {
     }
     return false;
   }
+  handleSimple = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
   // function that verifies if a string has a given length or not
-  verifyLength(value, length) {
-    if (value.length >= length) {
-      return true;
-    }
-    return false;
-  }
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
       case "email":
         if (this.verifyEmail(event.target.value)) {
-          this.setState({ [stateName + "State"]: "success" });
-        } else {
-          this.setState({ [stateName + "State"]: "error" });
-        }
-        break;
-      case "length":
-        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
           this.setState({ [stateName + "State"]: "success" });
         } else {
           this.setState({ [stateName + "State"]: "error" });
@@ -80,45 +91,80 @@ class Step1 extends React.Component {
     }
     this.setState({ [stateName]: event.target.value });
   }
-  isValidated() {
-    if (
-      this.state.firstnameState === "success" &&
-      this.state.lastnameState === "success" &&
-      this.state.emailState === "success"
-    ) {
-      return true;
-    } else {
-      if (this.state.firstnameState !== "success") {
-        this.setState({ firstnameState: "error" });
-      }
-      if (this.state.lastnameState !== "success") {
-        this.setState({ lastnameState: "error" });
-      }
-      if (this.state.emailState !== "success") {
-        this.setState({ emailState: "error" });
-      }
-    }
-    return false;
-  }
   render() {
     const { classes } = this.props;
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
           <h4 className={classes.infoText}>
-            Let{"'"}s start with the basic information (with validation)
+            Ingrese la información correspondiente para crear su nuevo ingreso.
           </h4>
         </GridItem>
-        <GridItem xs={12} sm={4}>
-          <PictureUpload />
+        <GridItem xs={12} sm={8}>
+          <FormControl fullWidth className={classes.selectFormControl}>
+            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
+              Seleccione subtipo de actividad
+            </InputLabel>
+            <Select
+              MenuProps={{
+                className: classes.selectMenu
+              }}
+              classes={{
+                select: classes.select
+              }}
+              value={this.state.simpleSelectSubTipo}
+              onChange={this.handleSimple}
+              inputProps={{
+                name: "simpleSelectSubTipo",
+                id: "simpleSelectSubTipo"
+              }}
+            >
+              <MenuItem
+                disabled
+                classes={{
+                  root: classes.selectMenuItem
+                }}
+              >
+                Subtipo de actividad
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="2"
+              >
+                Subtipo 1
+              </MenuItem>
+              <MenuItem
+                classes={{
+                  root: classes.selectMenuItem,
+                  selected: classes.selectMenuItemSelected
+                }}
+                value="3"
+              >
+                Subtipo 2
+              </MenuItem>
+            </Select>
+          </FormControl>
         </GridItem>
-        <GridItem xs={12} sm={6}>
+        <GridItem xs={8}>
+          <Datetime
+            className={classes.datePicker}
+            timeFormat={false}
+            inputProps={{
+              placeholder: "Seleccione fecha de ingreso",
+              style: style.datePicker
+            }}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={8}>
           <CustomInput
             success={this.state.firstnameState === "success"}
             error={this.state.firstnameState === "error"}
             labelText={
               <span>
-                First Name <small>(required)</small>
+                Cantidad de fruto vendida <small>(requerido)</small>
               </span>
             }
             id="firstname"
@@ -126,15 +172,7 @@ class Step1 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, "firstname", "length", 3),
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  className={classes.inputAdornment}
-                >
-                  <Face className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
+              onChange: event => this.change(event, "firstname", "length", 3)
             }}
           />
           <CustomInput
@@ -142,7 +180,7 @@ class Step1 extends React.Component {
             error={this.state.lastnameState === "error"}
             labelText={
               <span>
-                Last Name <small>(required)</small>
+                Precio por Unidad <small>(requerido)</small>
               </span>
             }
             id="lastname"
@@ -150,43 +188,12 @@ class Step1 extends React.Component {
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, "lastname", "length", 3),
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  className={classes.inputAdornment}
-                >
-                  <RecordVoiceOver className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
+              onChange: event => this.change(event, "lastname", "length", 3)
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={12} md={12} lg={10}>
-          <CustomInput
-            success={this.state.emailState === "success"}
-            error={this.state.emailState === "error"}
-            labelText={
-              <span>
-                Email <small>(required)</small>
-              </span>
-            }
-            id="email"
-            formControlProps={{
-              fullWidth: true
-            }}
-            inputProps={{
-              onChange: event => this.change(event, "email", "email"),
-              endAdornment: (
-                <InputAdornment
-                  position="end"
-                  className={classes.inputAdornment}
-                >
-                  <Email className={classes.inputAdornmentIcon} />
-                </InputAdornment>
-              )
-            }}
-          />
+        <GridItem xs={12} sm={8}>
+          <h4> Total: </h4>
         </GridItem>
       </GridContainer>
     );

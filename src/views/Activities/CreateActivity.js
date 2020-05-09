@@ -18,12 +18,12 @@ export default function CreateActivityView() {
                 <CreateActivity
                     validate
                     steps={[
-                        { stepName: "About", stepComponent: Step1, stepId: "about" },
-                        { stepName: "Account", stepComponent: Step2, stepId: "account" },
-                        { stepName: "Address", stepComponent: Step3, stepId: "address" }
+                        { stepName: "Actividad", stepComponent: Step1, stepId: "about" },
+                        { stepName: "Seleccionar Árboles", stepComponent: Step2, stepId: "account" },
+                        { stepName: "Detalles Siembra", stepComponent: Step3, stepId: "address" }
                     ]}
                     title="Crear Actividad"
-                    subtitle="Ingrese los datos correspondientes en la forma para su nueva actividad."
+                    subtitle="Ingrese los datos correspondientes en el formato para su nueva actividad."
                     finishButtonClick={e => alert(e)}
                 />
             </GridItem>

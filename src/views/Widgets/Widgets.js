@@ -1,37 +1,34 @@
 import React from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
-import Icon from "@material-ui/core/Icon";
 // @material-ui/icons
 // import Weekend from "@material-ui/icons/Weekend";
-import Home from "@material-ui/icons/Home";
 import BugReport from "@material-ui/icons/BugReport";
-import Code from "@material-ui/icons/Code";
-import Cloud from "@material-ui/icons/Cloud";
-import FormatQuote from "@material-ui/icons/FormatQuote";
+import HealingIcon from "@material-ui/icons/Healing";
+import LocalLaundryServiceIcon from "@material-ui/icons/LocalLaundryService";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import Table from "components/Table/Table.js";
-import Button from "components/CustomButtons/Button.js";
 import Timeline from "components/Timeline/Timeline.js";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
 import Tasks from "components/Tasks/Tasks.js";
+import Tasks2 from "../../components/Tasks/Tasks2";
+import Tasks3 from "../../components/Tasks/Tasks3";
 import Card from "components/Card/Card.js";
 import CardHeader from "components/Card/CardHeader.js";
-import CardAvatar from "components/Card/CardAvatar.js";
 import CardText from "components/Card/CardText.js";
 import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
 
 import { widgetStories, bugs, website, server } from "variables/general.js";
-
-import image from "assets/img/faces/card-profile1-square.jpg";
 
 import {
   cardTitle,
   roseColor
 } from "assets/jss/material-dashboard-pro-react.js";
+import ChartistGraph from "react-chartist";
+import { simpleBarChart, straightLinesChart } from "../../variables/charts";
+import CardFooter from "../../components/Card/CardFooter";
 
 const styles = {
   cardTitle,
@@ -96,9 +93,10 @@ export default function Widgets() {
           <Card>
             <CardHeader color="warning" text>
               <CardText color="warning">
-                <h4 className={classes.cardTitleWhite}>Employees Stats</h4>
+                <h4 className={classes.cardTitleWhite}>Cultivo Tecnológico</h4>
                 <h4 className={classes.cardCategoryWhite}>
-                  New employees on 15th September, 2016
+                  Todo sobre los cultivos tecnológicos de frutales manejados por
+                  FrutiControl.
                 </h4>
               </CardText>
             </CardHeader>
@@ -106,12 +104,56 @@ export default function Widgets() {
               <Table
                 hover
                 tableHeaderColor="warning"
-                tableHead={["ID", "Name", "Salary", "Country"]}
+                tableHead={["Fruto", "Subtipos", "Información"]}
                 tableData={[
-                  ["1", "Dakota Rice", "$36,738", "Niger"],
-                  ["2", "Minerva Hooper", "$23,789", "Curaçao"],
-                  ["3", "Sage Rodriguez", "$56,142", "Netherlands"],
-                  ["4", "Philip Chaney", "$38,735", "Korea, South"]
+                  [
+                    "Mango",
+                    "Farchild - Tommy",
+                    <a
+                      href="http://www.asohofrucol.com.co/archivos/Libros/Cultivo_Tecnol%C3%B3gico_de_Mango_2017.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {" "}
+                      Click Aquí{" "}
+                    </a>
+                  ],
+                  [
+                    "Cítricos",
+                    "Limón - Mandarina - Naranja",
+                    <a
+                      href="http://www.asohofrucol.com.co/archivos/Libros/Cultivo_Tecnol%C3%B3gico_de_C%C3%ADtricos_2017.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {" "}
+                      Click Aquí{" "}
+                    </a>
+                  ],
+                  [
+                    "Aguacate",
+                    "Choquette - Papelillo - Criollo",
+                    <a
+                      href="http://www.asohofrucol.com.co/archivos/Libros/Cultivo_Tecnol%C3%B3gico_de_Aguacate_2017.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {" "}
+                      Click Aquí{" "}
+                    </a>
+                  ],
+                  [
+                    "Banano",
+                    "Común",
+                    <a
+                      href="http://www.asohofrucol.com.co/archivos/Libros/Cartilla_Platanicultura_del_futuro_26-08-19.pdf"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {" "}
+                      Click Aquí{" "}
+                    </a>
+                  ]
                 ]}
               />
             </CardBody>
@@ -119,11 +161,11 @@ export default function Widgets() {
         </GridItem>
         <GridItem xs={12} sm={12} md={6}>
           <CustomTabs
-            title="Tasks:"
+            title="Aspectos adicionales:"
             headerColor="rose"
             tabs={[
               {
-                tabName: "Bugs",
+                tabName: "Plagas",
                 tabIcon: BugReport,
                 tabContent: (
                   <Tasks
@@ -134,24 +176,25 @@ export default function Widgets() {
                 )
               },
               {
-                tabName: "Website",
-                tabIcon: Code,
+                tabName: "Enfermedades",
+                tabIcon: HealingIcon,
                 tabContent: (
-                  <Tasks
-                    checkedIndexes={[0]}
-                    tasksIndexes={[0, 1]}
+                  <Tasks2
+                    checkedIndexes={[4, 7]}
+                    tasksIndexes={[4, 5, 6, 7]}
                     tasks={website}
                   />
                 )
               },
               {
-                tabName: "Server",
-                tabIcon: Cloud,
+                tabName: "Otros",
+                tabIcon: LocalLaundryServiceIcon,
                 tabContent: (
-                  <Tasks
+                  <Tasks3
                     checkedIndexes={[1]}
                     tasksIndexes={[0, 1, 2]}
                     tasks={server}
+                    className="fas fa-tractor"
                   />
                 )
               }
@@ -161,74 +204,138 @@ export default function Widgets() {
       </GridContainer>
       <GridContainer>
         <GridItem xs={12} sm={12} md={6}>
-          <GridContainer>
-            <GridItem xs={12} sm={12} lg={6}>
-              <Card pricing>
-                <CardBody pricing>
-                  <h6 className={classes.cardCategory}>SMALL COMPANY</h6>
-                  <div className={classes.icon}>
-                    <Home className={classes.iconRose} />
-                  </div>
-                  <h3 className={`${classes.cardTitle} ${classes.marginTop30}`}>
-                    $29
-                  </h3>
-                  <p className={classes.cardDescription}>
-                    This is good if your company size is between 2 and 10
-                    Persons.
-                  </p>
-                  <Button round color="rose">
-                    Choose plan
-                  </Button>
-                </CardBody>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={12} lg={6}>
-              <Card pricing plain>
-                <CardBody pricing plain>
-                  <h6 className={classes.cardCategory}>Freelancer</h6>
-                  <div className={classes.icon}>
-                    <Icon className={classes.iconWhite}>weekend</Icon>
-                  </div>
-                  <h3 className={`${classes.cardTitle} ${classes.marginTop30}`}>
-                    FREE
-                  </h3>
-                  <p className={classes.cardCategory}>
-                    This is good if your company size is between 2 and 10
-                    Persons.
-                  </p>
-                  <Button round color="white">
-                    Choose plan
-                  </Button>
-                </CardBody>
-              </Card>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={11}>
-              <Card testimonial>
-                <div className={classes.testimonialIcon}>
-                  <FormatQuote />
-                </div>
+          <Timeline simple stories={widgetStories} />
+        </GridItem>
+        <GridItem xs={12} sm={12} md={6}>
+          <GridContainer xs={12}>
+            <GridItem xs={12}>
+              <Card chart className={classes.cardHover}>
+                <CardHeader color="warning" className={classes.cardHeaderHover}>
+                  <ChartistGraph
+                    className="ct-chart-white-colors"
+                    data={{
+                      labels: ["Lun", "Mar", "Mie", "Jue", "Vie", "Sáb", "Dom"],
+                      series: [[2545, 2545, 3455, 3455, 3455, 2850, 2850]]
+                    }}
+                    type="Line"
+                    options={straightLinesChart.options}
+                    responsiveOptions={straightLinesChart.responsiveOptions}
+                    listener={straightLinesChart.animation}
+                  />
+                </CardHeader>
                 <CardBody>
-                  <h5 className={classes.cardTestimonialDescription}>
-                    Your products, all the kits that I have downloaded from your
-                    site and worked with are sooo cool! I love the color
-                    mixtures, cards... everything. Keep up the great work!
-                  </h5>
+                  <h4 className={classes.cardTitle}>
+                    Precio de Mango Tommy durante los últimos 7 días
+                  </h4>
+                  <p> Presentación: Caja - Cantidad: 11 - Unidad: Kilo </p>
                 </CardBody>
-                <CardFooter testimonial>
-                  <h4 className={classes.cardTitle}>Alec Thompson</h4>
-                  <h6 className={classes.cardCategory}>@ALECTHOMPSON</h6>
-                  <CardAvatar testimonial testimonialFooter>
-                    <a href="#pablo" onClick={e => e.preventDefault()}>
-                      <img src={image} alt="..." />
+                <CardFooter chart>
+                  <div className={classes.stats}>
+                    <i className="fas fa-info-circle" />
+                    <a href="https://www.corabastos.com.co/sitio/historicoApp2/reportes/prueba.php">
+                      Tomado de Corabastos{" "}
                     </a>
-                  </CardAvatar>
+                  </div>
+                </CardFooter>
+              </Card>
+            </GridItem>
+            <GridItem xs={12}>
+              <Card chart>
+                <CardHeader color="info">
+                  <ChartistGraph
+                    className="ct-chart-white-colors"
+                    data={{
+                      labels: ["Lun", "Mar", "Mie", "Jue", "Vie", "Sáb", "Dom"],
+                      series: [[900, 900, 900, 900, 900, 850, 850]]
+                    }}
+                    type="Line"
+                    options={simpleBarChart.options}
+                    responsiveOptions={simpleBarChart.responsiveOptions}
+                    listener={simpleBarChart.animation}
+                  />
+                </CardHeader>
+                <CardBody>
+                  <h4 className={classes.cardTitle}>
+                    Precio de Naranja durante los últimos siete días
+                  </h4>
+                  <p> Presentación: Bulto - Cantidad: 50 - Unidad: Kilo </p>
+                </CardBody>
+                <CardFooter chart>
+                  <div className={classes.stats}>
+                    <i className="fas fa-info-circle" />{" "}
+                    <a href="https://www.corabastos.com.co/sitio/historicoApp2/reportes/prueba.php">
+                      Tomado de Corabastos{" "}
+                    </a>
+                  </div>
+                </CardFooter>
+              </Card>
+            </GridItem>
+            <GridItem xs={12}>
+              <Card chart className={classes.cardHover}>
+                <CardHeader color="warning" className={classes.cardHeaderHover}>
+                  <ChartistGraph
+                    className="ct-chart-white-colors"
+                    data={{
+                      labels: ["Lun", "Mar", "Mie", "Jue", "Vie", "Sáb", "Dom"],
+                      series: [[2600, 2600, 2800, 2800, 2800, 2900, 2900]]
+                    }}
+                    type="Line"
+                    options={straightLinesChart.options}
+                    responsiveOptions={straightLinesChart.responsiveOptions}
+                    listener={straightLinesChart.animation}
+                  />
+                </CardHeader>
+                <CardBody>
+                  <h4 className={classes.cardTitle}>
+                    Precio de Aguacate durante los últimos 7 días
+                  </h4>
+                  <p> Presentación: Kilo - Cantidad: 1 - Unidad: Kilo </p>
+                </CardBody>
+                <CardFooter chart>
+                  <div className={classes.stats}>
+                    <i className="fas fa-info-circle" />{" "}
+                    <a href="https://www.corabastos.com.co/sitio/historicoApp2/reportes/prueba.php">
+                      Tomado de Corabastos{" "}
+                    </a>
+                  </div>
+                </CardFooter>
+              </Card>
+            </GridItem>
+            <GridItem xs={12}>
+              <Card chart>
+                <CardHeader color="info">
+                  <ChartistGraph
+                    className="ct-chart-white-colors"
+                    data={{
+                      labels: ["Lun", "Mar", "Mie", "Jue", "Vie", "Sáb", "Dom"],
+                      series: [[1933, 1933, 1933, 1933, 1933, 1933, 1933]]
+                    }}
+                    type="Line"
+                    options={simpleBarChart.options}
+                    responsiveOptions={simpleBarChart.responsiveOptions}
+                    listener={simpleBarChart.animation}
+                  />
+                </CardHeader>
+                <CardBody>
+                  <h4 className={classes.cardTitle}>
+                    Precio de Banano Criollo durante los últimos 7 días
+                  </h4>
+                  <p>
+                    {" "}
+                    Presentación: Caja de madera - Cantidad: 30 - Unidad: Kilo{" "}
+                  </p>
+                </CardBody>
+                <CardFooter char>
+                  <div className={classes.stats}>
+                    <i className="fas fa-info-circle" />{" "}
+                    <a href="https://www.corabastos.com.co/sitio/historicoApp2/reportes/prueba.php">
+                      Tomado de Corabastos{" "}
+                    </a>
+                  </div>
                 </CardFooter>
               </Card>
             </GridItem>
           </GridContainer>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={6}>
-          <Timeline simple stories={widgetStories} />
         </GridItem>
       </GridContainer>
     </div>

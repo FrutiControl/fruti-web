@@ -1,14 +1,17 @@
 import React from "react";
 
 // @material-ui/icons
-import CardTravel from "@material-ui/icons/CardTravel";
-import Extension from "@material-ui/icons/Extension";
-import Fingerprint from "@material-ui/icons/Fingerprint";
-import FlightLand from "@material-ui/icons/FlightLand";
 import Build from "@material-ui/icons/Build";
+import LiveHelpIcon from "@material-ui/icons/LiveHelp";
+import ControlPointIcon from "@material-ui/icons/ControlPoint";
+import SpaIcon from "@material-ui/icons/Spa";
+import FilterVintageIcon from "@material-ui/icons/FilterVintage";
 
 // core components
 import CustomDropdown from "components/CustomDropdown/CustomDropdown.js";
+import ChartistGraph from "react-chartist";
+import { straightLinesChart } from "./charts";
+import Table from "../components/Table/Table";
 
 // ##############################
 // // // stories for Widgets view
@@ -19,73 +22,192 @@ const widgetStories = [
     // First story
     inverted: true,
     badgeColor: "danger",
-    badgeIcon: CardTravel,
-    title: "Some Title",
+    badgeIcon: LiveHelpIcon,
+    title: "Sobre el mango",
     titleColor: "danger",
     body: (
-      <p>
-        Wifey made the best Father{"'"}s Day meal ever. So thankful so happy so
-        blessed. Thank you for making my family We just had fun with the
-        “future” theme !!! It was a fun night all together ... The always rude
-        Kanye Show at 2am Sold Out Famous viewing @ Figueroa and 12th in
-        downtown.
-      </p>
-    ),
-    footerTitle: "11 hours ago via Twitter"
+      <div>
+        <Table
+          hover
+          tableHead={["Temática", "Información"]}
+          tableData={[
+            [
+              "Desfase en el cultivo del mango",
+              <a
+                href="http://www.asohofrucol.com.co/archivos/Libros/Desfase_de_cosecha_de_Mango_Fase_II_2019.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ],
+            [
+              "Podemos bien los cultivos de mango",
+              <a
+                href="http://www.asohofrucol.com.co/archivos/Libros/Podemos_Bien_los_Cultivos_de_Mango_2012.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ],
+            [
+              "Abonado y riego del mango",
+              <a
+                href="https://www.icia.es/icia/download/noticias/CharlaMango.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ]
+          ]}
+        />
+      </div>
+    )
   },
   {
     // Second story
     inverted: true,
     badgeColor: "success",
-    badgeIcon: Extension,
-    title: "Another One",
+    badgeIcon: ControlPointIcon,
+    title: "Sobre los cítricos",
     titleColor: "success",
     body: (
-      <p>
-        Thank God for the support of my wife and real friends. I also wanted to
-        point out that it’s the first album to go number 1 off of streaming!!! I
-        love you Ellen and also my number one design rule of anything I do from
-        shoes to music to homes is that Kim has to like it....
-      </p>
+      <div>
+        <Table
+          hover
+          tableHead={["Temática", "Información"]}
+          tableData={[
+            [
+              "Polinización Con Abejas en Cultivos de Cítricos",
+              <a
+                href="http://www.asohofrucol.com.co/archivos/Libros/Polinizaci%C3%B3n_Con_Abejas_en_Cultivos_de_C%C3%ADtricos_2012.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ],
+            [
+              "Podemos Bien los Cultivos de Cítricos",
+              <a
+                href="http://www.asohofrucol.com.co/archivos/Libros/Podemos_Bien_los_Cultivos_de_C%C3%ADtricos_2012.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ],
+            [
+              "Abonado y fertilización de cítricos",
+              <a
+                href="https://www.grupoinesta.com/abono-para/citricos/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ]
+          ]}
+        />
+      </div>
     )
   },
   {
     // Third story
     inverted: true,
     badgeColor: "info",
-    badgeIcon: Fingerprint,
-    title: "Another Title",
+    badgeIcon: SpaIcon,
+    title: "Sobre el aguacate",
     titleColor: "info",
     body: (
       <div>
-        <p>
-          Called I Miss the Old Kanye That’s all it was Kanye And I love you
-          like Kanye loves Kanye Famous viewing @ Figueroa and 12th in downtown
-          LA 11:10PM
-        </p>
-        <p>
-          What if Kanye made a song about Kanye Royère doesn{"'"}t make a Polar
-          bear bed but the Polar bear couch is my favorite piece of furniture we
-          own It wasn’t any Kanyes Set on his goals Kanye
-        </p>
+        <Table
+          hover
+          tableHead={["Temática", "Información"]}
+          tableData={[
+            [
+              "Polinización Con Abejas en Cultivos de Aguacate",
+              <a
+                href="http://www.asohofrucol.com.co/archivos/Libros/Polinizaci%C3%B3n_Con_Abejas_en_Cultivos_de_Aguacate_2012.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ],
+            [
+              "Podemos bien los cultivos de aguacate",
+              <a
+                href="http://www.asohofrucol.com.co/archivos/Libros/Podemos_Bien_los_Cultivos_de_Aguacate_2012.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ],
+            [
+              "Manejo fitosanitario del cultivo de aguacate (Hass)",
+              <a
+                href="https://www.ica.gov.co/getattachment/4b5b9b6f-ecfc-46e1-b9ca-b35cc1cefee2/-"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ]
+          ]}
+        />
       </div>
-    ),
-    footer: (
-      <CustomDropdown
-        buttonIcon={Build}
-        buttonProps={{
-          round: true,
-          style: { marginBottom: "0" },
-          color: "info"
-        }}
-        dropdownList={[
-          "Action",
-          "Another action",
-          "Something else here",
-          { divider: true },
-          "Separated link"
-        ]}
-      />
+    )
+  },
+  {
+    // Fourth story
+    badgeColor: "warning",
+    badgeIcon: FilterVintageIcon,
+    title: "Sobre el Banano",
+    titleColor: "warning",
+    body: (
+      <div>
+        <Table
+          hover
+          tableHead={["Temática", "Información"]}
+          tableData={[
+            [
+              "Buenas prácticas en el cultivo de banano",
+              <a
+                href="http://cep.unep.org/repcar/proyectos-demostrativos/colombia-1/publicaciones-colombia/cartilla-banano-definitiva.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ],
+            [
+              "Abonado de cultivo de banano orgánico",
+              <a
+                href="https://www.agrorural.gob.pe/wp-content/uploads/transparencia/dab/material/ficha%20tecnica%20banano.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {" "}
+                Click Aquí{" "}
+              </a>
+            ]
+          ]}
+        />
+      </div>
     )
   }
 ];
@@ -99,54 +221,41 @@ const stories = [
     // First story
     inverted: true,
     badgeColor: "danger",
-    badgeIcon: CardTravel,
-    title: "Some Title",
+    badgeIcon: LiveHelpIcon,
+    title: "Sobre el mango",
     titleColor: "danger",
     body: (
-      <p>
-        Wifey made the best Father{"'"}s Day meal ever. So thankful so happy so
-        blessed. Thank you for making my family We just had fun with the
-        “future” theme !!! It was a fun night all together ... The always rude
-        Kanye Show at 2am Sold Out Famous viewing @ Figueroa and 12th in
-        downtown.
-      </p>
-    ),
-    footerTitle: "11 hours ago via Twitter"
+      <div>
+        <p>Sobre el mango</p>
+        <ChartistGraph
+          className="ct-chart-white-colors"
+          data={straightLinesChart.data}
+          type="Line"
+          options={straightLinesChart.options}
+          responsiveOptions={straightLinesChart.responsiveOptions}
+          listener={straightLinesChart.animation}
+        />
+      </div>
+    )
   },
   {
     // Second story
     badgeColor: "success",
-    badgeIcon: Extension,
-    title: "Another One",
+    badgeIcon: ControlPointIcon,
+    title: "Sobre los cítricos",
     titleColor: "success",
-    body: (
-      <p>
-        Thank God for the support of my wife and real friends. I also wanted to
-        point out that it’s the first album to go number 1 off of streaming!!! I
-        love you Ellen and also my number one design rule of anything I do from
-        shoes to music to homes is that Kim has to like it....
-      </p>
-    )
+    body: <p>Sobre los cítricos</p>
   },
   {
     // Third story
     inverted: true,
     badgeColor: "info",
-    badgeIcon: Fingerprint,
-    title: "Another Title",
+    badgeIcon: SpaIcon,
+    title: "Sobre el aguacate",
     titleColor: "info",
     body: (
       <div>
-        <p>
-          Called I Miss the Old Kanye That’s all it was Kanye And I love you
-          like Kanye loves Kanye Famous viewing @ Figueroa and 12th in downtown
-          LA 11:10PM
-        </p>
-        <p>
-          What if Kanye made a song about Kanye Royère doesn{"'"}t make a Polar
-          bear bed but the Polar bear couch is my favorite piece of furniture we
-          own It wasn’t any Kanyes Set on his goals Kanye
-        </p>
+        <p>Sobre el aguacate</p>
       </div>
     ),
     footer: (
@@ -170,17 +279,10 @@ const stories = [
   {
     // Fourth story
     badgeColor: "warning",
-    badgeIcon: FlightLand,
-    title: "Another One",
+    badgeIcon: FilterVintageIcon,
+    title: "Sobre el Banano",
     titleColor: "warning",
-    body: (
-      <p>
-        Tune into Big Boy{"'"}s 92.3 I{"'"}m about to play the first single from
-        Cruel Winter also to Kim’s hair and makeup Lorraine jewelry and the
-        whole style squad at Balmain and the Yeezy team. Thank you Anna for the
-        invite thank you to the whole Vogue team
-      </p>
-    )
+    body: <p>Sobre el banano</p>
   }
 ];
 
@@ -195,50 +297,50 @@ var d = today.getDate();
 
 const events = [
   {
-    title: "All Day Event",
+    title: "Poda sanitaria",
     allDay: true,
-    start: new Date(y, m, 1),
-    end: new Date(y, m, 1),
+    start: new Date(y, m, d + 1),
+    end: new Date(y, m, d + 2),
     color: "default"
   },
   {
-    title: "Meeting",
-    start: new Date(y, m, d - 1),
-    end: new Date(y, m, d + 2),
+    title: "Fumigación contra ácaros",
+    start: new Date(y, m, d + 1),
+    end: new Date(y, m, d + 3),
     allDay: true,
     color: "green"
   },
   {
-    title: "Lunch",
-    start: new Date(y, m, d + 7, 12, 0),
-    end: new Date(y, m, d + 7, 14, 0),
+    title: "Riego manual",
+    start: new Date(y, m, d + 3, 12, 0),
+    end: new Date(y, m, d + 5, 14, 0),
     allDay: false,
     color: "red"
   },
   {
-    title: "Nud-pro Launch",
-    start: new Date(y, m, d - 2),
-    end: new Date(y, m, d - 2),
+    title: "Fertilización para producción",
+    start: new Date(y, m, d + 4),
+    end: new Date(y, m, d + 7),
     allDay: true,
     color: "azure"
   },
   {
-    title: "Birthday Party",
-    start: new Date(y, m, d + 1, 19, 0),
-    end: new Date(y, m, d + 1, 22, 30),
+    title: "Poda de formación",
+    start: new Date(y, m, d + 4, 19, 0),
+    end: new Date(y, m, d + 8, 22, 30),
     allDay: false,
     color: "azure"
   },
   {
-    title: "Click for Creative Tim",
-    start: new Date(y, m, 21),
-    end: new Date(y, m, 22),
+    title: "Limpieza/Recoger frutos dañados",
+    start: new Date(y, m, d + 6),
+    end: new Date(y, m, d + 9),
     color: "orange"
   },
   {
-    title: "Click for Google",
-    start: new Date(y, m, 21),
-    end: new Date(y, m, 22),
+    title: "Siembra de un mango",
+    start: new Date(y, m, d + 11),
+    end: new Date(y, m, d + 15),
     color: "rose"
   }
 ];
@@ -248,19 +350,22 @@ const events = [
 // #############################
 
 var bugs = [
-  'Sign contract for "What are conference organizers afraid of?"',
-  "Lines From Great Russian Literature? Or E-mails From My Boss?",
-  "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
-  "Create 4 Invisible User Experiences you Never Knew About"
+  "Mosca de la fruta: Insecto que produce una vía de entrada de hongos y bacterias que descomponen la fruta. Produce una maduración precoz y caída del fruto.",
+  "Trips: Producen deformación en el crecimiento de la fruta, daño en forma de puntos amarillos, blancos o plateados, así como residuos de color negro.",
+  "Hormiga arriera: Es común verlas cortando fragmentos de hojas de árboles y arbustos. Debido a ello, si se convierte en una plaga, consumen la planta.",
+  "Hemípteros: En infestaciones severas puede haber defoliación prematura, así como una afectación estética en el follaje por las picaduras y por los excrementos."
 ];
 var website = [
-  "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
-  'Sign contract for "What are conference organizers afraid of?"'
+  "Antracnosis: hongo que causa daños en hojas, tallos y frutos, aparecen lesiones negras en la fruta.",
+  "Lasiodiplodia: Es un hongo que causa muerte regresiva del mango, se ve sequedad y posteriormente hay pudrición acuosa.",
+  "Mildiu: Es un hongo cuyos brotes se dan en floración, es visto como polvo blanco que quema la flora",
+  "Mancha foliar: En las hojas se observan manchas pequeñas de forma irregular, son de color café y están sobre toda la superficie de la hoja."
 ];
 var server = [
-  "Lines From Great Russian Literature? Or E-mails From My Boss?",
-  "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
-  'Sign contract for "What are conference organizers afraid of?"'
+  "Recolección de frutos podridos: Lo ideal es recoger los frutos y enterrarlos.",
+  "Remover cualquier maleza después de la etapa de cosecha.",
+  "Dejar descansar el huerto un mes de cualquier tipo de actividad.",
+  "Desinfectar el área donde se vaya a cultivar (sembrar)"
 ];
 
 // ##############################
@@ -272,9 +377,8 @@ const dataTable = {
   footerRow: ["Name", "Position", "Office", "Age", "Actions"],
   dataRows: [
     ["1", "System Architect", "Edinburgh", "61"],
-    ["3", "Industrial Engineer", "London", "63"],[
-      "2", "Civil Engineer", "Hogwarts", "25"
-    ]
+    ["3", "Industrial Engineer", "London", "63"],
+    ["2", "Civil Engineer", "Hogwarts", "25"]
   ]
 };
 

@@ -31,7 +31,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function SeeActivity() {
+export default function SeeIncome() {
   const [data, setData] = React.useState(
     dataTable.dataRows.map((prop, key) => {
       return {
@@ -104,7 +104,7 @@ export default function SeeActivity() {
             <CardIcon color="primary">
               <Assignment />
             </CardIcon>
-            <h4 className={classes.cardIconTitle}>Lista de Actividades</h4>
+            <h4 className={classes.cardIconTitle}>Lista de Ingresos</h4>
           </CardHeader>
           <CardBody>
             <ReactTable
@@ -118,19 +118,19 @@ export default function SeeActivity() {
               filterable
               columns={[
                 {
-                  Header: "Actividad",
+                  Header: "Tipo de fruto vendido",
                   accessor: "name"
                 },
                 {
-                  Header: "Tipo",
+                  Header: "Cantidad Vendida",
                   accessor: "position"
                 },
                 {
-                  Header: "Fecha inicial",
-                  accessor: "age"
+                  Header: "Fecha",
+                  accessor: "office"
                 },
                 {
-                  Header: "Fecha fin",
+                  Header: "Monto",
                   accessor: "age"
                 },
                 {

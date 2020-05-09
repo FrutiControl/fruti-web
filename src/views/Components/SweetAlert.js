@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Heading from "components/Heading/Heading.js";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
+
 import Button from "components/CustomButtons/Button.js";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
@@ -92,7 +93,7 @@ export default function SweetAlertPage() {
         confirmBtnCssClass={classes.button + " " + classes.success}
         cancelBtnCssClass={classes.button + " " + classes.danger}
         confirmBtnText="Yes, delete it!"
-        cancelBtnText="Cancel"
+        cancelBtnText="Cancelar"
         showCancel
       >
         You will not be able to recover this imaginary file!
@@ -110,7 +111,7 @@ export default function SweetAlertPage() {
         confirmBtnCssClass={classes.button + " " + classes.success}
         cancelBtnCssClass={classes.button + " " + classes.danger}
         confirmBtnText="Yes, delete it!"
-        cancelBtnText="Cancel"
+        cancelBtnText="Cancelar"
         showCancel
       >
         You will not be able to recover this imaginary file!
@@ -136,13 +137,15 @@ export default function SweetAlertPage() {
         input
         showCancel
         style={{ display: "block", marginTop: "-100px" }}
-        title="Input something"
+        style={{ display: "block", marginTop: "-100px" }}
+        title="Ingrese una nueva actividad"
         onConfirm={e => {
           inputConfirmAlertNext(e);
         }}
         onCancel={() => hideAlert()}
+        confirmBtnText={"SI"}
         confirmBtnCssClass={classes.button + " " + classes.info}
-        cancelBtnCssClass={classes.button + " " + classes.danger}
+        cancelBtnCssClass={classes.button + " " + classes.rose}
       />
     );
   };

@@ -2,10 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormControl from "@material-ui/core/FormControl";
 
 // core components
 import CustomInput from "components/CustomInput/CustomInput.js";
@@ -18,7 +14,14 @@ const style = {
   infoText: {
     fontWeight: "300",
     margin: "10px 0 30px",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: "16px",
+  },
+  label: {
+    fontFamily: "Helvetica",
+    fontSize: "15px",
+    color: "#a8abae"
+
   },
   ...customSelectStyle
 };
@@ -47,82 +50,22 @@ class Step3 extends React.Component {
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
-          <h4 className={classes.infoText}>Are you living in a nice area?</h4>
+          <h4 className={classes.infoText}>
+            Si va a sembrar más de un árbol, seleccione la distancia entre los
+            árboles a sembrar
+          </h4>
         </GridItem>
-        <GridItem xs={12} sm={7}>
-          <CustomInput
-            labelText="Street Name"
+        <GridItem xs={12} sm={8}>
+          <CustomInput className={classes.infoText}
+            labelText="Distancia (metros)"
             id="streetname"
             formControlProps={{
-              fullWidth: true
+              fullWidth: true,
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={3}>
-          <CustomInput
-            labelText="Street No."
-            id="streetno"
-            formControlProps={{
-              fullWidth: true
-            }}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={5}>
-          <CustomInput
-            labelText="City"
-            id="city"
-            formControlProps={{
-              fullWidth: true
-            }}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={5}>
-          <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Choose City
-            </InputLabel>
-            <Select
-              MenuProps={{
-                className: classes.selectMenu
-              }}
-              classes={{
-                select: classes.select
-              }}
-              value={this.state.simpleSelect}
-              onChange={this.handleSimple}
-              inputProps={{
-                name: "simpleSelect",
-                id: "simple-select"
-              }}
-            >
-              <MenuItem
-                disabled
-                classes={{
-                  root: classes.selectMenuItem
-                }}
-              >
-                Country
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="2"
-              >
-                France
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="3"
-              >
-                Romania
-              </MenuItem>
-            </Select>
-          </FormControl>
+        <GridItem xs={12} sm={8}>
+            <h5 className={classes.label}>Total de árboles que puede sembrar en el polígono: </h5>
         </GridItem>
       </GridContainer>
     );
