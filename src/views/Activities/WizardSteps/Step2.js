@@ -83,7 +83,7 @@ class Step2 extends React.Component {
                   ofText={"de"}
                   rowsText={"filas"}
                   noDataText={"No hay datos"}
-                  //data={dataTable}
+                  //data={dataRows}
                   filterable
                   columns={[
                     {

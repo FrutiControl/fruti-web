@@ -31,6 +31,7 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
+
 export default function Budget() {
     const [data, setData] = React.useState(
         dataTable.dataRows.map((prop, key) => {
@@ -40,6 +41,7 @@ export default function Budget() {
                 position: prop[1],
                 office: prop[2],
                 age: prop[3],
+                amount: prop[4],
                 actions: (
                     // we've added some custom button actions
                     <div className="actions-right">
@@ -115,6 +117,7 @@ export default function Budget() {
                             ofText={"de"}
                             rowsText={"filas"}
                             noDataText={"No hay datos"}
+                            data={data}
                             filterable
                             columns={[
                                 {
@@ -131,13 +134,7 @@ export default function Budget() {
                                 },
                                 {
                                     Header: "Monto",
-                                    accessor: "age"
-                                },
-                                {
-                                    Header: "Editar - Eliminar",
-                                    accessor: "actions",
-                                    sortable: false,
-                                    filterable: false
+                                    accessor: "age",
                                 }
                             ]}
                             defaultPageSize={10}

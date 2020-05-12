@@ -42,47 +42,24 @@ class Step1 extends React.Component {
     this.state = {
       simpleSelectTipoActividad: "",
       simpleSelectSubTipo: "",
-      firstname: "",
-      firstnameState: "",
-      lastname: "",
-      lastnameState: "",
-      email: "",
-      emailState: ""
+      subtype:[{value:"S",name:"sanitaria"},{value:"F",name:"formacion"},{value:"M",name:"mantenimiento"}]
     };
   }
   sendState() {
     return this.state;
   }
-  // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (emailRex.test(value)) {
-      return true;
-    }
-    return false;
-  }
-  // function that verifies if a string has a given length or not
-  verifyLength(value, length) {
-    if (value.length >= length) {
-      return true;
-    }
-    return false;
-  }
+
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
-      case "email":
-        if (this.verifyEmail(event.target.value)) {
-          this.setState({ [stateName + "State"]: "success" });
-        } else {
-          this.setState({ [stateName + "State"]: "error" });
-        }
+      case "activity":
         break;
-      case "length":
-        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
-          this.setState({ [stateName + "State"]: "success" });
-        } else {
-          this.setState({ [stateName + "State"]: "error" });
-        }
+      case "subActivity":
+        break;
+      case "farm":
+        break;
+      case "startDate":
+        break;
+      case "endDate":
         break;
       default:
         break;
@@ -92,16 +69,14 @@ class Step1 extends React.Component {
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
   render() {
     const { classes } = this.props;
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
           <h4 className={classes.infoText}>
-            A continuación se solicitan datos sobre la actividad correspondiente.
+            A continuación se solicitan datos sobre la actividad
+            correspondiente.
           </h4>
         </GridItem>
         <GridItem xs={12} sm={8}>
@@ -206,6 +181,48 @@ class Step1 extends React.Component {
               >
                 Subtipo de actividad
               </MenuItem>
+              { this.state.subtype.map((item)=>(
+                  <MenuItem
+                      classes={{
+                        root: classes.selectMenuItem,
+                        selected: classes.selectMenuItemSelected
+                      }}
+                      value={item.value}
+                  >
+                    {item.name}
+                  </MenuItem>
+
+              ))}
+            </Select>
+          </FormControl>
+        </GridItem>
+        <GridItem xs={12} sm={8}>
+          <FormControl fullWidth className={classes.selectFormControl}>
+            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
+              Seleccione granja a la que pertenece
+            </InputLabel>
+            <Select
+              MenuProps={{
+                className: classes.selectMenu
+              }}
+              classes={{
+                select: classes.select
+              }}
+              value={this.state.simpleSelectGranja}
+              onChange={this.handleSimple}
+              inputProps={{
+                name: "simpleSelectGranja",
+                id: "simple-select2"
+              }}
+            >
+              <MenuItem
+                disabled
+                classes={{
+                  root: classes.selectMenuItem
+                }}
+              >
+                Granja
+              </MenuItem>
               <MenuItem
                 classes={{
                   root: classes.selectMenuItem,
@@ -213,7 +230,7 @@ class Step1 extends React.Component {
                 }}
                 value="2"
               >
-                Subtipo 1
+                Mi Tierra
               </MenuItem>
               <MenuItem
                 classes={{
@@ -222,27 +239,27 @@ class Step1 extends React.Component {
                 }}
                 value="3"
               >
-                Subtipo 2
+                El Otro Lado
               </MenuItem>
             </Select>
           </FormControl>
         </GridItem>
         <GridItem xs={8}>
           <Datetime
-              timeFormat={false}
-              inputProps={{
-                placeholder: "Seleccione fecha de inicio de actividad",
-                style: style.datePicker
-              }}
+            timeFormat={false}
+            inputProps={{
+              placeholder: "Seleccione fecha de inicio de actividad",
+              style: style.datePicker
+            }}
           />
         </GridItem>
         <GridItem xs={8}>
           <Datetime
-              timeFormat={false}
-              inputProps={{
-                placeholder: "Seleccione fecha de fin de actividad",
-                style: style.datePicker
-              }}
+            timeFormat={false}
+            inputProps={{
+              placeholder: "Seleccione fecha de fin de actividad",
+              style: style.datePicker
+            }}
           />
         </GridItem>
       </GridContainer>

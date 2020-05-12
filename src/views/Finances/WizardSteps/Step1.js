@@ -103,7 +103,7 @@ class Step1 extends React.Component {
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
             <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Seleccione subtipo de actividad
+              Seleccione tipo de fruto vendido
             </InputLabel>
             <Select
               MenuProps={{
@@ -125,7 +125,7 @@ class Step1 extends React.Component {
                   root: classes.selectMenuItem
                 }}
               >
-                Subtipo de actividad
+                Tipo de fruto vendido
               </MenuItem>
               <MenuItem
                 classes={{
@@ -134,7 +134,7 @@ class Step1 extends React.Component {
                 }}
                 value="2"
               >
-                Subtipo 1
+                Mango farchild
               </MenuItem>
               <MenuItem
                 classes={{
@@ -143,7 +143,7 @@ class Step1 extends React.Component {
                 }}
                 value="3"
               >
-                Subtipo 2
+                Mango Tommy
               </MenuItem>
             </Select>
           </FormControl>

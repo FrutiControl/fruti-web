@@ -81,7 +81,7 @@ export default function HeaderLinks(props) {
           <Notifications
             className={classes.headerLinksSvg + " " + classes.links}
           />
-          <span className={classes.notifications}>5</span>
+          <span className={classes.notifications}>3</span>
           <Hidden mdUp implementation="css">
             <span
               onClick={handleClickNotification}
@@ -122,13 +122,13 @@ export default function HeaderLinks(props) {
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                      Recomedación de poda a árboles
+                      Recomendación de poda a árboles
                     </MenuItem>
                     <MenuItem
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                     Recomedación de riego
+                     Recomendación de riego
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
