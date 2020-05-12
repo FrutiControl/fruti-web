@@ -25,9 +25,9 @@ export default function CustomTabs(props) {
     setValue(value);
   };
   const classes = useStyles();
-  const { headerColor, plainTabs, tabs, title} = props;
+  const { headerColor, plainTabs, tabs, title } = props;
   const cardTitle = classNames({
-    [classes.cardTitle]: true,
+    [classes.cardTitle]: true
   });
   return (
     <Card plain={plainTabs}>

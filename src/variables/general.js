@@ -376,11 +376,36 @@ const dataTable = {
   headerRow: ["Name", "Position", "Office", "Age", "Actions"],
   footerRow: ["Name", "Position", "Office", "Age", "Actions"],
   dataRows: [
-    ["Poda", "Sanitaria", "06/05/20", <input type={"text"} value={"2.560.000"}></input>],
-    ["Fumigación", "Ácaros", "05/04/20", <input type={"text"} value={"3.445.000"}></input>],
-    ["Riego", "Manual", "07/05/20", <input type={"text"} value={"1.908.600"}></input>],
-    ["Fertilización", "Crecimiento", "07/05/20", <input type={"text"} value={"230.000"}></input>],
-    ["Poda", "Formación", "08/05/20", <input type={"text"} value={"1.200.000"}></input>]
+    [
+      "Poda",
+      "Sanitaria",
+      "06/05/20",
+      <input type={"text"} value={"2.560.000"}></input>
+    ],
+    [
+      "Fumigación",
+      "Ácaros",
+      "05/04/20",
+      <input type={"text"} value={"3.445.000"}></input>
+    ],
+    [
+      "Riego",
+      "Manual",
+      "07/05/20",
+      <input type={"text"} value={"1.908.600"}></input>
+    ],
+    [
+      "Fertilización",
+      "Crecimiento",
+      "07/05/20",
+      <input type={"text"} value={"230.000"}></input>
+    ],
+    [
+      "Poda",
+      "Formación",
+      "08/05/20",
+      <input type={"text"} value={"1.200.000"}></input>
+    ]
   ]
 };
 

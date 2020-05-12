@@ -19,26 +19,21 @@ export default function Tasks3(props) {
   return (
     <Table className={classes.table}>
       <TableBody>
-          <TableRow className={classes.tableRow}>
-            <TableCell className={tableCellClasses}>{tasks[0]}</TableCell>
-          </TableRow>
+        <TableRow className={classes.tableRow}>
+          <TableCell className={tableCellClasses}>{tasks[0]}</TableCell>
+        </TableRow>
         <TableRow className={classes.tableRow}>
           <TableCell className={tableCellClasses}>{tasks[1]}</TableCell>
-          <TableCell className={classes.tableActions}>
-          </TableCell>
+          <TableCell className={classes.tableActions}></TableCell>
         </TableRow>
         <TableRow className={classes.tableRow}>
           <TableCell className={tableCellClasses}>{tasks[2]}</TableCell>
-          <TableCell className={classes.tableActions}>
-          </TableCell>
+          <TableCell className={classes.tableActions}></TableCell>
         </TableRow>
         <TableRow className={classes.tableRow}>
           <TableCell className={tableCellClasses}>{tasks[3]}</TableCell>
-          <TableCell className={classes.tableActions}>
-          </TableCell>
+          <TableCell className={classes.tableActions}></TableCell>
         </TableRow>
-
-
       </TableBody>
     </Table>
   );

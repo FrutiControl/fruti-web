@@ -38,7 +38,7 @@ const SatelliteMap = withScriptjs(
     <GoogleMap
       defaultZoom={15}
       mapTypeId={"hybrid"}
-      defaultCenter={{lat: 4.6493355330066, lng: -74.395033434259 }}
+      defaultCenter={{ lat: 4.6493355330066, lng: -74.395033434259 }}
       defaultOptions={{
         scrollwheel: false,
         mapTypeControl: false,
@@ -78,27 +78,28 @@ class Step2 extends React.Component {
       <div>
         <h4 className={classes.infoText}> Ubicación del Nuevo Árbol </h4>
         <GridContainer justify="center">
-              <GridItem xs={12} sm={9}>
-                  <h5>
-                      En el siguiente mapa debe indicar el punto donde se encuentra el árbol en su granja.
-                  </h5>
-              </GridItem>
-              <GridItem xs={10}>
-                <SatelliteMap
-                  googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyXNgKS0gtLrB611nCh-J3gVqu7v_via0"
-                  loadingElement={<div style={{ height: `100%` }} />}
-                  containerElement={
-                    <div
-                      style={{
-                        height: `350px`,
-                        borderRadius: "6px",
-                        overflow: "hidden"
-                      }}
-                    />
-                  }
-                  mapElement={<div style={{ height: `100%` }} />}
+          <GridItem xs={12} sm={9}>
+            <h5>
+              En el siguiente mapa debe indicar el punto donde se encuentra el
+              árbol en su granja.
+            </h5>
+          </GridItem>
+          <GridItem xs={10}>
+            <SatelliteMap
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDyXNgKS0gtLrB611nCh-J3gVqu7v_via0"
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={
+                <div
+                  style={{
+                    height: `350px`,
+                    borderRadius: "6px",
+                    overflow: "hidden"
+                  }}
                 />
-              </GridItem>
+              }
+              mapElement={<div style={{ height: `100%` }} />}
+            />
+          </GridItem>
         </GridContainer>
       </div>
     );

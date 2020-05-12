@@ -23,9 +23,10 @@ export default function ProductSection() {
         <GridItem xs={12} sm={12} md={8}>
           <h2 className={classes.title}>Acerca del producto</h2>
           <h5 className={classes.description}>
-            FrutiControl es un sistema de información enfocado al monitoreo de árboles frutales para los campesinos
-            de fincas productivas, con el fin de ayudarlos a llevar un mejor control sobre actividades productivas
-            y apoyar la toma de decisiones de los usuarios.
+            FrutiControl es un sistema de información enfocado al monitoreo de
+            árboles frutales para los campesinos de fincas productivas, con el
+            fin de ayudarlos a llevar un mejor control sobre sus actividades
+            productivas y apoyar la toma de decisiones de los usuarios.
           </h5>
         </GridItem>
       </GridContainer>

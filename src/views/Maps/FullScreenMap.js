@@ -12,13 +12,11 @@ const CustomSkinMap = withScriptjs(
       defaultZoom={13}
       defaultCenter={{ lat: 4.6493355330066, lng: -74.395033434259 }}
       defaultOptions={{
-
         scrollwheel: false,
         zoomControl: true,
         mapTypeId: "hybrid",
         mapTypeControl: false,
         streetViewControl: false
-
       }}
     >
       <Marker position={{ lat: 4.6493355330066, lng: -74.395033434259 }} />

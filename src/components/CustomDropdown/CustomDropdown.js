@@ -59,12 +59,12 @@ export default function CustomDropdown(props) {
   const caretClasses = classNames({
     [classes.caret]: true,
     [classes.caretDropup]: dropup && !anchorEl,
-    [classes.caretActive]: Boolean(anchorEl) && !dropup,
+    [classes.caretActive]: Boolean(anchorEl) && !dropup
   });
   const dropdownItem = classNames({
     [classes.dropdownItem]: true,
     [classes[hoverColor + "Hover"]]: true,
-    [classes.noLiPadding]: noLiPadding,
+    [classes.noLiPadding]: noLiPadding
   });
   const dropDownMenu = (
     <MenuList role="menu" className={classes.menuList}>

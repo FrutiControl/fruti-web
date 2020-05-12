@@ -43,18 +43,22 @@ export default function TeamSection() {
               <h4 className={classes.cardTitle}>
                 Valentina Escobar
                 <br />
-                <small className={classes.smallTitle}>CTO y desarrolladora</small>
+                <small className={classes.smallTitle}>
+                  CTO y desarrolladora
+                </small>
               </h4>
               <CardBody>
                 <p className={classes.description}>
-                  Estudiante de Ingeniería de Sistemas de de la Pontificia Universidad Javeriana. Practicante de Accenture.
-                  <br />Co-fundadora de FrutiControl.
+                  Estudiante de Ingeniería de Sistemas de de la Pontificia
+                  Universidad Javeriana. Practicante de Accenture.
+                  <br />
+                  Co-fundadora de FrutiControl.
                 </p>
               </CardBody>
               <CardFooter className={classes.justifyCenter}>
                 <Button
                   justIcon
-                  href = "https://github.com/valentinaescobarg"
+                  href="https://github.com/valentinaescobarg"
                   target="_blank"
                   color="transparent"
                   className={classes.margin5}
@@ -63,7 +67,7 @@ export default function TeamSection() {
                 </Button>
                 <Button
                   justIcon
-                  href = "https://www.linkedin.com/in/valentina-escobar-g%C3%B3mez-b700291a4/"
+                  href="https://www.linkedin.com/in/valentina-escobar-g%C3%B3mez-b700291a4/"
                   target="_blank"
                   color="transparent"
                   className={classes.margin5}
@@ -81,12 +85,15 @@ export default function TeamSection() {
               <h4 className={classes.cardTitle}>
                 Diego Guevara
                 <br />
-                <small className={classes.smallTitle}>CEO y desarrollador</small>
+                <small className={classes.smallTitle}>
+                  CEO y desarrollador
+                </small>
               </h4>
               <CardBody>
                 <p className={classes.description}>
-                  Estudiante de Ingeniería de Sistemas de de la Pontificia Universidad Javeriana.
-                  Desarrollador Web FullStack. Co-fundador de FrutiControl.
+                  Estudiante de Ingeniería de Sistemas de de la Pontificia
+                  Universidad Javeriana. Desarrollador Web FullStack.
+                  Co-fundador de FrutiControl.
                 </p>
               </CardBody>
               <CardFooter className={classes.justifyCenter}>
@@ -119,18 +126,22 @@ export default function TeamSection() {
               <h4 className={classes.cardTitle}>
                 Michael Rincon
                 <br />
-                <small className={classes.smallTitle}>CCO y desarrollador</small>
+                <small className={classes.smallTitle}>
+                  CCO y desarrollador
+                </small>
               </h4>
               <CardBody>
                 <p className={classes.description}>
-                  Estudiante de Ingeniería de Sistemas de de la Pontificia Universidad Javeriana. Practicante en Homecenter.
-                  <br />Co-fundador de FrutiControl.
+                  Estudiante de Ingeniería de Sistemas de de la Pontificia
+                  Universidad Javeriana. Practicante en Homecenter.
+                  <br />
+                  Co-fundador de FrutiControl.
                 </p>
               </CardBody>
               <CardFooter className={classes.justifyCenter}>
                 <Button
                   justIcon
-                  href ="https://github.com/michaelrincon"
+                  href="https://github.com/michaelrincon"
                   target="_blank"
                   color="transparent"
                   className={classes.margin5}
@@ -139,7 +150,7 @@ export default function TeamSection() {
                 </Button>
                 <Button
                   justIcon
-                  href = "https://www.linkedin.com/in/michael-rincon-tellez-6b9a58139/"
+                  href="https://www.linkedin.com/in/michael-rincon-tellez-6b9a58139/"
                   target="_blank"
                   color="transparent"
                   className={classes.margin5}
@@ -157,30 +168,34 @@ export default function TeamSection() {
               <h4 className={classes.cardTitle}>
                 Carlos Yañez
                 <br />
-                <small className={classes.smallTitle}>VP Ingeniería y desarrollador</small>
+                <small className={classes.smallTitle}>
+                  VP Ingeniería y desarrollador
+                </small>
               </h4>
               <CardBody>
                 <p className={classes.description}>
-                  Estudiante de Ingeniería de Sistemas de de la Pontificia Universidad Javeriana. Practicante en Ban. Santander.
-                  <br />Co-fundador de FrutiControl.
+                  Estudiante de Ingeniería de Sistemas de de la Pontificia
+                  Universidad Javeriana. Practicante en Ban. Santander.
+                  <br />
+                  Co-fundador de FrutiControl.
                 </p>
               </CardBody>
               <CardFooter className={classes.justifyCenter}>
                 <Button
-                    justIcon
-                    href = "https://github.com/gitAccCarlo"
-                    target="_blank"
-                    color="transparent"
-                    className={classes.margin5}
+                  justIcon
+                  href="https://github.com/gitAccCarlo"
+                  target="_blank"
+                  color="transparent"
+                  className={classes.margin5}
                 >
                   <i className={classes.socials + " fab fa-github"} />
                 </Button>
                 <Button
-                    justIcon
-                    href = "https://www.linkedin.com/in/carlos-david-705803191/"
-                    target="_blank"
-                    color="transparent"
-                    className={classes.margin5}
+                  justIcon
+                  href="https://www.linkedin.com/in/carlos-david-705803191/"
+                  target="_blank"
+                  color="transparent"
+                  className={classes.margin5}
                 >
                   <i className={classes.socials + " fab fa-linkedin"} />
                 </Button>

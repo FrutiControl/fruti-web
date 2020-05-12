@@ -16,7 +16,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
 import PersonAdd from "@material-ui/icons/PersonAdd";
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 
 // core components
 import Button from "components/CustomButtons/Button";

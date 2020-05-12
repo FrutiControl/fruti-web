@@ -128,7 +128,7 @@ export default function HeaderLinks(props) {
                       onClick={handleCloseNotification}
                       className={dropdownItem}
                     >
-                     Recomendación de riego
+                      Recomendación de riego
                     </MenuItem>
                   </MenuList>
                 </ClickAwayListener>

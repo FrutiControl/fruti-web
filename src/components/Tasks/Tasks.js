@@ -10,7 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 // @material-ui/icons
-import LaunchIcon from '@material-ui/icons/Launch';
+import LaunchIcon from "@material-ui/icons/Launch";
 // core components
 import styles from "assets/jss/material-dashboard-pro-react/components/tasksStyle.js";
 
@@ -23,51 +23,51 @@ export default function Tasks(props) {
   return (
     <Table className={classes.table}>
       <TableBody>
-          <TableRow className={classes.tableRow}>
-            <TableCell className={tableCellClasses}>{tasks[0]}</TableCell>
-            <TableCell className={classes.tableActions}>
-              <Tooltip
-                id="tooltip-top-start"
-                title="Mosca de la fruta"
-                href="https://www.syngenta.es/mosca-de-la-fruta"
-                target="_blank"
-                rel="noopener noreferrer"
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}
+        <TableRow className={classes.tableRow}>
+          <TableCell className={tableCellClasses}>{tasks[0]}</TableCell>
+          <TableCell className={classes.tableActions}>
+            <Tooltip
+              id="tooltip-top-start"
+              title="Mosca de la fruta"
+              href="https://www.syngenta.es/mosca-de-la-fruta"
+              target="_blank"
+              rel="noopener noreferrer"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <IconButton
+                aria-label="Ir al link"
+                className={classes.tableActionButton}
               >
-                <IconButton
-                  aria-label="Ir al link"
-                  className={classes.tableActionButton}
-                >
-                  <LaunchIcon
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.close
-                    }
-                  />
-                </IconButton>
-              </Tooltip>
-            </TableCell>
-          </TableRow>
+                <LaunchIcon
+                  className={
+                    classes.tableActionButtonIcon + " " + classes.close
+                  }
+                />
+              </IconButton>
+            </Tooltip>
+          </TableCell>
+        </TableRow>
         <TableRow className={classes.tableRow}>
           <TableCell className={tableCellClasses}>{tasks[1]}</TableCell>
           <TableCell className={classes.tableActions}>
             <Tooltip
-                id="tooltip-top-start"
-                title="Trips"
-                placement="top"
-                href="https://www.seminis.mx/blog-que-son-los-trips-y-como-manejarlos/"
-                target="_blank"
-                rel="noopener noreferrer"
-                classes={{ tooltip: classes.tooltip }}
+              id="tooltip-top-start"
+              title="Trips"
+              placement="top"
+              href="https://www.seminis.mx/blog-que-son-los-trips-y-como-manejarlos/"
+              target="_blank"
+              rel="noopener noreferrer"
+              classes={{ tooltip: classes.tooltip }}
             >
               <IconButton
-                  aria-label="Ir al link"
-                  className={classes.tableActionButton}
+                aria-label="Ir al link"
+                className={classes.tableActionButton}
               >
                 <LaunchIcon
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.close
-                    }
+                  className={
+                    classes.tableActionButtonIcon + " " + classes.close
+                  }
                 />
               </IconButton>
             </Tooltip>
@@ -77,22 +77,22 @@ export default function Tasks(props) {
           <TableCell className={tableCellClasses}>{tasks[2]}</TableCell>
           <TableCell className={classes.tableActions}>
             <Tooltip
-                id="tooltip-top-start"
-                title="Hormiga Arriera"
-                href="https://sioc.minagricultura.gov.co/Aguacate/Normatividad/Manual%20Hormiga%20Arriera.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}
+              id="tooltip-top-start"
+              title="Hormiga Arriera"
+              href="https://sioc.minagricultura.gov.co/Aguacate/Normatividad/Manual%20Hormiga%20Arriera.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
             >
               <IconButton
-                  aria-label="Ir al link"
-                  className={classes.tableActionButton}
+                aria-label="Ir al link"
+                className={classes.tableActionButton}
               >
                 <LaunchIcon
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.close
-                    }
+                  className={
+                    classes.tableActionButtonIcon + " " + classes.close
+                  }
                 />
               </IconButton>
             </Tooltip>
@@ -102,29 +102,27 @@ export default function Tasks(props) {
           <TableCell className={tableCellClasses}>{tasks[3]}</TableCell>
           <TableCell className={classes.tableActions}>
             <Tooltip
-                id="tooltip-top-start"
-                title="Hemípteros"
-                href="http://plaguicidas-y-alternativas.org/contenido/2012-06-20-hem%C3%ADpteros-depredadores"
-                target="_blank"
-                rel="noopener noreferrer"
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}
+              id="tooltip-top-start"
+              title="Hemípteros"
+              href="http://plaguicidas-y-alternativas.org/contenido/2012-06-20-hem%C3%ADpteros-depredadores"
+              target="_blank"
+              rel="noopener noreferrer"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
             >
               <IconButton
-                  aria-label="Ir al link"
-                  className={classes.tableActionButton}
+                aria-label="Ir al link"
+                className={classes.tableActionButton}
               >
                 <LaunchIcon
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.close
-                    }
+                  className={
+                    classes.tableActionButtonIcon + " " + classes.close
+                  }
                 />
               </IconButton>
             </Tooltip>
           </TableCell>
         </TableRow>
-
-
       </TableBody>
     </Table>
   );

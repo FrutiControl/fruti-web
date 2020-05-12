@@ -15,7 +15,7 @@ const cardIconStyle = {
       padding: "15px",
       marginTop: "-20px",
       marginRight: "15px",
-      float: "left",
+      float: "left"
     }
   },
   warningCardHeader,

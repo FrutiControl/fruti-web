@@ -15,13 +15,12 @@ const style = {
     fontWeight: "300",
     margin: "10px 0 30px",
     textAlign: "center",
-    fontSize: "16px",
+    fontSize: "16px"
   },
   label: {
     fontFamily: "Helvetica",
     fontSize: "15px",
     color: "#a8abae"
-
   },
   ...customSelectStyle
 };
@@ -56,16 +55,19 @@ class Step3 extends React.Component {
           </h4>
         </GridItem>
         <GridItem xs={12} sm={8}>
-          <CustomInput className={classes.infoText}
+          <CustomInput
+            className={classes.infoText}
             labelText="Distancia (metros)"
             id="streetname"
             formControlProps={{
-              fullWidth: true,
+              fullWidth: true
             }}
           />
         </GridItem>
         <GridItem xs={12} sm={8}>
-            <h5 className={classes.label}>Total de árboles que puede sembrar en el polígono: </h5>
+          <h5 className={classes.label}>
+            Total de árboles que puede sembrar en el polígono:{" "}
+          </h5>
         </GridItem>
       </GridContainer>
     );

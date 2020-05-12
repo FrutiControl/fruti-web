@@ -42,7 +42,11 @@ class Step1 extends React.Component {
     this.state = {
       simpleSelectTipoActividad: "",
       simpleSelectSubTipo: "",
-      subtype:[{value:"S",name:"sanitaria"},{value:"F",name:"formacion"},{value:"M",name:"mantenimiento"}]
+      subtype: [
+        { value: "S", name: "sanitaria" },
+        { value: "F", name: "formacion" },
+        { value: "M", name: "mantenimiento" }
+      ]
     };
   }
   sendState() {
@@ -181,17 +185,16 @@ class Step1 extends React.Component {
               >
                 Subtipo de actividad
               </MenuItem>
-              { this.state.subtype.map((item)=>(
-                  <MenuItem
-                      classes={{
-                        root: classes.selectMenuItem,
-                        selected: classes.selectMenuItemSelected
-                      }}
-                      value={item.value}
-                  >
-                    {item.name}
-                  </MenuItem>
-
+              {this.state.subtype.map(item => (
+                <MenuItem
+                  classes={{
+                    root: classes.selectMenuItem,
+                    selected: classes.selectMenuItemSelected
+                  }}
+                  value={item.value}
+                >
+                  {item.name}
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

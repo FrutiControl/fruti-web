@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 // @material-ui/icons
-import CreateIcon from '@material-ui/icons/Create';
+import CreateIcon from "@material-ui/icons/Create";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -124,9 +124,7 @@ class Step1 extends React.Component {
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
-          <h4 className={classes.infoText}>
-           Datos de la Granja Nueva
-          </h4>
+          <h4 className={classes.infoText}>Datos de la Granja Nueva</h4>
         </GridItem>
         <GridItem xs={10}>
           <CustomInput

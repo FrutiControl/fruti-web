@@ -163,25 +163,25 @@ export default function RegisterPage() {
                             }}
                           />
                           <CustomInput
-                              id="confirmacion"
-                              formControlProps={{
-                                fullWidth: true,
-                                className: classes.customFormControlClasses
-                              }}
-                              inputProps={{
-                                startAdornment: (
-                                    <InputAdornment
-                                        position="start"
-                                        className={classes.inputAdornment}
-                                    >
-                                      <Icon className={classes.inputAdornmentIcon}>
-                                        lock_outline
-                                      </Icon>
-                                    </InputAdornment>
-                                ),
-                                placeholder: "Confirmar Contraseña",
-                                type: "password"
-                              }}
+                            id="confirmacion"
+                            formControlProps={{
+                              fullWidth: true,
+                              className: classes.customFormControlClasses
+                            }}
+                            inputProps={{
+                              startAdornment: (
+                                <InputAdornment
+                                  position="start"
+                                  className={classes.inputAdornment}
+                                >
+                                  <Icon className={classes.inputAdornmentIcon}>
+                                    lock_outline
+                                  </Icon>
+                                </InputAdornment>
+                              ),
+                              placeholder: "Confirmar Contraseña",
+                              type: "password"
+                            }}
                           />
                           <FormControlLabel
                             classes={{

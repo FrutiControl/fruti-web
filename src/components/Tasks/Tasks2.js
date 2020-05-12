@@ -10,7 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 // @material-ui/icons
-import LaunchIcon from '@material-ui/icons/Launch';
+import LaunchIcon from "@material-ui/icons/Launch";
 // core components
 import styles from "assets/jss/material-dashboard-pro-react/components/tasksStyle.js";
 
@@ -23,51 +23,51 @@ export default function Tasks2(props) {
   return (
     <Table className={classes.table}>
       <TableBody>
-          <TableRow className={classes.tableRow}>
-            <TableCell className={tableCellClasses}>{tasks[0]}</TableCell>
-            <TableCell className={classes.tableActions}>
-              <Tooltip
-                id="tooltip-top-start"
-                title="Antracnosis"
-                href="https://www.deccoiberica.es/que-es-la-antracnosis-y-como-afecta-a-los-cultivos/"
-                target="_blank"
-                rel="noopener noreferrer"
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}
+        <TableRow className={classes.tableRow}>
+          <TableCell className={tableCellClasses}>{tasks[0]}</TableCell>
+          <TableCell className={classes.tableActions}>
+            <Tooltip
+              id="tooltip-top-start"
+              title="Antracnosis"
+              href="https://www.deccoiberica.es/que-es-la-antracnosis-y-como-afecta-a-los-cultivos/"
+              target="_blank"
+              rel="noopener noreferrer"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
+            >
+              <IconButton
+                aria-label="Ir al link"
+                className={classes.tableActionButton}
               >
-                <IconButton
-                  aria-label="Ir al link"
-                  className={classes.tableActionButton}
-                >
-                  <LaunchIcon
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.close
-                    }
-                  />
-                </IconButton>
-              </Tooltip>
-            </TableCell>
-          </TableRow>
+                <LaunchIcon
+                  className={
+                    classes.tableActionButtonIcon + " " + classes.close
+                  }
+                />
+              </IconButton>
+            </Tooltip>
+          </TableCell>
+        </TableRow>
         <TableRow className={classes.tableRow}>
           <TableCell className={tableCellClasses}>{tasks[1]}</TableCell>
           <TableCell className={classes.tableActions}>
             <Tooltip
-                id="tooltip-top-start"
-                title="Lasiodiplodia"
-                href="https://www.ecured.cu/Lasiodiplodia_theobromae"
-                target="_blank"
-                rel="noopener noreferrer"
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}
+              id="tooltip-top-start"
+              title="Lasiodiplodia"
+              href="https://www.ecured.cu/Lasiodiplodia_theobromae"
+              target="_blank"
+              rel="noopener noreferrer"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
             >
               <IconButton
-                  aria-label="Ir al link"
-                  className={classes.tableActionButton}
+                aria-label="Ir al link"
+                className={classes.tableActionButton}
               >
                 <LaunchIcon
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.close
-                    }
+                  className={
+                    classes.tableActionButtonIcon + " " + classes.close
+                  }
                 />
               </IconButton>
             </Tooltip>
@@ -77,22 +77,22 @@ export default function Tasks2(props) {
           <TableCell className={tableCellClasses}>{tasks[2]}</TableCell>
           <TableCell className={classes.tableActions}>
             <Tooltip
-                id="tooltip-top-start"
-                title="Mildiu"
-                href="http://www.massogarden.com/es/plagas-y-enfermedades-es/mildiu-mildium"
-                target="_blank"
-                rel="noopener noreferrer"
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}
+              id="tooltip-top-start"
+              title="Mildiu"
+              href="http://www.massogarden.com/es/plagas-y-enfermedades-es/mildiu-mildium"
+              target="_blank"
+              rel="noopener noreferrer"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
             >
               <IconButton
-                  aria-label="Ir al link"
-                  className={classes.tableActionButton}
+                aria-label="Ir al link"
+                className={classes.tableActionButton}
               >
                 <LaunchIcon
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.close
-                    }
+                  className={
+                    classes.tableActionButtonIcon + " " + classes.close
+                  }
                 />
               </IconButton>
             </Tooltip>
@@ -102,29 +102,27 @@ export default function Tasks2(props) {
           <TableCell className={tableCellClasses}>{tasks[3]}</TableCell>
           <TableCell className={classes.tableActions}>
             <Tooltip
-                id="tooltip-top-start"
-                title="Mancha foliar"
-                href="https://seminis-andina.com/recursos/guias-de-enfermedades/cruciferas/bacterial-leaf-spot/"
-                target="_blank"
-                rel="noopener noreferrer"
-                placement="top"
-                classes={{ tooltip: classes.tooltip }}
+              id="tooltip-top-start"
+              title="Mancha foliar"
+              href="https://seminis-andina.com/recursos/guias-de-enfermedades/cruciferas/bacterial-leaf-spot/"
+              target="_blank"
+              rel="noopener noreferrer"
+              placement="top"
+              classes={{ tooltip: classes.tooltip }}
             >
               <IconButton
-                  aria-label="Ir al link"
-                  className={classes.tableActionButton}
+                aria-label="Ir al link"
+                className={classes.tableActionButton}
               >
                 <LaunchIcon
-                    className={
-                      classes.tableActionButtonIcon + " " + classes.close
-                    }
+                  className={
+                    classes.tableActionButtonIcon + " " + classes.close
+                  }
                 />
               </IconButton>
             </Tooltip>
           </TableCell>
         </TableRow>
-
-
       </TableBody>
     </Table>
   );

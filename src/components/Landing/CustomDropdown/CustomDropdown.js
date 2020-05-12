@@ -58,12 +58,12 @@ export default function CustomDropdown(props) {
   } = props;
   const caretClasses = classNames({
     [classes.caret]: true,
-    [classes.caretActive]: Boolean(anchorEl),
+    [classes.caretActive]: Boolean(anchorEl)
   });
   const dropdownItem = classNames({
     [classes.dropdownItem]: true,
     [classes[hoverColor + "Hover"]]: true,
-    [classes.noLiPadding]: noLiPadding,
+    [classes.noLiPadding]: noLiPadding
   });
   let icon = null;
   switch (typeof buttonIcon) {
