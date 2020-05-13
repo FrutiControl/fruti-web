@@ -1,4 +1,7 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { auth } from "actions";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -32,8 +35,28 @@ import styles from "assets/jss/material-dashboard-pro-react/views/registerPageSt
 
 const useStyles = makeStyles(styles);
 
-export default function RegisterPage() {
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    register: (username, password, firstName) =>
+      dispatch(auth.register(username, password, firstName))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function RegisterPage(props) {
   const [checked, setChecked] = React.useState([]);
+  const [name, setName] = React.useState("");
+  const [username, setUsername] = React.useState("");
+  const [password, setPass] = React.useState("");
+  const [com_pass, setConPass] = React.useState("");
   const handleToggle = value => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -46,6 +69,9 @@ export default function RegisterPage() {
   };
   const wrapper = React.createRef();
   const classes = useStyles();
+  if (props.isAuthenticated) {
+    return <Redirect to="/admin/dashboard" />;
+  }
   return (
     <div>
       <AuthNavbar brandText={"Registro de usuarios"} />
@@ -119,7 +145,10 @@ export default function RegisterPage() {
                                   />
                                 </InputAdornment>
                               ),
-                              placeholder: "Nombre"
+                              placeholder: "Nombre",
+                              onChange: e => {
+                                setName(e.target.value);
+                              }
                             }}
                           />
                           <CustomInput
@@ -138,7 +167,11 @@ export default function RegisterPage() {
                                   />
                                 </InputAdornment>
                               ),
-                              placeholder: "Correo"
+                              onChange: e => {
+                                setUsername(e.target.value);
+                              },
+                              placeholder: "Correo",
+                              type: "email"
                             }}
                           />
                           <CustomInput
@@ -159,7 +192,10 @@ export default function RegisterPage() {
                                 </InputAdornment>
                               ),
                               placeholder: "Contraseña",
-                              type: "password"
+                              type: "password",
+                              onChange: e => {
+                                setPass(e.target.value);
+                              }
                             }}
                           />
                           <CustomInput
@@ -180,7 +216,10 @@ export default function RegisterPage() {
                                 </InputAdornment>
                               ),
                               placeholder: "Confirmar Contraseña",
-                              type: "password"
+                              type: "password",
+                              onChange: e => {
+                                setConPass(e.target.value);
+                              }
                             }}
                           />
                           <FormControlLabel
@@ -212,7 +251,15 @@ export default function RegisterPage() {
                             }
                           />
                           <div className={classes.center}>
-                            <Button round color="primary">
+                            <Button
+                              round
+                              color="primary"
+                              onClick={e => {
+                                e.preventDefault();
+                                if (password === com_pass)
+                                  props.register(username, password, name);
+                              }}
+                            >
                               Registrarme
                             </Button>
                           </div>
@@ -229,4 +276,4 @@ export default function RegisterPage() {
       </div>
     </div>
   );
-}
+});

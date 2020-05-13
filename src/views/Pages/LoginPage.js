@@ -1,4 +1,6 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -6,9 +8,9 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
-//import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
-// import LockOutline from "@material-ui/icons/LockOutline";
+
+import { auth } from "actions";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -24,17 +26,45 @@ import Footer from "components/Footer/Footer.js";
 import Parallax from "components/Landing/Parallax/Parallax";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
-export default function LoginPage() {
+const mapStateToProps = state => {
+  let errors = [];
+  if (state.auth.errors) {
+    errors = Object.keys(state.auth.errors).map(field => {
+      return { field, message: state.auth.errors[field] };
+    });
+  }
+  return {
+    errors,
+    isAuthenticated: state.auth.isAuthenticated
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (username, password) => {
+      return dispatch(auth.login(username, password));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function LoginPage(props) {
   const [cardAnimaton, setCardAnimation] = React.useState("cardHidden");
+  const [username, setUsername] = React.useState("");
+  const [password, setPass] = React.useState("");
   setTimeout(function() {
     setCardAnimation("");
   }, 700);
   const wrapper = React.createRef();
   const classes = useStyles();
+  if (props.isAuthenticated) {
+    return <Redirect to="/admin/dashboard" />;
+  }
   return (
     <div>
       <AuthNavbar brandText={"Página de inicio"} />
@@ -59,6 +89,7 @@ export default function LoginPage() {
                       <CustomInput
                         labelText="Correo"
                         id="email"
+                        value="fffff"
                         formControlProps={{
                           fullWidth: true
                         }}
@@ -67,7 +98,11 @@ export default function LoginPage() {
                             <InputAdornment position="end">
                               <Email className={classes.inputAdornmentIcon} />
                             </InputAdornment>
-                          )
+                          ),
+                          type: "email",
+                          onChange: e => {
+                            setUsername(e.target.value);
+                          }
                         }}
                       />
                       <CustomInput
@@ -85,13 +120,25 @@ export default function LoginPage() {
                             </InputAdornment>
                           ),
                           type: "password",
-                          autoComplete: "off"
+                          autoComplete: "off",
+                          onChange: e => {
+                            setPass(e.target.value);
+                          }
                         }}
                       />
                     </CardBody>
                     <CardFooter className={classes.justifyContentCenter}>
-                      <Button color="primary" simple size="lg" block>
-                        <Link to="/admin/dashboard"> Iniciar </Link>
+                      <Button
+                        color="primary"
+                        simple
+                        size="lg"
+                        block
+                        onClick={e => {
+                          e.preventDefault();
+                          props.login(username, password);
+                        }}
+                      >
+                        Iniciar
                       </Button>
                     </CardFooter>
                   </Card>
@@ -104,4 +151,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-}
+});

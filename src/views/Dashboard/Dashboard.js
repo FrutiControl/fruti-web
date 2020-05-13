@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 
@@ -46,7 +47,20 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
-export default function Dashboard() {
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function Dashboard(props) {
   const classes = useStyles();
   return (
     <div>
@@ -547,4 +561,4 @@ export default function Dashboard() {
       </GridContainer>
     </div>
   );
-}
+});
