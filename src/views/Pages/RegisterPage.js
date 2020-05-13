@@ -256,8 +256,12 @@ export default connect(
                               color="primary"
                               onClick={e => {
                                 e.preventDefault();
-                                if (password === com_pass)
+                                if (password === com_pass) {
                                   props.register(username, password, name);
+                                  alert(
+                                      "Su usuario fue registrado exitosamente! Click en aceptar para continuar."
+                                  );
+                                }
                               }}
                             >
                               Registrarme

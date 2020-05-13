@@ -1,4 +1,8 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { auth } from "actions";
+
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -20,7 +24,23 @@ import styles from "assets/jss/material-dashboard-pro-react/views/userProfileSty
 
 const useStyles = makeStyles(styles);
 
-export default function UserProfile() {
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    register: (username, password, firstName) =>
+        dispatch(auth.register(username, password, firstName))
+  };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(function UserProfile() {
   const classes = useStyles();
   return (
     <div id="profile">
@@ -104,4 +124,4 @@ export default function UserProfile() {
       </GridContainer>
     </div>
   );
-}
+});
