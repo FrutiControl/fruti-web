@@ -2,8 +2,6 @@ import React from "react";
 import cx from "classnames";
 import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
-import PerfectScrollbar from "perfect-scrollbar";
-import "perfect-scrollbar/css/perfect-scrollbar.css";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -17,12 +15,23 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 import routes from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
-
-var ps;
+import { connect } from "react-redux";
 
 const useStyles = makeStyles(styles);
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  };
+};
 
-export default function Dashboard(props) {
+const mapDispatchToProps = dispatch => {
+  return {};
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function Dashboard(props) {
   const { ...rest } = props;
   // states and functions
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -34,36 +43,18 @@ export default function Dashboard(props) {
   const [logo, setLogo] = React.useState(require("assets/img/logo.png"));
   // styles
   const classes = useStyles();
+  if (!props.isAuthenticated) {
+    return <Redirect to="/login" />;
+  }
   const mainPanelClasses =
     classes.mainPanel +
     " " +
     cx({
-      [classes.mainPanelSidebarMini]: miniActive,
-      [classes.mainPanelWithPerfectScrollbar]:
-        navigator.platform.indexOf("Win") > -1
+      [classes.mainPanelSidebarMini]: miniActive
     });
   // ref for main panel div
   const mainPanel = React.createRef();
-  // effect instead of componentDidMount, componentDidUpdate and componentWillUnmount
-  React.useEffect(() => {
-    if (navigator.platform.indexOf("Win") > -1) {
-      ps = new PerfectScrollbar(mainPanel.current, {
-        suppressScrollX: true,
-        suppressScrollY: false
-      });
-      document.body.style.overflow = "hidden";
-    }
-    window.addEventListener("resize", resizeFunction);
-
-    // Specify how to clean up after this effect:
-    return function cleanup() {
-      if (navigator.platform.indexOf("Win") > -1) {
-        ps.destroy();
-      }
-      window.removeEventListener("resize", resizeFunction);
-    };
-  });
-  // functions for changeing the states from components
+  // functions for changing the states from components
   const handleImageClick = image => {
     setImage(image);
   };
@@ -134,12 +125,6 @@ export default function Dashboard(props) {
   const sidebarMinimize = () => {
     setMiniActive(!miniActive);
   };
-  const resizeFunction = () => {
-    if (window.innerWidth >= 960) {
-      setMobileOpen(false);
-    }
-  };
-
   return (
     <div className={classes.wrapper}>
       <Sidebar
@@ -196,4 +181,4 @@ export default function Dashboard(props) {
       </div>
     </div>
   );
-}
+});
