@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import classNames from "classnames";
 import { Link } from "react-router-dom";
+import { auth } from "actions";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,7 +27,21 @@ import styles from "assets/jss/material-dashboard-pro-react/components/adminNavb
 
 const useStyles = makeStyles(styles);
 
-export default function HeaderLinks(props) {
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    logout: () => dispatch(auth.logout())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function HeaderLinks(props) {
   const [openNotification, setOpenNotification] = React.useState(null);
   // verifies if routeName is the one active (in browser input)
   const handleClickNotification = event => {
@@ -180,11 +196,8 @@ export default function HeaderLinks(props) {
                       </MenuItem>
                     </Link>
                     <Divider light />
-                    <Link to="/login">
-                      <MenuItem
-                        onClick={handleCloseProfile}
-                        className={dropdownItem}
-                      >
+                    <Link to="/">
+                      <MenuItem className={dropdownItem} onClick={props.logout}>
                         Cerrar sesión
                       </MenuItem>
                     </Link>
@@ -197,4 +210,4 @@ export default function HeaderLinks(props) {
       </div>
     </div>
   );
-}
+});
