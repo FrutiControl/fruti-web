@@ -1,5 +1,7 @@
-/*eslint-disable*/
 import React from "react";
+import { connect } from "react-redux";
+import { auth } from "actions";
+
 import PropTypes from "prop-types";
 // javascript plugin used to create scrollbars on windows
 import PerfectScrollbar from "perfect-scrollbar";
@@ -286,7 +288,7 @@ class Sidebar extends React.Component {
               onClick={() => this.openCollapse("openAvatar")}
             >
               <ListItemText
-                primary={"Usuario registrado"}
+                primary={this.props.user.first_name}
                 disableTypography={true}
                 className={itemText + " " + classes.userItemText}
               />
@@ -439,4 +441,13 @@ SidebarWrapper.propTypes = {
   links: PropTypes.object
 };
 
-export default withStyles(sidebarStyle)(Sidebar);
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  null
+)(withStyles(sidebarStyle)(Sidebar));
