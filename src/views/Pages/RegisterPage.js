@@ -259,7 +259,7 @@ export default connect(
                                 if (password === com_pass) {
                                   props.register(username, password, name);
                                   alert(
-                                      "Su usuario fue registrado exitosamente! Click en aceptar para continuar."
+                                    "Su usuario fue registrado exitosamente! Click en aceptar para continuar."
                                   );
                                 }
                               }}

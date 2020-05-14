@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import { auth } from "actions";
 
 import PropTypes from "prop-types";
 // javascript plugin used to create scrollbars on windows
@@ -262,22 +261,12 @@ class Sidebar extends React.Component {
       cx({
         [classes.itemTextMini]: this.props.miniActive && this.state.miniActive
       });
-    const collapseItemText =
-      classes.collapseItemText +
-      " " +
-      cx({
-        [classes.collapseItemTextMini]:
-          this.props.miniActive && this.state.miniActive
-      });
     const userWrapperClass =
       classes.user +
       " " +
       cx({
         [classes.whiteAfter]: bgColor === "white"
       });
-    const caret = classes.caret;
-    const collapseItemMini = classes.collapseItemMini;
-    const photo = classes.photo;
     var user = (
       <div className={userWrapperClass}>
         <List className={classes.list}>
@@ -317,20 +306,16 @@ class Sidebar extends React.Component {
       });
     var brand = (
       <div className={logoClasses}>
-        <a
-          href="https://www.creative-tim.com?ref=mdpr-sidebar"
-          target="_blank"
+        <p
           className={logoMini}
         >
           <img src={logo} alt="logo" className={classes.img} />
-        </a>
-        <a
-          href="https://www.creative-tim.com?ref=mdpr-sidebar"
-          target="_blank"
+        </p>
+        <p
           className={logoNormal}
         >
           {logoText}
-        </a>
+        </p>
       </div>
     );
     const drawerPaper =

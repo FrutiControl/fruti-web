@@ -1,7 +1,7 @@
 import React from "react";
-import cx from "classnames";
+import { connect } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
-// creates a beautiful scrollbar
+import cx from "classnames";
 
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
@@ -15,7 +15,6 @@ import FixedPlugin from "components/FixedPlugin/FixedPlugin.js";
 import routes from "routes.js";
 
 import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
-import { connect } from "react-redux";
 
 const useStyles = makeStyles(styles);
 const mapStateToProps = state => {

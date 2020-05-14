@@ -26,18 +26,8 @@ import Footer from "components/Footer/Footer.js";
 import Parallax from "components/Landing/Parallax/Parallax";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/loginPageStyle.js";
-import errorPageStyles from "../../assets/jss/material-dashboard-pro-react/views/errorPageStyles";
 
 const useStyles = makeStyles(styles);
-
-function isEmpty(obj) {
-  for (let prop in obj) {
-    if (obj.hasOwnProperty(prop)) {
-      return false;
-    }
-  }
-  return JSON.stringify(obj) == JSON.stringify({});
-}
 
 const mapStateToProps = state => {
   let errors = [];
@@ -146,9 +136,11 @@ export default connect(
                         onClick={e => {
                           e.preventDefault();
                           props.login(username, password);
-                          console.log(props.errors.message)
-                          if ((props.errors.message == "Correo o contraseña incorrectos, intenta de nuevo." )) {
-                            alert("Usuario o contraseña incorrecto(s).");
+                          if (
+                            props.errors.length > 0 &&
+                            props.errors[0].field === "non_field_errors"
+                          ) {
+                            console.log(props.errors);
                           }
                         }}
                       >

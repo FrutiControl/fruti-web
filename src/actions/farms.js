@@ -1,20 +1,16 @@
 import config from "../config";
 const base_url = config.base_url;
 
-export const loadUser = () => {
+export const fetchFarms = () => {
   return (dispatch, getState) => {
-    dispatch({ type: "USER_LOADING" });
-
-    const token = getState().auth.token;
-
-    let headers = {
-      "Content-Type": "application/json"
-    };
+    let headers = { "Content-Type": "application/json" };
+    let { token } = getState().auth;
 
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
-    return fetch(`${base_url}/users/user/`, { headers })
+
+    return fetch(`${base_url}/app/farms/`, { headers })
       .then(res => {
         if (res.status < 500) {
           return res.json().then(data => {
@@ -27,9 +23,8 @@ export const loadUser = () => {
       })
       .then(res => {
         if (res.status === 200) {
-          dispatch({ type: "USER_LOADED", user: res.data });
-          return res.data;
-        } else if (res.status >= 400 && res.status < 500) {
+          return dispatch({ type: "FETCH_FARMS", trees: res.data });
+        } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
         }
@@ -37,12 +32,16 @@ export const loadUser = () => {
   };
 };
 
-export const login = (username, password) => {
+export const fetchFarm = (id) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
-    let body = JSON.stringify({ username, password });
+    let { token } = getState().auth;
 
-    return fetch(`${base_url}/users/login/`, { headers, body, method: "POST" })
+    if (token) {
+      headers["Authorization"] = `Token ${token}`;
+    }
+
+    return fetch(`${base_url}/app/farm/${id}/`, { headers })
       .then(res => {
         if (res.status < 500) {
           return res.json().then(data => {
@@ -55,24 +54,24 @@ export const login = (username, password) => {
       })
       .then(res => {
         if (res.status === 200) {
-          dispatch({ type: "LOGIN_SUCCESSFUL", data: res.data });
-          return res.data;
-        } else if (res.status === 403 || res.status === 401) {
+          return dispatch({ type: "FETCH_FARM", trees: res.data });
+        } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
-          throw res.data;
-        } else if (res.status === 400) {
-          dispatch({ type: "LOGIN_FAILED", data: res.data });
-          throw res.data;
-        } else {
-          dispatch({ type: "LOGIN_FAILED", data: res.data });
           throw res.data;
         }
       });
   };
 };
-export const register = (username, password, firstName) => {
+
+export const addFarm = () => {
   return (dispatch, getState) => {
-    return fetch(`${base_url}/users/register/`, {
+    let headers = { "Content-Type": "application/json" };
+    let { token } = getState().auth;
+
+    if (token) {
+      headers["Authorization"] = `Token ${token}`;
+    }
+    return fetch(`${base_url}/app/farms/`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -83,9 +82,7 @@ export const register = (username, password, firstName) => {
       redirect: "follow",
       referrer: "no-referrer",
       body: JSON.stringify({
-        username: username,
-        password: password,
-        first_name: firstName
+
       })
     })
       .then(res => {
@@ -99,34 +96,66 @@ export const register = (username, password, firstName) => {
         }
       })
       .then(res => {
-        if (res.status === 200) {
-          dispatch({ type: "REGISTRATION_SUCCESSFUL", data: res.data });
-          return res.data;
+        if (res.status === 201) {
+          return dispatch({ type: "ADD_TREE", note: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
-          throw res.data;
-        } else {
-          dispatch({ type: "REGISTRATION_FAILED", data: res.data });
           throw res.data;
         }
       });
   };
 };
 
-export const logout = () => {
+export const updateFarm = (id) => {
   return (dispatch, getState) => {
-    const token = getState().auth.token;
-
     let headers = { "Content-Type": "application/json" };
+    let { token } = getState().auth;
 
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
-    return fetch(`${base_url}/auth/logout/`, {
+
+    return fetch(`${base_url}/app/farms/${id}/`, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
       headers,
-      body: "",
-      method: "POST"
+      redirect: "follow",
+      referrer: "no-referrer",
+      body: JSON.stringify({})
     })
+      .then(res => {
+        if (res.status < 500) {
+          return res.json().then(data => {
+            return { status: res.status, data };
+          });
+        } else {
+          console.log("Server Error!");
+          throw res;
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          return dispatch({ type: "UPDATE_FARM", note: res.data, id });
+        } else if (res.status === 401 || res.status === 403) {
+          dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
+          throw res.data;
+        }
+      });
+  };
+};
+
+export const deleteFarm = id => {
+  return (dispatch, getState) => {
+    let headers = { "Content-Type": "application/json" };
+    let { token } = getState().auth;
+
+    if (token) {
+      headers["Authorization"] = `Token ${token}`;
+    }
+
+    return fetch(`${base_url}/app/trees/${id}/`, { headers, method: "DELETE" })
       .then(res => {
         if (res.status === 204) {
           return { status: res.status, data: {} };
@@ -141,8 +170,7 @@ export const logout = () => {
       })
       .then(res => {
         if (res.status === 204) {
-          dispatch({ type: "LOGOUT SUCCESSFUL" });
-          return res.data;
+          return dispatch({ type: "DELETE_TREE", id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;

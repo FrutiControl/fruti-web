@@ -1,5 +1,4 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { auth } from "actions";
 
@@ -45,7 +44,7 @@ export default connect(
   return (
     <div id="profile">
       <GridContainer>
-        <GridItem xs={16} sm={16} md={12}>
+        <GridItem xs={12} sm={12} md={12}>
           <Card>
             <CardHeader color="rose" icon>
               <CardIcon color="rose">

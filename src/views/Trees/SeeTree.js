@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { trees } from "actions";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 
@@ -17,8 +19,6 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import { dataTable } from "variables/general.js";
-
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
 
 const styles = {
@@ -31,70 +31,88 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function SeeTree() {
-  const [data, setData] = React.useState(
-    dataTable.dataRows.map((prop, key) => {
-      return {
-        id: key,
-        name: prop[0],
-        position: prop[1],
-        office: prop[2],
-        age: prop[3],
-        actions: (
-          // we've added some custom button actions
-          <div className="actions-right">
-            {/* use this button to add a edit kind of action */}
-            <Button
-              justIcon
-              round
-              simple
-              onClick={() => {
-                let obj = data.find(o => o.id === key);
-                alert(
-                  "You've clicked EDIT button on \n{ \nName: " +
-                    obj.name +
-                    ", \nposition: " +
-                    obj.position +
-                    ", \noffice: " +
-                    obj.office +
-                    ", \nage: " +
-                    obj.age +
-                    "\n}."
-                );
-              }}
-              color="warning"
-              className="edit"
-            >
-              <Dvr />
-            </Button>{" "}
-            {/* use this button to remove the data row */}
-            <Button
-              justIcon
-              round
-              simple
-              onClick={() => {
-                var newData = data;
-                newData.find((o, i) => {
-                  if (o.id === key) {
-                    // here you should add some custom code so you can delete the data
-                    // from this component and from your server as well
-                    newData.splice(i, 1);
-                    return true;
+const mapStateToProps = state => {
+  return {
+    trees: state.trees,
+    user: state.auth.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchTrees: () => dispatch(trees.fetchTrees()),
+    deleteTree: id => dispatch(trees.deleteTree(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function SeeTree(props) {
+  const [data, setData] = React.useState([]);
+  React.useEffect(() => {
+    const filters = document.querySelectorAll("div.rt-th > input");
+    for (let filter of filters) {
+      filter.placeholder = "Buscar...";
+    }
+    props.fetchTrees();
+    setData(
+      props.trees.map(tree => {
+        return {
+          id: tree.id,
+          specie: getSpecie(tree.specie),
+          seed_date: tree.seed_date,
+          farm: tree.farm,
+          actions: (
+            // we've added some custom button actions
+            <div className="actions-right">
+              {/* use this button to add a edit kind of action */}
+              <Button
+                justIcon
+                round
+                simple
+                onClick={() => {
+                  alert("You've clicked EDIT button on " + tree.id);
+                }}
+                color="warning"
+                className="edit"
+              >
+                <Dvr />
+              </Button>{" "}
+              {/* use this button to remove the data row */}
+              <Button
+                justIcon
+                round
+                simple
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      `¿Está seguro de eliminar el árbol ${tree.id}?`
+                    )
+                  ) {
+                    let newData = data;
+                    newData.find((o, i) => {
+                      if (o.id === tree.id) {
+                        props.deleteTree(tree.id);
+                        newData.splice(i, 1);
+                        return true;
+                      }
+                      return false;
+                    });
+                    setData([...newData]);
                   }
-                  return false;
-                });
-                setData([...newData]);
-              }}
-              color="danger"
-              className="remove"
-            >
-              <Close />
-            </Button>{" "}
-          </div>
-        )
-      };
-    })
-  );
+                }}
+                color="danger"
+                className="remove"
+              >
+                <Close />
+              </Button>{" "}
+            </div>
+          )
+        };
+      })
+    );
+  },);
   const classes = useStyles();
   return (
     <GridContainer>
@@ -119,19 +137,19 @@ export default function SeeTree() {
               columns={[
                 {
                   Header: "Número",
-                  accessor: "name"
+                  accessor: "id"
                 },
                 {
                   Header: "Tipo de fruto",
-                  accessor: "position"
+                  accessor: "specie"
                 },
                 {
                   Header: "Fecha de Siembra",
-                  accessor: "office"
+                  accessor: "seed_date"
                 },
                 {
                   Header: "Granja",
-                  accessor: "age"
+                  accessor: "farm"
                 },
                 {
                   Header: "Editar - Eliminar",
@@ -150,4 +168,25 @@ export default function SeeTree() {
       </GridItem>
     </GridContainer>
   );
-}
+});
+
+const getSpecie = specie => {
+  switch (specie) {
+    case "M":
+      return "Mango Tommy";
+    case "F":
+      return "Mango Farchild";
+    case "N":
+      return "Naranja";
+    case "A":
+      return "Aguacate";
+    case "D":
+      return "Mandarina";
+    case "L":
+      return "Limón";
+    case "B":
+      return "Banano";
+    default:
+      return "Frutal";
+  }
+};
