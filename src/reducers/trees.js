@@ -5,6 +5,7 @@ export default function trees(state = initialState, action) {
 
   switch (action.type) {
     case "FETCH_TREES":
+      console.log(`TREEESSSSSSS ${JSON.stringify(...action.trees)}`);
       return [...state, ...action.trees];
 
     case "ADD_TREE":

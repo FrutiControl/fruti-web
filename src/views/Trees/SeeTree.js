@@ -56,63 +56,63 @@ export default connect(
       filter.placeholder = "Buscar...";
     }
     props.fetchTrees();
-    setData(
-      props.trees.map(tree => {
-        return {
-          id: tree.id,
-          specie: getSpecie(tree.specie),
-          seed_date: tree.seed_date,
-          farm: tree.farm,
-          actions: (
-            // we've added some custom button actions
-            <div className="actions-right">
-              {/* use this button to add a edit kind of action */}
-              <Button
-                justIcon
-                round
-                simple
-                onClick={() => {
-                  alert("You've clicked EDIT button on " + tree.id);
-                }}
-                color="warning"
-                className="edit"
-              >
-                <Dvr />
-              </Button>{" "}
-              {/* use this button to remove the data row */}
-              <Button
-                justIcon
-                round
-                simple
-                onClick={() => {
-                  if (
-                    window.confirm(
-                      `¿Está seguro de eliminar el árbol ${tree.id}?`
-                    )
-                  ) {
-                    let newData = data;
-                    newData.find((o, i) => {
-                      if (o.id === tree.id) {
-                        props.deleteTree(tree.id);
-                        newData.splice(i, 1);
-                        return true;
-                      }
-                      return false;
-                    });
-                    setData([...newData]);
+  }, []);
+  React.useEffect(() => {
+    let trees = props.trees.map((tree, key) => {
+      return {
+        pos: key,
+        id: tree.id,
+        specie: getSpecie(tree.specie),
+        seed_date: tree.seed_date,
+        farm: tree.farm,
+        actions: (
+          // we've added some custom button actions
+          <div className="actions-right">
+            {/* use this button to add a edit kind of action */}
+            <Button
+              justIcon
+              round
+              simple
+              onClick={() => {
+                alert("You've clicked EDIT button on ID:" + tree.id);
+              }}
+              color="warning"
+              className="edit"
+            >
+              <Dvr />
+            </Button>{" "}
+            {/* use this button to remove the data row */}
+            <Button
+              justIcon
+              round
+              simple
+              onClick={() => {
+                if (
+                  window.confirm(
+                    `¿Está seguro de eliminar el árbol ${tree.id}?`
+                  )
+                ) {
+                  let newData = trees;
+                  for (let i = 0; i < newData.length; i++) {
+                    if (newData[i].pos === key) {
+                      //props.deleteTree(tree.id);
+                      newData.splice(i, 1);
+                    }
                   }
-                }}
-                color="danger"
-                className="remove"
-              >
-                <Close />
-              </Button>{" "}
-            </div>
-          )
-        };
-      })
-    );
-  },);
+                  setData([...newData]);
+                }
+              }}
+              color="danger"
+              className="remove"
+            >
+              <Close />
+            </Button>{" "}
+          </div>
+        )
+      };
+    });
+    setData([...trees]);
+  }, [props.trees]);
   const classes = useStyles();
   return (
     <GridContainer>

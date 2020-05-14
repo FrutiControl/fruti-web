@@ -2,7 +2,7 @@ import config from "../config";
 const base_url = config.base_url;
 
 export const fetchTrees = () => {
-  return async (dispatch, getState) => {
+  return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
 
@@ -10,10 +10,10 @@ export const fetchTrees = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return await fetch(`${base_url}/app/trees/`, { headers })
-      .then(async (res) => {
+    return fetch(`${base_url}/app/trees/`, { headers })
+      .then(res => {
         if (res.status < 500) {
-          return await res.json().then(data => {
+          return res.json().then(data => {
             return { status: res.status, data };
           });
         } else {
