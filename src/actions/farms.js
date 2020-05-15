@@ -169,7 +169,7 @@ export const deleteFarm = id => {
       })
       .then(res => {
         if (res.status === 204) {
-          return dispatch({ type: "DELETE_FARM", id });
+          return dispatch({ type: "DELETE_FARM", index: id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;

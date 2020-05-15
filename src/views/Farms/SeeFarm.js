@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import { farms } from "actions";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 
@@ -17,8 +19,6 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import { dataTable } from "variables/general.js";
-
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
 
 const styles = {
@@ -31,15 +31,14 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function SeeFarm() {
-  const [data, setData] = React.useState(
-    dataTable.dataRows.map((prop, key) => {
+function SeeFarm(props) {
+  let farms = [];
+  const [data, setData] = React.useState([]);
+  const mapFarms = myFarms => {
+    return myFarms.map((farm, key) => {
       return {
-        id: key,
-        name: prop[0],
-        position: prop[1],
-        office: prop[2],
-        age: prop[3],
+        pos: key,
+        name: farm.name,
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -50,17 +49,7 @@ export default function SeeFarm() {
               simple
               onClick={() => {
                 let obj = data.find(o => o.id === key);
-                alert(
-                  "You've clicked EDIT button on \n{ \nName: " +
-                    obj.name +
-                    ", \nposition: " +
-                    obj.position +
-                    ", \noffice: " +
-                    obj.office +
-                    ", \nage: " +
-                    obj.age +
-                    "\n}."
-                );
+                alert("You've clicked EDIT button on ID:" + farm.id);
               }}
               color="warning"
               className="edit"
@@ -73,20 +62,11 @@ export default function SeeFarm() {
               round
               simple
               onClick={() => {
-                alert(
-                  "Esta acción eliminará la granja seleccionada. De click en OK si desea eliminarla."
-                );
-                var newData = data;
-                newData.find((o, i) => {
-                  if (o.id === key) {
-                    // here you should add some custom code so you can delete the data
-                    // from this component and from your server as well
-                    newData.splice(i, 1);
-                    return true;
-                  }
-                  return false;
-                });
-                setData([...newData]);
+                if (
+                  window.confirm(`¿Está seguro de eliminar el granja ${farm.id}?`)
+                ) {
+                  props.deleteFarm(farm.id);
+                }
               }}
               color="danger"
               className="remove"
@@ -96,8 +76,19 @@ export default function SeeFarm() {
           </div>
         )
       };
-    })
-  );
+    });
+  };
+  React.useEffect(() => {
+    const filters = document.querySelectorAll("div.rt-th > input");
+    for (let filter of filters) {
+      filter.placeholder = "Buscar...";
+    }
+    props.fetchFarms();
+  }, []);
+  React.useEffect(() => {
+    farms = mapFarms(props.farms);
+    setData(farms);
+  }, [props.farms]);
   const classes = useStyles();
   return (
     <GridContainer>
@@ -118,6 +109,7 @@ export default function SeeFarm() {
               ofText={"de"}
               rowsText={"filas"}
               data={data}
+              noDataText={"No hay granjas"}
               filterable
               columns={[
                 {
@@ -142,3 +134,21 @@ export default function SeeFarm() {
     </GridContainer>
   );
 }
+const mapStateToProps = state => {
+  return {
+    farms: state.farms,
+    user: state.auth.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchFarms: () => dispatch(farms.fetchFarms()),
+    deleteFarm: id => dispatch(farms.deleteFarm(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SeeFarm);
