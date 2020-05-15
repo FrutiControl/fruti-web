@@ -1,5 +1,5 @@
 let config = {
-  base_url: process.env.REACT_APP_BACKEND || "http://localhost:8000"
+  base_url: "https://app.fruticontrol.me"
 };
 
 export default config;
