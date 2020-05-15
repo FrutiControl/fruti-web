@@ -31,34 +31,11 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-const mapStateToProps = state => {
-  return {
-    trees: state.trees,
-    user: state.auth.user
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchTrees: () => dispatch(trees.fetchTrees()),
-    deleteTree: id => dispatch(trees.deleteTree(id))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(function SeeTree(props) {
+function SeeTree(props) {
+  let trees = []
   const [data, setData] = React.useState([]);
-  React.useEffect(() => {
-    const filters = document.querySelectorAll("div.rt-th > input");
-    for (let filter of filters) {
-      filter.placeholder = "Buscar...";
-    }
-    props.fetchTrees();
-  }, []);
-  React.useEffect(() => {
-    let trees = props.trees.map((tree, key) => {
+  const mapTrees = myTrees => {
+    return myTrees.map((tree, key) => {
       return {
         pos: key,
         id: tree.id,
@@ -92,14 +69,7 @@ export default connect(
                     `¿Está seguro de eliminar el árbol ${tree.id}?`
                   )
                 ) {
-                  let newData = trees;
-                  for (let i = 0; i < newData.length; i++) {
-                    if (newData[i].pos === key) {
-                      //props.deleteTree(tree.id);
-                      newData.splice(i, 1);
-                    }
-                  }
-                  setData([...newData]);
+                  props.deleteTree(tree.id);
                 }
               }}
               color="danger"
@@ -111,8 +81,34 @@ export default connect(
         )
       };
     });
-    setData([...trees]);
+  };
+  React.useEffect(() => {
+    const filters = document.querySelectorAll("div.rt-th > input");
+    for (let filter of filters) {
+      filter.placeholder = "Buscar...";
+    }
+    props.fetchTrees();
+    // return () => {
+    //   console.log("========== ENTRO AL CLEANUP FETCH ======================");
+    // };
+  }, []);
+  React.useEffect(() => {
+    trees = mapTrees(props.trees);
+    // if (trees.length === 0)
+    //   console.log("========== TREES VACIO ======================");
+    // else
+    //   for (let tree of trees) {
+    //     console.log(`ESTE ES DE TREES ${tree.id}`);
+    //   }
+    setData(trees);
   }, [props.trees]);
+  // if (data.length === 0)
+  //   console.log("========== DATA VACIO ======================");
+  // else
+  //   for (let datico of data) {
+  //     console.log(`ESTE ES DE DATA ${datico.id}`);
+  //   }
+  // console.log("==================================================");
   const classes = useStyles();
   return (
     <GridContainer>
@@ -168,7 +164,7 @@ export default connect(
       </GridItem>
     </GridContainer>
   );
-});
+}
 
 const getSpecie = specie => {
   switch (specie) {
@@ -190,3 +186,21 @@ const getSpecie = specie => {
       return "Frutal";
   }
 };
+const mapStateToProps = state => {
+  return {
+    trees: state.trees,
+    user: state.auth.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchTrees: () => dispatch(trees.fetchTrees()),
+    deleteTree: id => dispatch(trees.deleteTree(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SeeTree);
