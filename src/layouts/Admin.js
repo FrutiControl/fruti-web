@@ -17,20 +17,7 @@ import routes from "routes.js";
 import styles from "assets/jss/material-dashboard-pro-react/layouts/adminStyle.js";
 
 const useStyles = makeStyles(styles);
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(function Dashboard(props) {
+function Dashboard(props) {
   const { ...rest } = props;
   // states and functions
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -180,4 +167,13 @@ export default connect(
       </div>
     </div>
   );
-});
+}
+const mapStateToProps = state => {
+  return {
+    isAuthenticated: state.auth.isAuthenticated
+  };
+};
+export default connect(
+  mapStateToProps,
+  null
+)(Dashboard);
