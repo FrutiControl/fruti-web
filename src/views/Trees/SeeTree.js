@@ -32,7 +32,7 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function SeeTree(props) {
-  let trees = []
+  let trees = [];
   const [data, setData] = React.useState([]);
   const mapTrees = myTrees => {
     return myTrees.map((tree, key) => {
@@ -88,27 +88,11 @@ function SeeTree(props) {
       filter.placeholder = "Buscar...";
     }
     props.fetchTrees();
-    // return () => {
-    //   console.log("========== ENTRO AL CLEANUP FETCH ======================");
-    // };
   }, []);
   React.useEffect(() => {
     trees = mapTrees(props.trees);
-    // if (trees.length === 0)
-    //   console.log("========== TREES VACIO ======================");
-    // else
-    //   for (let tree of trees) {
-    //     console.log(`ESTE ES DE TREES ${tree.id}`);
-    //   }
     setData(trees);
   }, [props.trees]);
-  // if (data.length === 0)
-  //   console.log("========== DATA VACIO ======================");
-  // else
-  //   for (let datico of data) {
-  //     console.log(`ESTE ES DE DATA ${datico.id}`);
-  //   }
-  // console.log("==================================================");
   const classes = useStyles();
   return (
     <GridContainer>
@@ -128,6 +112,7 @@ function SeeTree(props) {
               pageText={"Páginas"}
               ofText={"de"}
               rowsText={"filas"}
+              noDataText={"No hay árboles"}
               data={data}
               filterable
               columns={[
