@@ -2,13 +2,8 @@ const initialState = [];
 
 export default function trees(state = initialState, action) {
   let treeList = state.slice();
-  console.log("========== REDUCER_TREES ======================");
-  console.log(`treeList: ${treeList}`);
-  console.log(`state: ${state}`);
-  console.log(`action.trees: ${action.trees}`);
   switch (action.type) {
     case "FETCH_TREES":
-
       return [...action.trees];
 
     case "ADD_TREE":
@@ -25,6 +20,7 @@ export default function trees(state = initialState, action) {
           return treeList;
         }
       }
+      return treeList;
 
     default:
       return state;

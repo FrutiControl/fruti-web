@@ -23,7 +23,7 @@ export const fetchFarms = () => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "FETCH_FARMS", trees: res.data });
+          return dispatch({ type: "FETCH_FARMS", farms: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -41,7 +41,7 @@ export const fetchFarm = (id) => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/app/farm/${id}/`, { headers })
+    return fetch(`${base_url}/app/farms/${id}/`, { headers })
       .then(res => {
         if (res.status < 500) {
           return res.json().then(data => {
@@ -54,7 +54,7 @@ export const fetchFarm = (id) => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "FETCH_FARM", trees: res.data });
+          return dispatch({ type: "FETCH_FARM", farm: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -97,7 +97,7 @@ export const addFarm = () => {
       })
       .then(res => {
         if (res.status === 201) {
-          return dispatch({ type: "ADD_TREE", note: res.data });
+          return dispatch({ type: "ADD_FARM", note: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -154,8 +154,7 @@ export const deleteFarm = id => {
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
-
-    return fetch(`${base_url}/app/trees/${id}/`, { headers, method: "DELETE" })
+    return fetch(`${base_url}/app/farms/${id}/`, { headers, method: "DELETE" })
       .then(res => {
         if (res.status === 204) {
           return { status: res.status, data: {} };
@@ -170,7 +169,7 @@ export const deleteFarm = id => {
       })
       .then(res => {
         if (res.status === 204) {
-          return dispatch({ type: "DELETE_TREE", id });
+          return dispatch({ type: "DELETE_FARM", id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
