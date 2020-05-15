@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { auth, dashboard } from "actions";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 
@@ -47,20 +48,25 @@ import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(styles);
 
-const mapStateToProps = state => {
-  return {
-    user: state.auth.user
-  };
-};
+const months = [
+  "En",
+  "Fe",
+  "Ma",
+  "Ab",
+  "Ma",
+  "Ju",
+  "Ju",
+  "Ag",
+  "Se",
+  "Oc",
+  "No",
+  "Di"
+];
 
-const mapDispatchToProps = dispatch => {
-  return {};
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(function Dashboard(props) {
+function Dashboard(props) {
+  React.useEffect(() => {
+    props.fetchDashboard();
+  }, []);
   const classes = useStyles();
   return (
     <div>
@@ -73,7 +79,7 @@ export default connect(
               </CardIcon>
               <p className={classes.cardCategory}>Actividades en curso</p>
               <h3 className={classes.cardTitle}>
-                8 <small>Act.</small>
+                {props.dashboard.current_activities} <small>Act.</small>
               </h3>
             </CardHeader>
             <CardFooter stats>
@@ -93,7 +99,9 @@ export default connect(
                 <i className="fas fa-tree" />
               </CardIcon>
               <p className={classes.cardCategory}>Total de árboles</p>
-              <h3 className={classes.cardTitle}>110</h3>
+              <h3 className={classes.cardTitle}>
+                {props.dashboard.total_trees}
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -112,7 +120,9 @@ export default connect(
                 <i className="fas fa-arrow-right" />
               </CardIcon>
               <p className={classes.cardCategory}>Próximas actividades</p>
-              <h3 className={classes.cardTitle}>15</h3>
+              <h3 className={classes.cardTitle}>
+                {props.dashboard.future_activities}
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <div className={classes.stats}>
@@ -129,7 +139,9 @@ export default connect(
                 <i className="fas fa-cloud" />
               </CardIcon>
               <p className={classes.cardCategory}>Pronóstico de mañana</p>
-              <h3 className={classes.cardTitle}>29C°</h3>
+              <h3 className={classes.cardTitle}>
+                {props.dashboard.forecast[0]}C°
+              </h3>
             </CardHeader>
             <CardFooter stats>
               <a
@@ -159,13 +171,7 @@ export default connect(
                 <GridItem xs={12}>
                   <Table
                     tableHead={["Actividad", "Fecha Fin", "Porcentaje"]}
-                    tableData={[
-                      ["Poda sanitaria", "08/05/20", "53%"],
-                      ["Fumigación contra ácaros", "08/05/20", "20%"],
-                      ["Riego manual", "10/05/20", "10%"],
-                      ["Fertilización para producción", "11/05/20", "1%"],
-                      ["Poda de formación", "11/05/20", "0%"]
-                    ]}
+                    tableData={mapTopActivities(props.dashboard.top_activities)}
                   />
                 </GridItem>
               </GridContainer>
@@ -184,10 +190,53 @@ export default connect(
             </CardHeader>
             <CardBody>
               <ChartistGraph
-                data={pieChart.data}
+                data={{
+                  labels: [
+                    props.dashboard.mango_trees > 0
+                      ? `${Number.parseFloat(
+                          props.dashboard.mango_trees
+                        ).toFixed(0)}%`
+                      : " ",
+                    props.dashboard.banano_trees > 0
+                      ? `${Number.parseFloat(
+                          props.dashboard.banano_trees
+                        ).toFixed(0)}%`
+                      : " ",
+                    props.dashboard.lemon_trees > 0
+                      ? `${Number.parseFloat(
+                          props.dashboard.lemon_trees
+                        ).toFixed(0)}%`
+                      : " ",
+                    props.dashboard.orange_trees > 0
+                      ? `${Number.parseFloat(
+                          props.dashboard.orange_trees
+                        ).toFixed(0)}%`
+                      : " ",
+                    props.dashboard.tangerine_trees > 0
+                      ? `${Number.parseFloat(
+                          props.dashboard.tangerine_trees
+                        ).toFixed(0)}%`
+                      : " ",
+                    props.dashboard.avocado_trees > 0
+                      ? `${Number.parseFloat(
+                          props.dashboard.avocado_trees
+                        ).toFixed(0)}%`
+                      : " "
+                  ],
+                  series: [
+                    props.dashboard.mango_trees,
+                    props.dashboard.banano_trees,
+                    props.dashboard.lemon_trees,
+                    props.dashboard.orange_trees,
+                    props.dashboard.tangerine_trees,
+                    props.dashboard.avocado_trees
+                  ]
+                }}
                 type="Pie"
                 className={classes.pieStyle}
-                options={pieChart.options}
+                options={{
+                  height: "230px"
+                }}
               />
             </CardBody>
             <CardFooter stats className={classes.cardFooter}>
@@ -209,12 +258,72 @@ export default connect(
       <GridContainer>
         <GridItem xs={12} sm={12} md={4}>
           <Card chart className={classes.cardHover}>
+            <CardHeader color="danger" className={classes.cardHeaderHover}>
+              <ChartistGraph
+                className="ct-chart-white-colors"
+                data={{
+                  labels: mapDays(props.dashboard.last_days),
+                  data: [props.dashboard.last_activities]
+                }}
+                type="Line"
+                options={completedTasksChart.options}
+                listener={completedTasksChart.animation}
+              />
+            </CardHeader>
+            <CardBody>
+              <div className={classes.cardHoverUnder}>
+                <Tooltip
+                  id="tooltip-top"
+                  title="Ver Actividades"
+                  placement="bottom"
+                  classes={{ tooltip: classes.tooltip }}
+                >
+                  <Link to="/admin/seeactivity">
+                    <Button color="transparent">
+                      <i className="fas fa-arrow-circle-up" />
+                    </Button>
+                  </Link>
+                </Tooltip>
+              </div>
+              <h4 className={classes.cardTitle}>Actividades Completadas</h4>
+              <p className={classes.cardCategory}>
+                <span className={classes.successText}>
+                  <i className="fas fa-check-circle" />
+                </span>{" "}
+                14 actividades completadas en la semana.
+              </p>
+            </CardBody>
+            <CardFooter chart>
+              <div className={classes.stats}>
+                <i className="fas fa-info-circle" /> Gráfica de actividades
+                completadas en la última semana.
+              </div>
+            </CardFooter>
+          </Card>
+        </GridItem>
+        <GridItem xs={12} sm={12} md={4}>
+          <Card chart className={classes.cardHover}>
             <CardHeader color="info" className={classes.cardHeaderHover}>
               <ChartistGraph
                 className="ct-chart-white-colors"
-                data={dailySalesChart.data}
-                type="Line"
-                options={dailySalesChart.options}
+                data={{
+                  labels: months,
+                  series: [props.dashboard.incomes]
+                }}
+                type="Bar"
+                options={{
+                  axisX: {
+                    showGrid: false
+                  },
+                  low: 0,
+                  high: Math.max(...props.dashboard.incomes) * 1.5,
+                  chartPadding: {
+                    top: 0,
+                    right: 2.5,
+                    bottom: 0,
+                    left: 15
+                  }
+                }}
                 listener={dailySalesChart.animation}
               />
             </CardHeader>
@@ -254,7 +363,10 @@ export default connect(
             <CardHeader color="warning" className={classes.cardHeaderHover}>
               <ChartistGraph
                 className="ct-chart-white-colors"
-                data={emailsSubscriptionChart.data}
+                data={{
+                  labels: months,
+                  series: [props.dashboard.outcomes]
+                }}
                 type="Bar"
                 options={emailsSubscriptionChart.options}
                 responsiveOptions={emailsSubscriptionChart.responsiveOptions}
@@ -289,48 +401,6 @@ export default connect(
               <div className={classes.stats}>
                 <i className="fas fa-info-circle" /> Gráfica de gastos a lo
                 largo de los meses.
-              </div>
-            </CardFooter>
-          </Card>
-        </GridItem>
-        <GridItem xs={12} sm={12} md={4}>
-          <Card chart className={classes.cardHover}>
-            <CardHeader color="danger" className={classes.cardHeaderHover}>
-              <ChartistGraph
-                className="ct-chart-white-colors"
-                data={completedTasksChart.data}
-                type="Line"
-                options={completedTasksChart.options}
-                listener={completedTasksChart.animation}
-              />
-            </CardHeader>
-            <CardBody>
-              <div className={classes.cardHoverUnder}>
-                <Tooltip
-                  id="tooltip-top"
-                  title="Ver Actividades"
-                  placement="bottom"
-                  classes={{ tooltip: classes.tooltip }}
-                >
-                  <Link to="/admin/seeactivity">
-                    <Button color="transparent">
-                      <i className="fas fa-arrow-circle-up" />
-                    </Button>
-                  </Link>
-                </Tooltip>
-              </div>
-              <h4 className={classes.cardTitle}>Actividades Completadas</h4>
-              <p className={classes.cardCategory}>
-                <span className={classes.successText}>
-                  <i className="fas fa-check-circle" />
-                </span>{" "}
-                14 actividades completadas en la semana.
-              </p>
-            </CardBody>
-            <CardFooter chart>
-              <div className={classes.stats}>
-                <i className="fas fa-info-circle" /> Gráfica de actividades
-                completadas en la última semana.
               </div>
             </CardFooter>
           </Card>
@@ -561,4 +631,116 @@ export default connect(
       </GridContainer>
     </div>
   );
-});
+}
+const mapDays = days => {
+  return days.map(day => {
+    switch (day) {
+      case "Monday":
+        return "L";
+      case "Tuesday":
+        return "M";
+      case "Wednesday":
+        return "Mi";
+      case "Thursday":
+        return "J";
+      case "Friday":
+        return "V";
+      case "Saturday":
+        return "S";
+      case "Sunday":
+        return "D";
+    }
+  });
+};
+const mapTopActivities = top_activities => {
+  return top_activities.map(activity => {
+    return [
+      activity[3] + mapActType(activity[3], activity[2]),
+      activity[0],
+      `${Number(activity[4] * 100).toFixed(0)}%`
+    ];
+  });
+};
+const mapActType = (act, type) => {
+  switch (act) {
+    case "Poda":
+      switch (type) {
+        case "S":
+          return " sanitaria";
+        case "F":
+          return " de formación";
+        case "M":
+          return " de mantenimiento";
+        case "L":
+          return " de limpieza";
+      }
+      break;
+    case "Fertilización":
+      switch (type) {
+        case "C":
+          return " para crecimiento";
+        case "P":
+          return " para producción";
+        case "M":
+          return " para mantenimiento";
+      }
+      break;
+    case "Fumigación":
+      switch (type) {
+        case "I":
+          return " contra insectos";
+        case "F":
+          return " contra hongo";
+        case "H":
+          return " contra hierba";
+        case "A":
+          return " contra ácaros";
+        case "P":
+          return " contra peste";
+      }
+      break;
+    case "Riego":
+      switch (type) {
+        case "N":
+          return " ";
+        case "S":
+          return " con sistema";
+        case "M":
+          return " manual";
+      }
+      break;
+    case "Siembra":
+      switch (type) {
+        case "M":
+          return " de mango Tommy";
+        case "F":
+          return " de mango Farchild";
+        case "N":
+          return " de naranjos";
+        case "A":
+          return " de aguacates";
+        case "D":
+          return " de mandarinas";
+        case "L":
+          return " de limones";
+        case "B":
+          return " de bananos";
+      }
+      break;
+  }
+};
+const mapStateToProps = state => {
+  return {
+    user: state.auth.user,
+    dashboard: state.dashboard
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchDashboard: () => dispatch(dashboard.fetchDashboard())
+  };
+};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);
