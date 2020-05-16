@@ -1,4 +1,6 @@
 import React from "react";
+import { incomes } from "actions";
+import { connect } from "react-redux";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 
@@ -17,8 +19,6 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import { dataTable } from "variables/general.js";
-
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
 
 const styles = {
@@ -31,15 +31,18 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function SeeIncome() {
-  const [data, setData] = React.useState(
-    dataTable.dataRows.map((prop, key) => {
+function SeeIncome(props) {
+  let incomes = [];
+  const [data, setData] = React.useState([]);
+  const mapIncomes = myIncomes => {
+    return myIncomes.map((income, key) => {
       return {
-        id: key,
-        name: prop[0],
-        position: prop[1],
-        office: prop[2],
-        age: prop[3],
+        pos: key,
+        id: income.id,
+        type: getSpecie(income.fruit_type),
+        quantity: income.quantity,
+        date: income.date,
+        value: income.value,
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -49,18 +52,7 @@ export default function SeeIncome() {
               round
               simple
               onClick={() => {
-                let obj = data.find(o => o.id === key);
-                alert(
-                  "You've clicked EDIT button on \n{ \nName: " +
-                    obj.name +
-                    ", \nposition: " +
-                    obj.position +
-                    ", \noffice: " +
-                    obj.office +
-                    ", \nage: " +
-                    obj.age +
-                    "\n}."
-                );
+                alert("You've clicked EDIT button on ID:" + income.id);
               }}
               color="warning"
               className="edit"
@@ -73,17 +65,15 @@ export default function SeeIncome() {
               round
               simple
               onClick={() => {
-                var newData = data;
-                newData.find((o, i) => {
-                  if (o.id === key) {
-                    // here you should add some custom code so you can delete the data
-                    // from this component and from your server as well
-                    newData.splice(i, 1);
-                    return true;
-                  }
-                  return false;
-                });
-                setData([...newData]);
+                if (
+                  window.confirm(
+                    `¿Está seguro de eliminar el ingreso por ${getSpecie(
+                      income.fruit_type
+                    )}s del ${income.date}?`
+                  )
+                ) {
+                  props.deleteIncome(income.id);
+                }
               }}
               color="danger"
               className="remove"
@@ -93,8 +83,19 @@ export default function SeeIncome() {
           </div>
         )
       };
-    })
-  );
+    });
+  };
+  React.useEffect(() => {
+    const filters = document.querySelectorAll("div.rt-th > input");
+    for (let filter of filters) {
+      filter.placeholder = "Buscar...";
+    }
+    props.fetchIncomes();
+  }, []);
+  React.useEffect(() => {
+    incomes = mapIncomes(props.incomes);
+    setData(incomes);
+  }, [props.incomes]);
   const classes = useStyles();
   return (
     <GridContainer>
@@ -119,19 +120,19 @@ export default function SeeIncome() {
               columns={[
                 {
                   Header: "Tipo de fruto vendido",
-                  accessor: "name"
+                  accessor: "type"
                 },
                 {
                   Header: "Cantidad Vendida",
-                  accessor: "position"
+                  accessor: "quantity"
                 },
                 {
                   Header: "Fecha",
-                  accessor: "office"
+                  accessor: "date"
                 },
                 {
                   Header: "Monto",
-                  accessor: "age"
+                  accessor: "value"
                 },
                 {
                   Header: "Editar - Eliminar",
@@ -151,3 +152,41 @@ export default function SeeIncome() {
     </GridContainer>
   );
 }
+const getSpecie = specie => {
+  switch (specie) {
+    case "M":
+      return "Mango Tommy";
+    case "F":
+      return "Mango Farchild";
+    case "N":
+      return "Naranja";
+    case "A":
+      return "Aguacate";
+    case "D":
+      return "Mandarina";
+    case "L":
+      return "Limón";
+    case "B":
+      return "Banano";
+    default:
+      return "Frutal";
+  }
+};
+const mapStateToProps = state => {
+  return {
+    incomes: state.incomes,
+    user: state.auth.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchIncomes: () => dispatch(incomes.fetchIncomes()),
+    deleteIncome: id => dispatch(incomes.deleteIncome(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SeeIncome);
