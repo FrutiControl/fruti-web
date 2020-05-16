@@ -1,7 +1,7 @@
 import config from "../config";
 const base_url = config.base_url;
 
-export const fetchStudent = () => {
+export const fetchOwner = () => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -10,7 +10,7 @@ export const fetchStudent = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/students/`, { headers })
+    return fetch(`${base_url}/users/owner/`, { headers })
       .then(res => {
         if (res.status < 500) {
           return res.json().then(data => {
@@ -23,7 +23,7 @@ export const fetchStudent = () => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "FETCH_STUDENT", student: res.data });
+          return dispatch({ type: "FETCH_OWNER", owner: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -31,12 +31,7 @@ export const fetchStudent = () => {
       });
   };
 };
-export const updateStudent = (
-  wakeUpTime,
-  sleepTime,
-  workOnWeekends,
-  workTime
-) => {
+export const updateOwner = (country, department, city, day_cost) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -46,14 +41,12 @@ export const updateStudent = (
     }
 
     let body = JSON.stringify({
-      wakeUpTime: wakeUpTime,
-      sleepTime: sleepTime,
-      workOnWeekends: workOnWeekends,
-      workTime: workTime
+      country: country,
+      department: department,
+      city: city,
+      day_cost: day_cost
     });
-    let noteId = getState().student.id;
-
-    return fetch(`${base_url}/student/${noteId}/`, {
+    return fetch(`${base_url}/users/owner/`, {
       headers,
       method: "PUT",
       body
@@ -70,7 +63,7 @@ export const updateStudent = (
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "UPDATE_STUDENT", note: res.data });
+          return dispatch({ type: "UPDATE_OWNER", note: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
