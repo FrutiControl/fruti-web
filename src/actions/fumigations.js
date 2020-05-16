@@ -24,7 +24,7 @@ export const fetchFumigations = () => {
       .then(res => {
         if (res.status === 200) {
           return dispatch({
-            type: "FETCH_FERTILIZATIONS",
+            type: "FETCH_FUMIGATIONS",
             fumigations: res.data
           });
         } else if (res.status === 401 || res.status === 403) {
@@ -58,7 +58,7 @@ export const fetchFumigation = id => {
       .then(res => {
         if (res.status === 200) {
           return dispatch({
-            type: "FETCH_FERTILIZATION",
+            type: "FETCH_FUMIGATION",
             fumigation: res.data
           });
         } else if (res.status === 401 || res.status === 403) {
@@ -101,7 +101,7 @@ export const addFumigation = () => {
       })
       .then(res => {
         if (res.status === 201) {
-          return dispatch({ type: "ADD_FERTILIZATION", note: res.data });
+          return dispatch({ type: "ADD_FUMIGATION", note: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -141,7 +141,7 @@ export const updateFumigation = id => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "UPDATE_FERTILIZATION", note: res.data, id });
+          return dispatch({ type: "UPDATE_FUMIGATION", note: res.data, id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -177,7 +177,7 @@ export const deleteFumigation = id => {
       })
       .then(res => {
         if (res.status === 204) {
-          return dispatch({ type: "DELETE_FERTILIZATION", id });
+          return dispatch({ type: "DELETE_FUMIGATION", id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
