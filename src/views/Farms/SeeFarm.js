@@ -49,7 +49,7 @@ function SeeFarm(props) {
               simple
               onClick={() => {
                 let obj = data.find(o => o.id === key);
-                alert("You've clicked EDIT button on ID:" + farm.id);
+                alert("You've clicked EDIT button on ID:" + farm.name);
               }}
               color="warning"
               className="edit"
@@ -63,7 +63,7 @@ function SeeFarm(props) {
               simple
               onClick={() => {
                 if (
-                  window.confirm(`¿Está seguro de eliminar el granja ${farm.id}?`)
+                  window.confirm(`¿Está seguro de eliminar el granja ${farm.name}?`)
                 ) {
                   props.deleteFarm(farm.id);
                 }

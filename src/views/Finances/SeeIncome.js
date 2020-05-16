@@ -115,6 +115,7 @@ function SeeIncome(props) {
               pageText={"Páginas"}
               ofText={"de"}
               rowsText={"filas"}
+              noDataText={"No hay ingresos"}
               data={data}
               filterable
               columns={[
