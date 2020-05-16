@@ -207,7 +207,7 @@ export default function Widgets() {
           <Timeline simple stories={widgetStories} />
         </GridItem>
         <GridItem xs={12} sm={12} md={6}>
-          <GridContainer xs={12}>
+          <GridContainer xs={12} item>
             <GridItem xs={12}>
               <Card chart className={classes.cardHover}>
                 <CardHeader color="warning" className={classes.cardHeaderHover}>
@@ -325,7 +325,7 @@ export default function Widgets() {
                     Presentación: Caja de madera - Cantidad: 30 - Unidad: Kilo{" "}
                   </p>
                 </CardBody>
-                <CardFooter char>
+                <CardFooter>
                   <div className={classes.stats}>
                     <i className="fas fa-info-circle" />{" "}
                     <a href="https://www.corabastos.com.co/sitio/historicoApp2/reportes/prueba.php">

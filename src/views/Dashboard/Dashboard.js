@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { auth, dashboard } from "actions";
+import { dashboard, owner } from "actions";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 
@@ -35,8 +35,7 @@ import CardFooter from "components/Card/CardFooter.js";
 import {
   dailySalesChart,
   emailsSubscriptionChart,
-  completedTasksChart,
-  pieChart
+  completedTasksChart
 } from "variables/charts";
 
 import styles from "assets/jss/material-dashboard-pro-react/views/dashboardStyle.js";
@@ -66,6 +65,7 @@ const months = [
 function Dashboard(props) {
   React.useEffect(() => {
     props.fetchDashboard();
+    props.fetchOwner();
   }, []);
   const classes = useStyles();
   return (
@@ -368,7 +368,19 @@ function Dashboard(props) {
                   series: [props.dashboard.outcomes]
                 }}
                 type="Bar"
-                options={emailsSubscriptionChart.options}
+                options={{
+                  axisX: {
+                    showGrid: false
+                  },
+                  low: 0,
+                  high: Math.max(...props.dashboard.outcomes) * 1.5,
+                  chartPadding: {
+                    top: 0,
+                    right: 2.5,
+                    bottom: 0,
+                    left: 15
+                  }
+                }}
                 responsiveOptions={emailsSubscriptionChart.responsiveOptions}
                 listener={emailsSubscriptionChart.animation}
               />
@@ -649,6 +661,8 @@ const mapDays = days => {
         return "S";
       case "Sunday":
         return "D";
+      default:
+        return " ";
     }
   });
 };
@@ -673,8 +687,9 @@ const mapActType = (act, type) => {
           return " de mantenimiento";
         case "L":
           return " de limpieza";
+        default:
+          return " ";
       }
-      break;
     case "Fertilización":
       switch (type) {
         case "C":
@@ -683,8 +698,9 @@ const mapActType = (act, type) => {
           return " para producción";
         case "M":
           return " para mantenimiento";
+        default:
+          return " ";
       }
-      break;
     case "Fumigación":
       switch (type) {
         case "I":
@@ -697,8 +713,9 @@ const mapActType = (act, type) => {
           return " contra ácaros";
         case "P":
           return " contra peste";
+        default:
+          return " ";
       }
-      break;
     case "Riego":
       switch (type) {
         case "N":
@@ -707,8 +724,9 @@ const mapActType = (act, type) => {
           return " con sistema";
         case "M":
           return " manual";
+        default:
+          return " ";
       }
-      break;
     case "Siembra":
       switch (type) {
         case "M":
@@ -725,8 +743,11 @@ const mapActType = (act, type) => {
           return " de limones";
         case "B":
           return " de bananos";
+        default:
+          return " ";
       }
-      break;
+    default:
+      return " ";
   }
 };
 const mapStateToProps = state => {
@@ -737,7 +758,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    fetchDashboard: () => dispatch(dashboard.fetchDashboard())
+    fetchDashboard: () => dispatch(dashboard.fetchDashboard()),
+    fetchOwner: () => dispatch(owner.fetchOwner())
   };
 };
 export default connect(

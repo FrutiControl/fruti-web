@@ -32,7 +32,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function SeeIncome(props) {
-  let incomes = [];
   const [data, setData] = React.useState([]);
   const mapIncomes = myIncomes => {
     return myIncomes.map((income, key) => {
@@ -93,8 +92,7 @@ function SeeIncome(props) {
     props.fetchIncomes();
   }, []);
   React.useEffect(() => {
-    incomes = mapIncomes(props.incomes);
-    setData(incomes);
+    setData(mapIncomes(props.incomes));
   }, [props.incomes]);
   const classes = useStyles();
   return (

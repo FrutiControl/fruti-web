@@ -32,7 +32,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function SeeTree(props) {
-  let trees = [];
   const [data, setData] = React.useState([]);
   const mapTrees = myTrees => {
     return myTrees.map((tree, key) => {
@@ -90,8 +89,7 @@ function SeeTree(props) {
     props.fetchTrees();
   }, []);
   React.useEffect(() => {
-    trees = mapTrees(props.trees);
-    setData(trees);
+    setData(mapTrees(props.trees));
   }, [props.trees]);
   const classes = useStyles();
   return (

@@ -32,7 +32,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function SeeExpense(props) {
-  let outcomes = [];
   const [data, setData] = React.useState([]);
   const mapOutcomes = myOutcomes => {
     return myOutcomes.map((outcome, key) => {
@@ -68,7 +67,9 @@ function SeeExpense(props) {
               onClick={() => {
                 if (
                   window.confirm(
-                    `¿Está seguro de eliminar el gasto por ${getActivity(outcome.activity)} del ${outcome.date}?`
+                    `¿Está seguro de eliminar el gasto por ${getActivity(
+                      outcome.activity
+                    )} del ${outcome.date}?`
                   )
                 ) {
                   props.deleteOutcome(outcome.id);
@@ -92,8 +93,7 @@ function SeeExpense(props) {
     props.fetchOutcomes();
   }, []);
   React.useEffect(() => {
-    outcomes = mapOutcomes(props.outcomes);
-    setData(outcomes);
+    setData(mapOutcomes(props.outcomes));
   }, [props.outcomes]);
   const classes = useStyles();
   return (
@@ -198,6 +198,8 @@ const getActType = act_type => {
       return "Limones";
     case "S7":
       return "Bananos";
+    default:
+      return " ";
   }
 };
 const getActivity = activity => {
@@ -212,6 +214,8 @@ const getActivity = activity => {
       return "Riego";
     case "S":
       return "Siembra";
+    default:
+      return " ";
   }
 };
 const mapStateToProps = state => {

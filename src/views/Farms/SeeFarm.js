@@ -32,7 +32,6 @@ const styles = {
 const useStyles = makeStyles(styles);
 
 function SeeFarm(props) {
-  let farms = [];
   const [data, setData] = React.useState([]);
   const mapFarms = myFarms => {
     return myFarms.map((farm, key) => {
@@ -48,7 +47,6 @@ function SeeFarm(props) {
               round
               simple
               onClick={() => {
-                let obj = data.find(o => o.id === key);
                 alert("You've clicked EDIT button on ID:" + farm.name);
               }}
               color="warning"
@@ -63,7 +61,9 @@ function SeeFarm(props) {
               simple
               onClick={() => {
                 if (
-                  window.confirm(`¿Está seguro de eliminar el granja ${farm.name}?`)
+                  window.confirm(
+                    `¿Está seguro de eliminar el granja ${farm.name}?`
+                  )
                 ) {
                   props.deleteFarm(farm.id);
                 }
@@ -86,8 +86,7 @@ function SeeFarm(props) {
     props.fetchFarms();
   }, []);
   React.useEffect(() => {
-    farms = mapFarms(props.farms);
-    setData(farms);
+    setData(mapFarms(props.farms));
   }, [props.farms]);
   const classes = useStyles();
   return (
