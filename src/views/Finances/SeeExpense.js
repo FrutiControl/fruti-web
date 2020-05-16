@@ -1,4 +1,6 @@
 import React from "react";
+import { outcomes } from "actions";
+import { connect } from "react-redux";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 
@@ -17,8 +19,6 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import { dataTable } from "variables/general.js";
-
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
 
 const styles = {
@@ -31,15 +31,19 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function SeeExpense() {
-  const [data, setData] = React.useState(
-    dataTable.dataRows.map((prop, key) => {
+function SeeExpense(props) {
+  let outcomes = [];
+  const [data, setData] = React.useState([]);
+  const mapOutcomes = myOutcomes => {
+    return myOutcomes.map((outcome, key) => {
       return {
-        id: key,
-        name: prop[0],
-        position: prop[1],
-        office: prop[2],
-        age: prop[3],
+        pos: key,
+        id: outcome.id,
+        activity: getActivity(outcome.activity),
+        act_type: getActType(outcome.act_type),
+        quantity: outcome.quantity,
+        date: outcome.date,
+        value: outcome.value,
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -49,18 +53,7 @@ export default function SeeExpense() {
               round
               simple
               onClick={() => {
-                let obj = data.find(o => o.id === key);
-                alert(
-                  "You've clicked EDIT button on \n{ \nName: " +
-                    obj.name +
-                    ", \nposition: " +
-                    obj.position +
-                    ", \noffice: " +
-                    obj.office +
-                    ", \nage: " +
-                    obj.age +
-                    "\n}."
-                );
+                alert("You've clicked EDIT button on ID:" + outcome.id);
               }}
               color="warning"
               className="edit"
@@ -73,17 +66,13 @@ export default function SeeExpense() {
               round
               simple
               onClick={() => {
-                var newData = data;
-                newData.find((o, i) => {
-                  if (o.id === key) {
-                    // here you should add some custom code so you can delete the data
-                    // from this component and from your server as well
-                    newData.splice(i, 1);
-                    return true;
-                  }
-                  return false;
-                });
-                setData([...newData]);
+                if (
+                  window.confirm(
+                    `¿Está seguro de eliminar el gasto por ${getActivity(outcome.activity)} del ${outcome.date}?`
+                  )
+                ) {
+                  props.deleteOutcome(outcome.id);
+                }
               }}
               color="danger"
               className="remove"
@@ -93,8 +82,19 @@ export default function SeeExpense() {
           </div>
         )
       };
-    })
-  );
+    });
+  };
+  React.useEffect(() => {
+    const filters = document.querySelectorAll("div.rt-th > input");
+    for (let filter of filters) {
+      filter.placeholder = "Buscar...";
+    }
+    props.fetchOutcomes();
+  }, []);
+  React.useEffect(() => {
+    outcomes = mapOutcomes(props.outcomes);
+    setData(outcomes);
+  }, [props.outcomes]);
   const classes = useStyles();
   return (
     <GridContainer>
@@ -114,24 +114,25 @@ export default function SeeExpense() {
               pageText={"Páginas"}
               ofText={"de"}
               rowsText={"filas"}
+              noDataText={"No hay gastos"}
               data={data}
               filterable
               columns={[
                 {
                   Header: "Actividad",
-                  accessor: "name"
+                  accessor: "activity"
                 },
                 {
                   Header: "Subtipo de actividad",
-                  accessor: "position"
+                  accessor: "act_type"
                 },
                 {
                   Header: "Fecha",
-                  accessor: "office"
+                  accessor: "date"
                 },
                 {
                   Header: "Monto",
-                  accessor: "age"
+                  accessor: "value"
                 },
                 {
                   Header: "Editar - Eliminar",
@@ -151,3 +152,83 @@ export default function SeeExpense() {
     </GridContainer>
   );
 }
+const getActType = act_type => {
+  switch (act_type) {
+    case "P1":
+      return "Sanitaria";
+    case "P2":
+      return "Formación";
+    case "P3":
+      return "Mantenimiento";
+    case "P4":
+      return "Limpieza";
+    case "F1":
+      return "Crecimiento";
+    case "F2":
+      return "Producción";
+    case "F3":
+      return "Mantenimiento";
+    case "U1":
+      return "Insectos";
+    case "U2":
+      return "Hongo";
+    case "U3":
+      return "Hierba";
+    case "U4":
+      return "Ácaros";
+    case "U5":
+      return "Pestes";
+    case "R1":
+      return " ";
+    case "R2":
+      return "Sistema";
+    case "R3":
+      return "Manual";
+    case "S1":
+      return "Mango Tommy";
+    case "S2":
+      return "Mango Farchild";
+    case "S3":
+      return "Naranjos";
+    case "S4":
+      return "Aguacates";
+    case "S5":
+      return "Mandarinas";
+    case "S6":
+      return "Limones";
+    case "S7":
+      return "Bananos";
+  }
+};
+const getActivity = activity => {
+  switch (activity) {
+    case "P":
+      return "Poda";
+    case "F":
+      return "Fertilización";
+    case "U":
+      return "Fumigación";
+    case "R":
+      return "Riego";
+    case "S":
+      return "Siembra";
+  }
+};
+const mapStateToProps = state => {
+  return {
+    outcomes: state.outcomes,
+    user: state.auth.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchOutcomes: () => dispatch(outcomes.fetchOutcomes()),
+    deleteOutcome: id => dispatch(outcomes.deleteOutcome(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SeeExpense);

@@ -3,6 +3,7 @@ import auth from "./auth";
 import trees from "./trees";
 import farms from "./farms";
 import incomes from "./incomes";
+import outcomes from "./outcomes";
 import dashboard from "./dashboard";
 
 const frutiApp = combineReducers({
@@ -10,6 +11,7 @@ const frutiApp = combineReducers({
   trees,
   farms,
   incomes,
+  outcomes,
   dashboard,
 });
 export default frutiApp;
