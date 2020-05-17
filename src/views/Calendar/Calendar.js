@@ -37,7 +37,7 @@ function Calendar(props) {
   const mapActivities = myActivities => {
     return myActivities.map(activity => {
       return {
-        title: `${activity.name}${mapActType(activity.name, activity.type)}`,
+        title: `${activity.name+mapActType(activity.name, activity.type)}`,
         allDay: true,
         start: moment(activity.start_date, "YYYY-MM-DD"),
         end: moment(activity.end_date, "YYYY-MM-DD").add(1, "days"),
@@ -49,10 +49,6 @@ function Calendar(props) {
     });
   };
   React.useEffect(() => {
-    const filters = document.querySelectorAll("div.rt-th > input");
-    for (let filter of filters) {
-      filter.placeholder = "Buscar...";
-    }
     props.fetchSeedings();
     props.fetchWaterings();
     props.fetchPrunings();
@@ -76,7 +72,6 @@ function Calendar(props) {
     props.fumigations,
     props.seedings
   ]);
-  console.log(`EVENTOS ${JSON.stringify(events)}`);
   const selectedEvent = event => {
     window.alert(event.title);
   };
