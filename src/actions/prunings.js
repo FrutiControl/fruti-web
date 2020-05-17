@@ -32,7 +32,7 @@ export const fetchPrunings = () => {
   };
 };
 
-export const fetchPruning = (id) => {
+export const fetchPruning = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -81,9 +81,7 @@ export const addPruning = () => {
       },
       redirect: "follow",
       referrer: "no-referrer",
-      body: JSON.stringify({
-
-      })
+      body: JSON.stringify({})
     })
       .then(res => {
         if (res.status < 500) {
@@ -106,7 +104,7 @@ export const addPruning = () => {
   };
 };
 
-export const updatePruning = (id) => {
+export const updatePruning = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -137,7 +135,11 @@ export const updatePruning = (id) => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "UPDATE_PRUNING", note: res.data, id });
+          return dispatch({
+            type: "UPDATE_PRUNING",
+            note: res.data,
+            index: id
+          });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -155,7 +157,10 @@ export const deletePruning = id => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/app/prunings/${id}/`, { headers, method: "DELETE" })
+    return fetch(`${base_url}/app/prunings/${id}/`, {
+      headers,
+      method: "DELETE"
+    })
       .then(res => {
         if (res.status === 204) {
           return { status: res.status, data: {} };
@@ -170,7 +175,7 @@ export const deletePruning = id => {
       })
       .then(res => {
         if (res.status === 204) {
-          return dispatch({ type: "DELETE_PRUNING", id });
+          return dispatch({ type: "DELETE_PRUNING", index: id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;

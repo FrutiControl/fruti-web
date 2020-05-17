@@ -141,7 +141,7 @@ export const updateSeeding = id => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "UPDATE_SEEDING", note: res.data, id });
+          return dispatch({ type: "UPDATE_SEEDING", note: res.data, index: id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -177,7 +177,7 @@ export const deleteSeeding = id => {
       })
       .then(res => {
         if (res.status === 204) {
-          return dispatch({ type: "DELETE_SEEDING", id });
+          return dispatch({ type: "DELETE_SEEDING", index: id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
