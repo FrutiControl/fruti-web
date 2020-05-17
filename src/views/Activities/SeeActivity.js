@@ -1,4 +1,12 @@
 import React from "react";
+import {
+  seedings,
+  fumigations,
+  fertilizations,
+  prunings,
+  waterings
+} from "actions";
+import { connect } from "react-redux";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 
@@ -20,6 +28,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import { dataTable } from "variables/general.js";
 
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
+import moment from "moment";
 
 const styles = {
   cardIconTitle: {
@@ -31,15 +40,39 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export default function SeeActivity() {
-  const [data, setData] = React.useState(
-    dataTable.dataRows.map((prop, key) => {
+function SeeActivity(props) {
+  const [data, setData] = React.useState([]);
+  const deleteActivity = (act, id) => {
+    switch (act) {
+      case "Poda":
+        props.deletePruning(id);
+        break
+      case "Fertilización":
+        props.deleteFertilization(id);
+        break
+      case "Fumigación":
+        props.deleteFumigation(id);
+        break
+      case "Riego":
+        props.deleteWatering(id);
+        break
+      case "Siembra":
+        props.deleteSeeding(id);
+        break
+      default:
+        return " ";
+    }
+  }
+  const mapActivities = myActivities => {
+    return myActivities.map(activity => {
       return {
-        id: key,
-        name: prop[0],
-        position: prop[1],
-        office: prop[2],
-        age: prop[3],
+        name: activity.name,
+        type: mapActType(activity.name, activity.type),
+        start: activity.start_date,
+        end: activity.end_date,
+        id: activity.id,
+        progress: activity.progress,
+        farm: activity.farm,
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -49,17 +82,10 @@ export default function SeeActivity() {
               round
               simple
               onClick={() => {
-                let obj = data.find(o => o.id === key);
                 alert(
-                  "You've clicked EDIT button on \n{ \nName: " +
-                    obj.name +
-                    ", \nposition: " +
-                    obj.position +
-                    ", \noffice: " +
-                    obj.office +
-                    ", \nage: " +
-                    obj.age +
-                    "\n}."
+                  `You've clicked EDIT button on:" ${
+                    activity.name
+                  } ${mapActType(activity.name, activity.type)}`
                 );
               }}
               color="warning"
@@ -73,17 +99,15 @@ export default function SeeActivity() {
               round
               simple
               onClick={() => {
-                var newData = data;
-                newData.find((o, i) => {
-                  if (o.id === key) {
-                    // here you should add some custom code so you can delete the data
-                    // from this component and from your server as well
-                    newData.splice(i, 1);
-                    return true;
-                  }
-                  return false;
-                });
-                setData([...newData]);
+                if (
+                  window.confirm(
+                    `¿Está seguro de eliminar la actividad ${
+                      activity.name
+                    } ${mapActType(activity.name, activity.type)}?`
+                  )
+                ) {
+                  deleteActivity(activity.name, activity.id)
+                }
               }}
               color="danger"
               className="remove"
@@ -93,8 +117,36 @@ export default function SeeActivity() {
           </div>
         )
       };
-    })
-  );
+    });
+  };
+  React.useEffect(() => {
+    const filters = document.querySelectorAll("div.rt-th > input");
+    for (let filter of filters) {
+      filter.placeholder = "Buscar...";
+    }
+    props.fetchSeedings();
+    props.fetchWaterings();
+    props.fetchPrunings();
+    props.fetchFumigations();
+    props.fetchFertilizations();
+  }, []);
+  React.useEffect(() => {
+    setData(
+      mapActivities([
+        ...props.waterings,
+        ...props.prunings,
+        ...props.fertilizations,
+        ...props.fumigations,
+        ...props.seedings
+      ])
+    );
+  }, [
+    props.waterings,
+    props.prunings,
+    props.fertilizations,
+    props.fumigations,
+    props.seedings
+  ]);
   const classes = useStyles();
   return (
     <GridContainer>
@@ -123,15 +175,15 @@ export default function SeeActivity() {
                 },
                 {
                   Header: "Tipo",
-                  accessor: "position"
+                  accessor: "type"
                 },
                 {
                   Header: "Fecha inicial",
-                  accessor: "age"
+                  accessor: "start"
                 },
                 {
                   Header: "Fecha fin",
-                  accessor: "age"
+                  accessor: "end"
                 },
                 {
                   Header: "Editar - Eliminar",
@@ -151,3 +203,108 @@ export default function SeeActivity() {
     </GridContainer>
   );
 }
+const mapActType = (act, type) => {
+  switch (act) {
+    case "Poda":
+      switch (type) {
+        case "S":
+          return "Sanitaria";
+        case "F":
+          return "Formación";
+        case "M":
+          return "Mantenimiento";
+        case "L":
+          return "Limpieza";
+        default:
+          return " ";
+      }
+    case "Fertilización":
+      switch (type) {
+        case "C":
+          return "Crecimiento";
+        case "P":
+          return "Producción";
+        case "M":
+          return "Mantenimiento";
+        default:
+          return " ";
+      }
+    case "Fumigación":
+      switch (type) {
+        case "I":
+          return "Insectos";
+        case "F":
+          return "Hongo";
+        case "H":
+          return "Hierba";
+        case "A":
+          return "Ácaros";
+        case "P":
+          return "Peste";
+        default:
+          return " ";
+      }
+    case "Riego":
+      switch (type) {
+        case "N":
+          return " ";
+        case "S":
+          return "Sistema";
+        case "M":
+          return "Manual";
+        default:
+          return " ";
+      }
+    case "Siembra":
+      switch (type) {
+        case "M":
+          return "Mango Tommy";
+        case "F":
+          return "Mango Farchild";
+        case "N":
+          return "Naranjos";
+        case "A":
+          return "Aguacates";
+        case "D":
+          return "Mandarinas";
+        case "L":
+          return "Limones";
+        case "B":
+          return "Bananos";
+        default:
+          return " ";
+      }
+    default:
+      return " ";
+  }
+};
+
+const mapStateToProps = state => {
+  return {
+    waterings: state.waterings,
+    seedings: state.seedings,
+    prunings: state.prunings,
+    fertilizations: state.fertilizations,
+    fumigations: state.fumigations,
+    user: state.auth.user
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchSeedings: () => dispatch(seedings.fetchSeedings()),
+    deleteSeeding: id => dispatch(seedings.deleteSeeding(id)),
+    fetchWaterings: () => dispatch(waterings.fetchWaterings()),
+    deleteWatering: id => dispatch(waterings.deleteWatering(id)),
+    fetchPrunings: () => dispatch(prunings.fetchPrunings()),
+    deletePruning: id => dispatch(prunings.deletePruning(id)),
+    fetchFumigations: () => dispatch(fumigations.fetchFumigations()),
+    deleteFumigation: id => dispatch(fumigations.deleteFumigation(id)),
+    fetchFertilizations: () => dispatch(fertilizations.fetchFertilizations()),
+    deleteFertilization: id => dispatch(fertilizations.deleteFertilization(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SeeActivity);
