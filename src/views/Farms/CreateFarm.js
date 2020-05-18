@@ -17,7 +17,7 @@ export default function CreateFarmView() {
             {
               stepName: "Información Básica",
               stepComponent: Step1,
-              stepId: "about"
+              stepId: "farms"
             }
           ]}
           title="Crear Granja"

@@ -32,7 +32,7 @@ export const fetchFarms = () => {
   };
 };
 
-export const fetchFarm = (id) => {
+export const fetchFarm = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -63,7 +63,7 @@ export const fetchFarm = (id) => {
   };
 };
 
-export const addFarm = () => {
+export const addFarm = (name, polygon) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -77,12 +77,14 @@ export const addFarm = () => {
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
       },
       redirect: "follow",
       referrer: "no-referrer",
       body: JSON.stringify({
-
+        name: name,
+        polygon: polygon
       })
     })
       .then(res => {
@@ -106,7 +108,7 @@ export const addFarm = () => {
   };
 };
 
-export const updateFarm = (id) => {
+export const updateFarm = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;

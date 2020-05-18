@@ -13,7 +13,7 @@ import GridItem from "components/Grid/GridItem.js";
 import CustomInput from "components/CustomInput/CustomInput.js";
 import {
   GoogleMap,
-  Marker,
+  Polygon,
   withGoogleMap,
   withScriptjs
 } from "react-google-maps";
@@ -31,62 +31,28 @@ const style = {
     position: "relative"
   }
 };
-const SatelliteMap = withScriptjs(
-  withGoogleMap(() => (
-    <GoogleMap
-      defaultZoom={15}
-      mapTypeId={"hybrid"}
-      defaultCenter={{ lat: 4.6493355330066, lng: -74.395033434259 }}
-      defaultOptions={{
-        scrollwheel: false,
-        mapTypeControl: false,
-        streetViewControl: false,
-        mapTypeId: "hybrid"
-      }}
-    >
-      <Marker position={{ lat: 40.748817, lng: -73.985428 }} />
-    </GoogleMap>
-  ))
-);
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: "",
-      firstnameState: "",
-      lastname: "",
-      lastnameState: "",
-      email: "",
-      emailState: ""
+      name: "",
+      path: [
+        { lat: 4.644048217838231, lng: -74.39119476824999 },
+        { lat: 4.642646350679112, lng: -74.38995894044638 },
+        { lat: 4.643689981727881, lng: -74.39001694321632 }
+      ],
+      nameState: ""
     };
   }
   sendState() {
     return this.state;
   }
   // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (emailRex.test(value)) {
-      return true;
-    }
-    return false;
-  }
-  // function that verifies if a string has a given length or not
   verifyLength(value, length) {
-    if (value.length >= length) {
-      return true;
-    }
-    return false;
+    return value.length >= length;
   }
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
-      case "email":
-        if (this.verifyEmail(event.target.value)) {
-          this.setState({ [stateName + "State"]: "success" });
-        } else {
-          this.setState({ [stateName + "State"]: "error" });
-        }
-        break;
       case "length":
         if (this.verifyLength(event.target.value, stateNameEqualTo)) {
           this.setState({ [stateName + "State"]: "success" });
@@ -100,26 +66,59 @@ class Step1 extends React.Component {
     this.setState({ [stateName]: event.target.value });
   }
   isValidated() {
-    if (
-      this.state.firstnameState === "success" &&
-      this.state.lastnameState === "success" &&
-      this.state.emailState === "success"
-    ) {
+    if (this.state.nameState === "success") {
       return true;
     } else {
-      if (this.state.firstnameState !== "success") {
-        this.setState({ firstnameState: "error" });
-      }
-      if (this.state.lastnameState !== "success") {
-        this.setState({ lastnameState: "error" });
-      }
-      if (this.state.emailState !== "success") {
-        this.setState({ emailState: "error" });
+      if (this.state.nameState !== "success") {
+        this.setState({ nameState: "error" });
       }
     }
     return false;
   }
+  polygonRef = React.createRef();
   render() {
+    const SatelliteMap = withScriptjs(
+      withGoogleMap(() => (
+        <GoogleMap
+          defaultZoom={20}
+          mapTypeId={"hybrid"}
+          defaultCenter={{ lat: 4.643689981727881, lng: -74.39001694321632 }}
+          defaultOptions={{
+            scrollwheel: false,
+            mapTypeControl: false,
+            streetViewControl: false,
+            mapTypeId: "hybrid"
+          }}
+        >
+          <Polygon
+            ref={this.polygonRef}
+            editable
+            draggable
+            path={this.state.path}
+            onDragEnd={() =>
+              this.setState({
+                path: this.polygonRef.current
+                  .getPath()
+                  .getArray()
+                  .map(latLng => {
+                    return { lat: latLng.lat(), lng: latLng.lng() };
+                  })
+              })
+            }
+            onMouseUp={() =>
+              this.setState({
+                path: this.polygonRef.current
+                  .getPath()
+                  .getArray()
+                  .map(latLng => {
+                    return { lat: latLng.lat(), lng: latLng.lng() };
+                  })
+              })
+            }
+          />
+        </GoogleMap>
+      ))
+    );
     const { classes } = this.props;
     return (
       <GridContainer justify="center">
@@ -128,19 +127,19 @@ class Step1 extends React.Component {
         </GridItem>
         <GridItem xs={10}>
           <CustomInput
-            success={this.state.firstnameState === "success"}
-            error={this.state.firstnameState === "error"}
+            success={this.state.nameState === "success"}
+            error={this.state.nameState === "error"}
             labelText={
               <span>
                 Nombre de la granja <small>(requerido)</small>
               </span>
             }
-            id="farmname"
+            id="name"
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, "farmname", "length", 3),
+              onChange: event => this.change(event, "name", "length", 3),
               endAdornment: (
                 <InputAdornment
                   position="end"
@@ -166,7 +165,7 @@ class Step1 extends React.Component {
             containerElement={
               <div
                 style={{
-                  height: `350px`,
+                  height: `550px`,
                   borderRadius: "6px",
                   overflow: "hidden"
                 }}
