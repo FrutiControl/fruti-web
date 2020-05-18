@@ -40,14 +40,14 @@ var dashRoutes = [
     state: "componentsCollapse",
     views: [
       {
-        path: "/createfarm",
+        path: "/create_farm",
         name: "Crear Granja",
         mini: "CG",
         component: CreateFarm,
         layout: "/admin"
       },
       {
-        path: "/seefarm",
+        path: "/farms",
         name: "Ver Granjas",
         mini: "VG",
         component: SeeFarm,
@@ -62,14 +62,14 @@ var dashRoutes = [
     state: "formsCollapse",
     views: [
       {
-        path: "/createtree",
+        path: "/create_tree",
         name: "Crear Árbol",
         mini: "CA",
         component: CreateTree,
         layout: "/admin"
       },
       {
-        path: "/seetree",
+        path: "/trees",
         name: "Ver Árboles",
         mini: "VA",
         component: SeeTree,
@@ -84,14 +84,14 @@ var dashRoutes = [
     state: "tablesCollapse",
     views: [
       {
-        path: "/createactivity",
+        path: "/create_activity",
         name: "Crear Actividad",
         mini: "CA",
         component: CreateActivity,
         layout: "/admin"
       },
       {
-        path: "/seeactivity",
+        path: "/activities",
         name: "Ver Actividades",
         mini: "VA",
         component: SeeActivity,
@@ -106,7 +106,7 @@ var dashRoutes = [
     state: "mapsCollapse",
     views: [
       {
-        path: "/createmovements",
+        path: "/create_movements",
         name: "Crear Movimiento",
         mini: "CT",
         component: CreateTransaction,
@@ -120,7 +120,7 @@ var dashRoutes = [
         layout: "/admin"
       },
       {
-        path: "/expenses",
+        path: "/outcomes",
         name: "Ver Gastos",
         mini: "VG",
         component: SeeExpense,

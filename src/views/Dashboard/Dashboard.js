@@ -278,7 +278,7 @@ function Dashboard(props) {
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Link to="/admin/seeactivity">
+                  <Link to="/admin/activities">
                     <Button color="transparent">
                       <i className="fas fa-arrow-circle-up" />
                     </Button>
