@@ -41,6 +41,7 @@ class Step1 extends React.Component {
         { lat: 4.642646350679112, lng: -74.38995894044638 },
         { lat: 4.643689981727881, lng: -74.39001694321632 }
       ],
+      center: { lat: 4.643689981727881, lng: -74.39001694321632 },
       nameState: ""
     };
   }
@@ -77,6 +78,7 @@ class Step1 extends React.Component {
   }
   polygonRef = React.createRef();
   render() {
+    console.log(`CENTER ${JSON.stringify(this.state.center)}`);
     const SatelliteMap = withScriptjs(
       withGoogleMap(() => (
         <GoogleMap
@@ -89,32 +91,37 @@ class Step1 extends React.Component {
             streetViewControl: false,
             mapTypeId: "hybrid"
           }}
+          center={this.state.center}
         >
           <Polygon
             ref={this.polygonRef}
             editable
             draggable
             path={this.state.path}
-            onDragEnd={() =>
+            onDragEnd={() => {
+              let path_array = this.polygonRef.current.getPath().getArray();
               this.setState({
-                path: this.polygonRef.current
-                  .getPath()
-                  .getArray()
-                  .map(latLng => {
-                    return { lat: latLng.lat(), lng: latLng.lng() };
-                  })
-              })
-            }
-            onMouseUp={() =>
+                path: path_array.map(latLng => {
+                  return { lat: latLng.lat(), lng: latLng.lng() };
+                }),
+                center: {
+                  lat: path_array[0].lat(),
+                  lng: path_array[0].lng()
+                }
+              });
+            }}
+            onMouseUp={() => {
+              let path_array = this.polygonRef.current.getPath().getArray();
               this.setState({
-                path: this.polygonRef.current
-                  .getPath()
-                  .getArray()
-                  .map(latLng => {
+                path: path_array.map(latLng => {
                     return { lat: latLng.lat(), lng: latLng.lng() };
-                  })
-              })
-            }
+                  }),
+                center: {
+                  lat: path_array[0].lat(),
+                  lng: path_array[0].lng()
+                }
+              });
+            }}
           />
         </GoogleMap>
       ))
