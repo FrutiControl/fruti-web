@@ -13,18 +13,18 @@ export default function CreateTransactionView() {
     <GridContainer justify="center">
       <GridItem xs={12} sm={8}>
         <CreateTransaction
-          validate
+          validate={false}
           steps={[
             {
               stepName: "Nuevo Ingreso",
               stepComponent: Step1,
-              stepId: "about"
+              stepId: "incomes"
             },
-            { stepName: "Nuevo Gasto", stepComponent: Step2, stepId: "account" }
+            { stepName: "Nuevo Gasto", stepComponent: Step2, stepId: "outcomes" }
           ]}
           title="Crear Ingreso o Gasto"
           subtitle="Ingrese los datos correspondientes en el formato para registrar sus ingresos o gastos."
-          finishButtonClick={e => alert(e)}
+          finishButtonClick={e => alert(JSON.stringify(e))}
         />
       </GridItem>
     </GridContainer>

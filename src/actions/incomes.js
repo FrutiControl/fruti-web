@@ -32,25 +32,28 @@ export const fetchIncomes = () => {
   };
 };
 
-export const addIncome = () => {
+export const addIncome = (date, value, quantity, fruit_type, concept) => {
   return (dispatch, getState) => {
-    let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
-
-    if (token) {
-      headers["Authorization"] = `Token ${token}`;
-    }
     return fetch(`${base_url}/money/incomes/`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
       },
       redirect: "follow",
       referrer: "no-referrer",
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        concept: concept,
+        date: date,
+        value: value,
+        quantity: quantity,
+        fruit_type: fruit_type,
+        recommended: false
+      })
     })
       .then(res => {
         if (res.status < 500) {
@@ -73,7 +76,7 @@ export const addIncome = () => {
   };
 };
 
-export const updateIncome = (id) => {
+export const updateIncome = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -90,8 +93,7 @@ export const updateIncome = (id) => {
       headers,
       redirect: "follow",
       referrer: "no-referrer",
-      body: JSON.stringify({
-      })
+      body: JSON.stringify({})
     })
       .then(res => {
         if (res.status < 500) {
@@ -123,7 +125,10 @@ export const deleteIncome = id => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/money/incomes/${id}/`, { headers, method: "DELETE" })
+    return fetch(`${base_url}/money/incomes/${id}/`, {
+      headers,
+      method: "DELETE"
+    })
       .then(res => {
         if (res.status === 204) {
           return { status: res.status, data: {} };

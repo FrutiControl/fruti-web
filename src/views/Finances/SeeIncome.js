@@ -41,7 +41,7 @@ function SeeIncome(props) {
         type: getSpecie(income.fruit_type),
         quantity: income.quantity,
         date: income.date,
-        value: income.value,
+        value: income.value*income.quantity,
         actions: (
           // we've added some custom button actions
           <div className="actions-right">

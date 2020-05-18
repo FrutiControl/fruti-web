@@ -43,56 +43,100 @@ const style = {
   },
   ...customSelectStyle
 };
+const fruit_types = [
+  { value: "M", name: "Mango Tommy" },
+  { value: "F", name: "Mango Farchild" },
+  { value: "N", name: "Naranja" },
+  { value: "D", name: "Mandarina" },
+  { value: "L", name: "Limón" },
+  { value: "A", name: "Aguacate" },
+  { value: "B", name: "Banano" }
+];
 
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      simpleSelectTipoVendido: "",
-      simpleSelectSubTipo: "",
-      firstname: "",
-      firstnameState: "",
-      lastname: "",
-      lastnameState: "",
-      email: "",
-      emailState: ""
+      fruit_type: "",
+      income_date: "",
+      quantity: 0,
+      unit_value: 0,
+      total_value: 0,
+      concept: "",
+      quantityState: "",
+      unit_valueState: ""
     };
   }
+
   sendState() {
     return this.state;
-  }
-  // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (emailRex.test(value)) {
-      return true;
-    }
-    return false;
   }
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
-
-  // function that verifies if a string has a given length or not
+  verifyNumber(value, stateName) {
+    if (Number(value) > 0) {
+      this.setState({ [stateName]: Number(value) });
+      return true;
+    } else {
+      this.setState({ [stateName]: 0 });
+      return false;
+    }
+  }
+  verifyLength(value, length) {
+    return value.length >= length;
+  }
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
-      case "email":
-        if (this.verifyEmail(event.target.value)) {
+      case "length":
+        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
           this.setState({ [stateName + "State"]: "success" });
         } else {
           this.setState({ [stateName + "State"]: "error" });
         }
+        break;
+      case "number":
+        if (this.verifyNumber(event.target.value, stateName))
+          this.setState({ [stateName + "State"]: "success" });
+        else this.setState({ [stateName + "State"]: "error" });
         break;
       default:
         break;
     }
     this.setState({ [stateName]: event.target.value });
   }
+  isValidated() {
+    if (
+      this.state.quantityState === "success" &&
+      this.state.unit_valueState === "success"
+    ) {
+      return true;
+    } else {
+      if (this.state.quantityState !== "success") {
+        this.setState({ quantityState: "error" });
+      }
+      if (this.state.unit_valueState !== "success") {
+        this.setState({ unit_valueState: "error" });
+      }
+    }
+    return false;
+  }
   render() {
     const { classes } = this.props;
+    const fruit_items = fruit_types.map((fruit_type, key) => {
+      return (
+        <MenuItem
+          key={key}
+          classes={{
+            root: classes.selectMenuItem,
+            selected: classes.selectMenuItemSelected
+          }}
+          value={fruit_type.value}
+        >
+          {fruit_type.name}
+        </MenuItem>
+      );
+    });
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
@@ -103,7 +147,7 @@ class Step1 extends React.Component {
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
             <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Seleccione tipo de fruto vendido
+              Seleccione tipo de fruto vendido <small>(requerido)</small>
             </InputLabel>
             <Select
               MenuProps={{
@@ -112,11 +156,11 @@ class Step1 extends React.Component {
               classes={{
                 select: classes.select
               }}
-              value={this.state.simpleSelectSubTipo}
+              value={this.state.fruit_type}
               onChange={this.handleSimple}
               inputProps={{
-                name: "simpleSelectSubTipo",
-                id: "simpleSelectSubTipo"
+                name: "fruit_type",
+                id: "fruit_type"
               }}
             >
               <MenuItem
@@ -127,73 +171,94 @@ class Step1 extends React.Component {
               >
                 Tipo de fruto vendido
               </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="2"
-              >
-                Mango farchild
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="3"
-              >
-                Mango Tommy
-              </MenuItem>
+              {fruit_items}
             </Select>
           </FormControl>
         </GridItem>
         <GridItem xs={8}>
           <Datetime
+            closeOnSelect
+            editable={false}
+            dateFormat={"YYYY-MM-DD"}
             className={classes.datePicker}
             timeFormat={false}
+            onChange={date =>
+              this.setState({ income_date: date.format("YYYY-MM-DD") })
+            }
             inputProps={{
-              placeholder: "Seleccione fecha de ingreso",
+              placeholder: "Seleccione fecha de ingreso (requerido)",
               style: style.datePicker
             }}
           />
         </GridItem>
         <GridItem xs={12} sm={8}>
           <CustomInput
-            success={this.state.firstnameState === "success"}
-            error={this.state.firstnameState === "error"}
+            success={this.state.quantityState === "success"}
+            error={this.state.quantityState === "error"}
             labelText={
               <span>
                 Cantidad de fruto vendida <small>(requerido)</small>
               </span>
             }
-            id="firstname"
+            id="quantity"
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, "firstname", "length", 3)
+              onChange: event => {
+                this.change(event, "quantity", "number", 3);
+                this.setState({
+                  total_value:
+                    this.state.unit_value *
+                    (Number(event.target.value) > 0
+                      ? Number(event.target.value)
+                      : 0)
+                });
+              }
             }}
           />
+        </GridItem>
+        <GridItem xs={12} sm={8}>
           <CustomInput
-            success={this.state.lastnameState === "success"}
-            error={this.state.lastnameState === "error"}
+            success={this.state.unit_valueState === "success"}
+            error={this.state.unit_valueState === "error"}
             labelText={
               <span>
                 Precio por Unidad <small>(requerido)</small>
               </span>
             }
-            id="lastname"
+            id="unit_value"
             formControlProps={{
               fullWidth: true
             }}
             inputProps={{
-              onChange: event => this.change(event, "lastname", "length", 3)
+              onChange: event => {
+                this.change(event, "unit_value", "number", 3);
+                this.setState({
+                  total_value:
+                    this.state.quantity *
+                    (Number(event.target.value) > 0
+                      ? Number(event.target.value)
+                      : 0)
+                });
+              }
             }}
           />
         </GridItem>
         <GridItem xs={12} sm={8}>
-          <h4> Total: </h4>
+          <h4> Total: {this.state.total_value} </h4>
+        </GridItem>
+        <GridItem xs={12} sm={8}>
+          <CustomInput
+            labelText={<span>Concepto</span>}
+            id="concept"
+            formControlProps={{
+              fullWidth: true
+            }}
+            inputProps={{
+              onChange: event => this.setState({ concept: event.target.value })
+            }}
+          />
         </GridItem>
       </GridContainer>
     );

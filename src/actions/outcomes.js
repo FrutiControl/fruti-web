@@ -32,7 +32,7 @@ export const fetchOutcomes = () => {
   };
 };
 
-export const addOutcome = () => {
+export const addOutcome = (date, value, out_type, act, act_type, concept) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -46,11 +46,20 @@ export const addOutcome = () => {
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
       },
       redirect: "follow",
       referrer: "no-referrer",
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        concept: concept,
+        date: date,
+        value: value,
+        type: out_type,
+        activity: act,
+        act_type: act_type,
+        recommended: false
+      })
     })
       .then(res => {
         if (res.status < 500) {
@@ -73,7 +82,7 @@ export const addOutcome = () => {
   };
 };
 
-export const updateOutcome = (id) => {
+export const updateOutcome = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -90,8 +99,7 @@ export const updateOutcome = (id) => {
       headers,
       redirect: "follow",
       referrer: "no-referrer",
-      body: JSON.stringify({
-      })
+      body: JSON.stringify({})
     })
       .then(res => {
         if (res.status < 500) {
@@ -105,7 +113,11 @@ export const updateOutcome = (id) => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "UPDATE_OUTCOME", note: res.data, index: id });
+          return dispatch({
+            type: "UPDATE_OUTCOME",
+            note: res.data,
+            index: id
+          });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -123,7 +135,10 @@ export const deleteOutcome = id => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/money/outcomes/${id}/`, { headers, method: "DELETE" })
+    return fetch(`${base_url}/money/outcomes/${id}/`, {
+      headers,
+      method: "DELETE"
+    })
       .then(res => {
         if (res.status === 204) {
           return { status: res.status, data: {} };

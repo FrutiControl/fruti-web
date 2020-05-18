@@ -1,4 +1,7 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { outcomes, incomes } from "actions";
+import { connect } from "react-redux";
 import cx from "classnames";
 import PropTypes from "prop-types";
 
@@ -13,7 +16,7 @@ import wizardStyle from "assets/jss/material-dashboard-pro-react/components/wiza
 class CreateTransaction extends React.Component {
   constructor(props) {
     super(props);
-    var width;
+    let width;
     if (this.props.steps.length === 1) {
       width = "100%";
     } else {
@@ -32,11 +35,12 @@ class CreateTransaction extends React.Component {
       }
     }
     this.state = {
+      done: false,
       currentStep: 0,
       color: this.props.color,
-      nextButton: this.props.steps.length > 1 ? true : false,
+      nextButton: this.props.steps.length > 1,
       previousButton: false,
-      finishButton: this.props.steps.length === 1 ? true : false,
+      finishButton: this.props.steps.length === 1,
       width: width,
       movingTabStyle: {
         transition: "transform 0s"
@@ -63,9 +67,9 @@ class CreateTransaction extends React.Component {
   }
   navigationStepChange(key) {
     if (this.props.steps) {
-      var validationState = true;
+      let validationState = true;
       if (key > this.state.currentStep) {
-        for (var i = this.state.currentStep; i < key; i++) {
+        for (let i = this.state.currentStep; i < key; i++) {
           if (this[this.props.steps[i].stepId].sendState !== undefined) {
             this.setState({
               allStates: {
@@ -76,59 +80,48 @@ class CreateTransaction extends React.Component {
               }
             });
           }
-          if (
-            this[this.props.steps[i].stepId].isValidated !== undefined &&
-            this[this.props.steps[i].stepId].isValidated() === false
-          ) {
-            validationState = false;
-            break;
-          }
         }
       }
       if (validationState) {
         this.setState({
           currentStep: key,
-          nextButton: this.props.steps.length > key + 1 ? true : false,
-          previousButton: key > 0 ? true : false,
-          finishButton: this.props.steps.length === key + 1 ? true : false
+          nextButton: this.props.steps.length > key + 1,
+          previousButton: key > 0,
+          finishButton: this.props.steps.length === key + 1
         });
         this.refreshAnimation(key);
       }
     }
   }
   nextButtonClick() {
-    if (
-      (this.props.validate &&
-        ((this[this.props.steps[this.state.currentStep].stepId].isValidated !==
-          undefined &&
-          this[
-            this.props.steps[this.state.currentStep].stepId
-          ].isValidated()) ||
-          this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined)) ||
-      this.props.validate === undefined
-    ) {
+    if (this[this.props.steps[this.state.currentStep].stepId].isValidated()) {
       if (
         this[this.props.steps[this.state.currentStep].stepId].sendState !==
         undefined
       ) {
-        this.setState({
-          allStates: {
-            ...this.state.allStates,
-            [this.props.steps[this.state.currentStep].stepId]: this[
-              this.props.steps[this.state.currentStep].stepId
-            ].sendState()
+        this.setState(
+          {
+            allStates: {
+              ...this.state.allStates,
+              [this.props.steps[this.state.currentStep].stepId]: this[
+                this.props.steps[this.state.currentStep].stepId
+              ].sendState()
+            }
+          },
+          () => {
+            let new_income = this.state.allStates.incomes;
+            this.props.addIncome(
+              new_income.income_date,
+              Number(new_income.unit_value),
+              Number(new_income.quantity),
+              new_income.fruit_type,
+              new_income.concept
+            );
+            this.setState({ done: true });
+            alert(`¡El ingreso fue creado correctamente!`);
           }
-        });
+        );
       }
-      var key = this.state.currentStep + 1;
-      this.setState({
-        currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
-        previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false
-      });
-      this.refreshAnimation(key);
     }
   }
   previousButtonClick() {
@@ -145,13 +138,13 @@ class CreateTransaction extends React.Component {
         }
       });
     }
-    var key = this.state.currentStep - 1;
+    let key = this.state.currentStep - 1;
     if (key >= 0) {
       this.setState({
         currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
-        previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false
+        nextButton: this.props.steps.length > key + 1,
+        previousButton: key > 0,
+        finishButton: this.props.steps.length === key + 1
       });
       this.refreshAnimation(key);
     }
@@ -180,21 +173,31 @@ class CreateTransaction extends React.Component {
           }
         },
         () => {
-          this.props.finishButtonClick(this.state.allStates);
+          let new_outcome = this.state.allStates.outcomes;
+          this.props.addOutcome(
+            new_outcome.outcome_date,
+            Number(new_outcome.value),
+            new_outcome.out_type,
+            new_outcome.activity,
+            new_outcome.act_type,
+            new_outcome.concept
+          );
+          this.setState({ done: true });
+          alert(`¡El gasto fue creado correctamente!`);
         }
       );
     }
   }
   refreshAnimation(index) {
-    var total = this.props.steps.length;
-    var li_width = 100 / total;
-    var total_steps = this.props.steps.length;
-    var move_distance =
+    let total = this.props.steps.length;
+    let li_width = 100 / total;
+    let total_steps = this.props.steps.length;
+    let move_distance =
       this.createTransaction.current.children[0].offsetWidth / total_steps;
-    var index_temp = index;
-    var vertical_level = 0;
+    let index_temp = index;
+    let vertical_level = 0;
 
-    var mobile_device = window.innerWidth < 600 && total > 3;
+    let mobile_device = window.innerWidth < 600 && total > 3;
 
     if (mobile_device) {
       move_distance =
@@ -205,10 +208,10 @@ class CreateTransaction extends React.Component {
 
     this.setState({ width: li_width + "%" });
 
-    var step_width = move_distance;
+    let step_width = move_distance;
     move_distance = move_distance * index_temp;
 
-    var current = index + 1;
+    let current = index + 1;
 
     if (current === 1 || (mobile_device === true && index % 2 === 0)) {
       move_distance -= 8;
@@ -223,7 +226,7 @@ class CreateTransaction extends React.Component {
       vertical_level = parseInt(index / 2, 10);
       vertical_level = vertical_level * 38;
     }
-    var movingTabStyle = {
+    let movingTabStyle = {
       width: step_width,
       transform:
         "translate3d(" + move_distance + "px, " + vertical_level + "px, 0)",
@@ -233,6 +236,12 @@ class CreateTransaction extends React.Component {
   }
   render() {
     const { classes, title, subtitle, color, steps } = this.props;
+    if (this.state.done)
+      return (
+        <Redirect
+          to={`/admin/${[this.props.steps[this.state.currentStep].stepId]}`}
+        />
+      );
     return (
       <div className={classes.wizardContainer} ref={this.createTransaction}>
         <Card className={classes.card}>
@@ -355,5 +364,27 @@ CreateTransaction.propTypes = {
   finishButtonClick: PropTypes.func,
   validate: PropTypes.bool
 };
+const mapStateToProps = state => {
+  return {
+    outcomes: state.outcomes,
+    user: state.auth.user
+  };
+};
 
-export default withStyles(wizardStyle)(CreateTransaction);
+const mapDispatchToProps = dispatch => {
+  return {
+    addOutcome: (date, value, out_type, act, act_type, concept) =>
+      dispatch(
+        outcomes.addOutcome(date, value, out_type, act, act_type, concept)
+      ),
+    updateOutcome: id => dispatch(outcomes.updateOutcome(id)),
+    addIncome: (date, value, quantity, fruit_type, concept) =>
+      dispatch(incomes.addIncome(date, value, quantity, fruit_type, concept)),
+    updateIncome: id => dispatch(incomes.updateIncome(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(wizardStyle)(CreateTransaction));
