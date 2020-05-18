@@ -40,17 +40,31 @@ export const addTree = (specie, seed_date, location, farm) => {
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
+    console.log(
+      JSON.stringify({
+        specie: specie,
+        seed_date: seed_date,
+        location: location,
+        farm: farm
+      })
+    );
     return fetch(`${base_url}/app/trees/`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
       },
       redirect: "follow",
       referrer: "no-referrer",
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        specie: specie,
+        seed_date: seed_date,
+        location: location,
+        farm: farm
+      })
     })
       .then(res => {
         if (res.status < 500) {
@@ -73,17 +87,7 @@ export const addTree = (specie, seed_date, location, farm) => {
   };
 };
 
-export const updateEvent = (
-  id,
-  title,
-  start,
-  end,
-  allDay,
-  rrule,
-  description,
-  user,
-  color
-) => {
+export const updateTree = (id, specie, seed_date, location, farm) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -101,14 +105,10 @@ export const updateEvent = (
       redirect: "follow",
       referrer: "no-referrer",
       body: JSON.stringify({
-        title: title,
-        start: start,
-        end: end,
-        allDay: allDay,
-        rrule: rrule,
-        description: description,
-        user: user,
-        color: color
+        specie: specie,
+        seed_date: seed_date,
+        location: location,
+        farm: farm
       })
     })
       .then(res => {

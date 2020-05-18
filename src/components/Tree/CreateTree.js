@@ -1,4 +1,8 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { trees } from "../../actions";
+import { connect } from "react-redux";
+import { stringify } from "wkt";
 import cx from "classnames";
 import PropTypes from "prop-types";
 
@@ -13,7 +17,7 @@ import wizardStyle from "assets/jss/material-dashboard-pro-react/components/wiza
 class CreateTree extends React.Component {
   constructor(props) {
     super(props);
-    var width;
+    let width;
     if (this.props.steps.length === 1) {
       width = "100%";
     } else {
@@ -32,11 +36,12 @@ class CreateTree extends React.Component {
       }
     }
     this.state = {
+      done: false,
       currentStep: 0,
       color: this.props.color,
-      nextButton: this.props.steps.length > 1 ? true : false,
+      nextButton: this.props.steps.length > 1,
       previousButton: false,
-      finishButton: this.props.steps.length === 1 ? true : false,
+      finishButton: this.props.steps.length === 1,
       width: width,
       movingTabStyle: {
         transition: "transform 0s"
@@ -63,9 +68,9 @@ class CreateTree extends React.Component {
   }
   navigationStepChange(key) {
     if (this.props.steps) {
-      var validationState = true;
+      let validationState = true;
       if (key > this.state.currentStep) {
-        for (var i = this.state.currentStep; i < key; i++) {
+        for (let i = this.state.currentStep; i < key; i++) {
           if (this[this.props.steps[i].stepId].sendState !== undefined) {
             this.setState({
               allStates: {
@@ -88,9 +93,9 @@ class CreateTree extends React.Component {
       if (validationState) {
         this.setState({
           currentStep: key,
-          nextButton: this.props.steps.length > key + 1 ? true : false,
-          previousButton: key > 0 ? true : false,
-          finishButton: this.props.steps.length === key + 1 ? true : false
+          nextButton: this.props.steps.length > key + 1,
+          previousButton: key > 0,
+          finishButton: this.props.steps.length === key + 1
         });
         this.refreshAnimation(key);
       }
@@ -121,12 +126,12 @@ class CreateTree extends React.Component {
           }
         });
       }
-      var key = this.state.currentStep + 1;
+      let key = this.state.currentStep + 1;
       this.setState({
         currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
-        previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false
+        nextButton: this.props.steps.length > key + 1,
+        previousButton: key > 0,
+        finishButton: this.props.steps.length === key + 1
       });
       this.refreshAnimation(key);
     }
@@ -145,13 +150,13 @@ class CreateTree extends React.Component {
         }
       });
     }
-    var key = this.state.currentStep - 1;
+    let key = this.state.currentStep - 1;
     if (key >= 0) {
       this.setState({
         currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
-        previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false
+        nextButton: this.props.steps.length > key + 1,
+        previousButton: key > 0,
+        finishButton: this.props.steps.length === key + 1
       });
       this.refreshAnimation(key);
     }
@@ -180,21 +185,36 @@ class CreateTree extends React.Component {
           }
         },
         () => {
-          this.props.finishButtonClick(this.state.allStates);
+          let tree_chars = this.state.allStates.tree_chars;
+          let tree_location = this.state.allStates.trees.location;
+          console.log(`Tree_Location ${JSON.stringify(tree_location)}`);
+          const point_obj = {
+            type: "Point",
+            coordinates: [tree_location.lat(), tree_location.lng()]
+          };
+          let wkt_point = stringify(point_obj);
+          this.props.addTree(
+            tree_chars.specie,
+            tree_chars.seed_date,
+            wkt_point,
+            Number(tree_chars.farm)
+          );
+          this.setState({ done: true });
+          alert(`¡El árbol fue creado correctamente!`);
         }
       );
     }
   }
   refreshAnimation(index) {
-    var total = this.props.steps.length;
-    var li_width = 100 / total;
-    var total_steps = this.props.steps.length;
-    var move_distance =
+    let total = this.props.steps.length;
+    let li_width = 100 / total;
+    let total_steps = this.props.steps.length;
+    let move_distance =
       this.createTree.current.children[0].offsetWidth / total_steps;
-    var index_temp = index;
-    var vertical_level = 0;
+    let index_temp = index;
+    let vertical_level = 0;
 
-    var mobile_device = window.innerWidth < 600 && total > 3;
+    let mobile_device = window.innerWidth < 600 && total > 3;
 
     if (mobile_device) {
       move_distance = this.createTree.current.children[0].offsetWidth / 2;
@@ -204,10 +224,10 @@ class CreateTree extends React.Component {
 
     this.setState({ width: li_width + "%" });
 
-    var step_width = move_distance;
+    let step_width = move_distance;
     move_distance = move_distance * index_temp;
 
-    var current = index + 1;
+    let current = index + 1;
 
     if (current === 1 || (mobile_device === true && index % 2 === 0)) {
       move_distance -= 8;
@@ -222,7 +242,7 @@ class CreateTree extends React.Component {
       vertical_level = parseInt(index / 2, 10);
       vertical_level = vertical_level * 38;
     }
-    var movingTabStyle = {
+    let movingTabStyle = {
       width: step_width,
       transform:
         "translate3d(" + move_distance + "px, " + vertical_level + "px, 0)",
@@ -232,6 +252,12 @@ class CreateTree extends React.Component {
   }
   render() {
     const { classes, title, subtitle, color, steps } = this.props;
+    if (this.state.done)
+      return (
+        <Redirect
+          to={`/admin/${[this.props.steps[this.state.currentStep].stepId]}`}
+        />
+      );
     return (
       <div className={classes.wizardContainer} ref={this.createTree}>
         <Card className={classes.card}>
@@ -364,4 +390,21 @@ CreateTree.propTypes = {
   validate: PropTypes.bool
 };
 
-export default withStyles(wizardStyle)(CreateTree);
+const mapStateToProps = state => {
+  return {
+    trees: state.trees
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addTree: (specie, seed_date, location, farm) =>
+      dispatch(trees.addTree(specie, seed_date, location, farm)),
+    updateTree: id => dispatch(trees.updateTree(id))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(wizardStyle)(CreateTree));

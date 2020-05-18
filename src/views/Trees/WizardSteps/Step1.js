@@ -1,4 +1,7 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { farms, trees } from "actions";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import moment from "moment";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -14,6 +17,9 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle";
+import Button from "../../../components/CustomButtons/Button";
+import Dvr from "@material-ui/icons/Dvr";
+import Close from "@material-ui/icons/Close";
 
 const style = {
   infoText: {
@@ -39,38 +45,31 @@ const style = {
   ...customSelectStyle
 };
 
+const fruit_types = [
+  { value: "M", name: "Mango Tommy" },
+  { value: "F", name: "Mango Farchild" },
+  { value: "N", name: "Naranja" },
+  { value: "D", name: "Mandarina" },
+  { value: "L", name: "Limón" },
+  { value: "A", name: "Aguacate" },
+  { value: "B", name: "Banano" }
+];
+
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      simpleSelectTipo: "",
-      simpleSelectGranja: "",
-      firstname: "",
-      firstnameState: "",
-      lastname: "",
-      lastnameState: "",
-      email: "",
-      emailState: "",
-      startDate: moment().toDate()
+      specie: "",
+      seed_date: "",
+      farm: 0
     };
   }
   sendState() {
     return this.state;
   }
-  // function that returns true if value is email, false otherwise
-  verifyEmail(value) {
-    var emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    if (emailRex.test(value)) {
-      return true;
-    }
-    return false;
-  }
   // function that verifies if a string has a given length or not
   verifyLength(value, length) {
-    if (value.length >= length) {
-      return true;
-    }
-    return false;
+    return value.length >= length;
   }
   change(event, stateName, type, stateNameEqualTo) {
     switch (type) {
@@ -99,9 +98,39 @@ class Step1 extends React.Component {
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
-
+  componentDidMount() {
+    this.props.fetchFarms();
+  }
   render() {
     const { classes } = this.props;
+    const fruit_items = fruit_types.map((fruit_type, key) => {
+      return (
+        <MenuItem
+          key={key}
+          classes={{
+            root: classes.selectMenuItem,
+            selected: classes.selectMenuItemSelected
+          }}
+          value={fruit_type.value}
+        >
+          {fruit_type.name}
+        </MenuItem>
+      );
+    });
+    const farms_items = this.props.farms.map((farm, key) => {
+      return (
+        <MenuItem
+          key={key}
+          classes={{
+            root: classes.selectMenuItem,
+            selected: classes.selectMenuItemSelected
+          }}
+          value={farm.id}
+        >
+          {farm.name}
+        </MenuItem>
+      );
+    });
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
@@ -109,8 +138,8 @@ class Step1 extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Seleccione tipo de árbol
+            <InputLabel htmlFor="specie" className={classes.selectLabel}>
+              Seleccione tipo de árbol (requerido)
             </InputLabel>
             <Select
               MenuProps={{
@@ -119,11 +148,11 @@ class Step1 extends React.Component {
               classes={{
                 select: classes.select
               }}
-              value={this.state.simpleSelectTipo}
+              value={this.state.specie}
               onChange={this.handleSimple}
               inputProps={{
-                name: "simpleSelectTipo",
-                id: "simple-select"
+                name: "specie",
+                id: "specie"
               }}
             >
               <MenuItem
@@ -134,31 +163,14 @@ class Step1 extends React.Component {
               >
                 Tipo de árbol
               </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="2"
-              >
-                Mango
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="3"
-              >
-                Banano
-              </MenuItem>
+              {fruit_items}
             </Select>
           </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Seleccione granja a la que pertenece
+            <InputLabel htmlFor="farm" className={classes.selectLabel}>
+              Seleccione granja a la que pertenece (requerido)
             </InputLabel>
             <Select
               MenuProps={{
@@ -167,11 +179,11 @@ class Step1 extends React.Component {
               classes={{
                 select: classes.select
               }}
-              value={this.state.simpleSelectGranja}
+              value={this.state.farm}
               onChange={this.handleSimple}
               inputProps={{
-                name: "simpleSelectGranja",
-                id: "simple-select2"
+                name: "farm",
+                id: "farm"
               }}
             >
               <MenuItem
@@ -182,32 +194,22 @@ class Step1 extends React.Component {
               >
                 Granja
               </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="2"
-              >
-                Mi Tierra
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="3"
-              >
-                El Otro Lado
-              </MenuItem>
+              {farms_items}
             </Select>
           </FormControl>
         </GridItem>
         <GridItem xs={8}>
           <Datetime
+            closeOnSelect
+            editable={false}
+            dateFormat={"YYYY-MM-DD"}
+            className={classes.datePicker}
             timeFormat={false}
+            onChange={date =>
+              this.setState({ seed_date: date.format("YYYY-MM-DD") })
+            }
             inputProps={{
-              placeholder: "Seleccione fecha de siembra",
+              placeholder: "Seleccione fecha de siembra del árbol (requerido)",
               style: style.datePicker
             }}
           />
@@ -220,5 +222,19 @@ class Step1 extends React.Component {
 Step1.propTypes = {
   classes: PropTypes.object
 };
+const mapStateToProps = state => {
+  return {
+    farms: state.farms
+  };
+};
 
-export default withStyles(style)(Step1);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchFarms: () => dispatch(farms.fetchFarms()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(style)(Step1));

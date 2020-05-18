@@ -18,12 +18,12 @@ export default function CreateTreeView() {
             {
               stepName: "Información Básica",
               stepComponent: Step1,
-              stepId: "about"
+              stepId: "tree_chars"
             },
             {
               stepName: "Ubicación Árbol",
               stepComponent: Step2,
-              stepId: "account"
+              stepId: "trees"
             }
           ]}
           title="Crear Árbol"
