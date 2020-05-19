@@ -63,7 +63,7 @@ export const fetchWatering = id => {
   };
 };
 
-export const addWatering = () => {
+export const addWatering = (start_date, end_date, farm, type, trees) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -77,11 +77,18 @@ export const addWatering = () => {
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
       },
       redirect: "follow",
       referrer: "no-referrer",
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        start_date: start_date,
+        end_date: end_date,
+        farm: farm,
+        trees: trees,
+        type: type
+      })
     })
       .then(res => {
         if (res.status < 500) {

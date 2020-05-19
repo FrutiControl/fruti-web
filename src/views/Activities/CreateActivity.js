@@ -16,17 +16,16 @@ export default function CreateActivityView() {
         <CreateActivity
           validate
           steps={[
-            { stepName: "Actividad", stepComponent: Step1, stepId: "about" },
+            {
+              stepName: "Actividad",
+              stepComponent: Step1,
+              stepId: "act_chars"
+            },
             {
               stepName: "Seleccionar Árboles",
               stepComponent: Step2,
-              stepId: "account"
+              stepId: "act_trees"
             },
-            {
-              stepName: "Detalles Siembra",
-              stepComponent: Step3,
-              stepId: "address"
-            }
           ]}
           title="Crear Actividad"
           subtitle="Ingrese los datos correspondientes en el formato para su nueva actividad."

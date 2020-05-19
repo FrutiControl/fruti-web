@@ -1,4 +1,6 @@
 import React from "react";
+import { farms } from "actions";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // @material-ui/core components
@@ -35,46 +37,107 @@ const style = {
     color: "#3c4858"
   }
 };
+const activities = [
+  { value: "P", name: "Poda" },
+  { value: "F", name: "Fertilización" },
+  { value: "U", name: "Fumigación" },
+  { value: "R", name: "Riego" }
+];
+const prunes = [
+  { value: "S", name: "Sanitaria" },
+  { value: "F", name: "Formación" },
+  { value: "M", name: "Mantenimineto" },
+  { value: "L", name: "Limpieza" }
+];
+const fertilizations = [
+  { value: "C", name: "Crecimineto" },
+  { value: "P", name: "Producción" },
+  { value: "M", name: "Mantenimiento" }
+];
+const fumigations = [
+  { value: "I", name: "Insectos" },
+  { value: "F", name: "Hongos" },
+  { value: "H", name: "Hierba" },
+  { value: "A", name: "Ácaros" },
+  { value: "p", name: "Peste" }
+];
+const waterings = [
+  { value: "M", name: "Manual" },
+  { value: "S", name: "Sistema" }
+];
 
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      simpleSelectTipoActividad: "",
-      simpleSelectSubTipo: "",
-      subtype: [
-        { value: "S", name: "sanitaria" },
-        { value: "F", name: "formacion" },
-        { value: "M", name: "mantenimiento" }
-      ]
+      start_date: "",
+      end_date: "",
+      activity: "",
+      act_type: "",
+      act_typesItems: [],
+      farm: ""
     };
   }
   sendState() {
     return this.state;
   }
-
-  change(event, stateName, type, stateNameEqualTo) {
-    switch (type) {
-      case "activity":
-        break;
-      case "subActivity":
-        break;
-      case "farm":
-        break;
-      case "startDate":
-        break;
-      case "endDate":
-        break;
-      default:
-        break;
-    }
+  handleActivity = event => {
+    this.setState({ activity: event.target.value }, () => {
+      switch (event.target.value) {
+        case "F":
+          this.setState({ act_typesItems: fertilizations });
+          break;
+        case "U":
+          this.setState({ act_typesItems: fumigations });
+          break;
+        case "P":
+          this.setState({ act_typesItems: prunes });
+          break;
+        case "R":
+          this.setState({ act_typesItems: waterings });
+          break;
+      }
+    });
+  };
+  change(event, stateName) {
     this.setState({ [stateName]: event.target.value });
   }
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+  componentDidMount() {
+    this.props.fetchFarms();
+  }
   render() {
     const { classes } = this.props;
+    const activities_items = activities.map((act_type, key) => {
+      return (
+        <MenuItem
+          key={key}
+          classes={{
+            root: classes.selectMenuItem,
+            selected: classes.selectMenuItemSelected
+          }}
+          value={act_type.value}
+        >
+          {act_type.name}
+        </MenuItem>
+      );
+    });
+    const farms_items = this.props.farms.map((farm, key) => {
+      return (
+        <MenuItem
+          key={key}
+          classes={{
+            root: classes.selectMenuItem,
+            selected: classes.selectMenuItemSelected
+          }}
+          value={farm.id}
+        >
+          {farm.name}
+        </MenuItem>
+      );
+    });
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
@@ -85,8 +148,8 @@ class Step1 extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Seleccione tipo de actividad
+            <InputLabel htmlFor="activity" className={classes.selectLabel}>
+              Seleccione la actividad <small>(requerido)</small>
             </InputLabel>
             <Select
               MenuProps={{
@@ -95,11 +158,11 @@ class Step1 extends React.Component {
               classes={{
                 select: classes.select
               }}
-              value={this.state.simpleSelectTipoActividad}
-              onChange={this.handleSimple}
+              value={this.state.activity}
+              onChange={this.handleActivity}
               inputProps={{
-                name: "simpleSelectTipoActividad",
-                id: "simpleSelectTipoActividad"
+                name: "activity",
+                id: "activity"
               }}
             >
               <MenuItem
@@ -108,60 +171,16 @@ class Step1 extends React.Component {
                   root: classes.selectMenuItem
                 }}
               >
-                Tipo de actividad
+                Actividad
               </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="2"
-              >
-                Siembra
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="3"
-              >
-                Fertilización
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="4"
-              >
-                Fumigación
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="5"
-              >
-                Riego
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="6"
-              >
-                Poda
-              </MenuItem>
+              {activities_items}
             </Select>
           </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Seleccione subtipo de actividad
+            <InputLabel htmlFor="act_type" className={classes.selectLabel}>
+              Seleccione el tipo de la actividad <small>(requerido)</small>
             </InputLabel>
             <Select
               MenuProps={{
@@ -170,11 +189,11 @@ class Step1 extends React.Component {
               classes={{
                 select: classes.select
               }}
-              value={this.state.simpleSelectSubTipo}
+              value={this.state.act_type}
               onChange={this.handleSimple}
               inputProps={{
-                name: "simpleSelectSubTipo",
-                id: "simpleSelectSubTipo"
+                name: "act_type",
+                id: "act_type"
               }}
             >
               <MenuItem
@@ -183,26 +202,29 @@ class Step1 extends React.Component {
                   root: classes.selectMenuItem
                 }}
               >
-                Subtipo de actividad
+                Tipo de la actividad
               </MenuItem>
-              {this.state.subtype.map(item => (
-                <MenuItem
-                  classes={{
-                    root: classes.selectMenuItem,
-                    selected: classes.selectMenuItemSelected
-                  }}
-                  value={item.value}
-                >
-                  {item.name}
-                </MenuItem>
-              ))}
+              {this.state.act_typesItems.map((act_type, key) => {
+                return (
+                  <MenuItem
+                    key={key}
+                    classes={{
+                      root: classes.selectMenuItem,
+                      selected: classes.selectMenuItemSelected
+                    }}
+                    value={act_type.value}
+                  >
+                    {act_type.name}
+                  </MenuItem>
+                );
+              })}
             </Select>
           </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
-            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
-              Seleccione granja a la que pertenece
+            <InputLabel htmlFor="farm" className={classes.selectLabel}>
+              Seleccione granja a la que pertenece (requerido)
             </InputLabel>
             <Select
               MenuProps={{
@@ -211,11 +233,11 @@ class Step1 extends React.Component {
               classes={{
                 select: classes.select
               }}
-              value={this.state.simpleSelectGranja}
+              value={this.state.farm}
               onChange={this.handleSimple}
               inputProps={{
-                name: "simpleSelectGranja",
-                id: "simple-select2"
+                name: "farm",
+                id: "farm"
               }}
             >
               <MenuItem
@@ -226,41 +248,43 @@ class Step1 extends React.Component {
               >
                 Granja
               </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="2"
-              >
-                Mi Tierra
-              </MenuItem>
-              <MenuItem
-                classes={{
-                  root: classes.selectMenuItem,
-                  selected: classes.selectMenuItemSelected
-                }}
-                value="3"
-              >
-                El Otro Lado
-              </MenuItem>
+              {farms_items}
             </Select>
           </FormControl>
         </GridItem>
-        <GridItem xs={8}>
+        <GridItem xs={12} sm={8}>
           <Datetime
+            closeOnSelect
+            editable={false}
+            dateFormat={"YYYY-MM-DD"}
+            className={classes.datePicker}
             timeFormat={false}
+            onChange={date =>
+              this.setState({ start_date: date.format("YYYY-MM-DD") })
+            }
             inputProps={{
-              placeholder: "Seleccione fecha de inicio de actividad",
+              placeholder:
+                "Seleccione fecha de inicio de la actividad (requerido)",
               style: style.datePicker
             }}
           />
         </GridItem>
-        <GridItem xs={8}>
+        <GridItem xs={12} sm={8}>
           <Datetime
+            closeOnSelect
+            editable={false}
+            dateFormat={"YYYY-MM-DD"}
+            className={classes.datePicker}
             timeFormat={false}
+            onChange={date =>
+              this.setState({ end_date: date.format("YYYY-MM-DD") })
+            }
+            isValidDate={currentDate => {
+              return currentDate.isAfter(this.state.start_date);
+            }}
             inputProps={{
-              placeholder: "Seleccione fecha de fin de actividad",
+              placeholder:
+                "Seleccione fecha de fin de la actividad (requerido)",
               style: style.datePicker
             }}
           />
@@ -274,4 +298,19 @@ Step1.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(style)(Step1);
+const mapStateToProps = state => {
+  return {
+    farms: state.farms
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchFarms: () => dispatch(farms.fetchFarms())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(style)(Step1));

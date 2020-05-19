@@ -1,4 +1,7 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
+import { fertilizations, fumigations, prunings, waterings } from "actions";
+import { connect } from "react-redux";
 import cx from "classnames";
 import PropTypes from "prop-types";
 
@@ -13,7 +16,7 @@ import wizardStyle from "assets/jss/material-dashboard-pro-react/components/wiza
 class CreateActivity extends React.Component {
   constructor(props) {
     super(props);
-    var width;
+    let width;
     if (this.props.steps.length === 1) {
       width = "100%";
     } else {
@@ -34,9 +37,9 @@ class CreateActivity extends React.Component {
     this.state = {
       currentStep: 0,
       color: this.props.color,
-      nextButton: this.props.steps.length > 1 ? true : false,
+      nextButton: this.props.steps.length > 1,
       previousButton: false,
-      finishButton: this.props.steps.length === 1 ? true : false,
+      finishButton: this.props.steps.length === 1,
       width: width,
       movingTabStyle: {
         transition: "transform 0s"
@@ -63,9 +66,9 @@ class CreateActivity extends React.Component {
   }
   navigationStepChange(key) {
     if (this.props.steps) {
-      var validationState = true;
+      let validationState = true;
       if (key > this.state.currentStep) {
-        for (var i = this.state.currentStep; i < key; i++) {
+        for (let i = this.state.currentStep; i < key; i++) {
           if (this[this.props.steps[i].stepId].sendState !== undefined) {
             this.setState({
               allStates: {
@@ -88,9 +91,9 @@ class CreateActivity extends React.Component {
       if (validationState) {
         this.setState({
           currentStep: key,
-          nextButton: this.props.steps.length > key + 1 ? true : false,
-          previousButton: key > 0 ? true : false,
-          finishButton: this.props.steps.length === key + 1 ? true : false
+          nextButton: this.props.steps.length > key + 1,
+          previousButton: key > 0,
+          finishButton: this.props.steps.length === key + 1
         });
         this.refreshAnimation(key);
       }
@@ -121,12 +124,12 @@ class CreateActivity extends React.Component {
           }
         });
       }
-      var key = this.state.currentStep + 1;
+      let key = this.state.currentStep + 1;
       this.setState({
         currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
-        previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false
+        nextButton: this.props.steps.length > key + 1,
+        previousButton: key > 0,
+        finishButton: this.props.steps.length === key + 1
       });
       this.refreshAnimation(key);
     }
@@ -145,13 +148,13 @@ class CreateActivity extends React.Component {
         }
       });
     }
-    var key = this.state.currentStep - 1;
+    let key = this.state.currentStep - 1;
     if (key >= 0) {
       this.setState({
         currentStep: key,
-        nextButton: this.props.steps.length > key + 1 ? true : false,
-        previousButton: key > 0 ? true : false,
-        finishButton: this.props.steps.length === key + 1 ? true : false
+        nextButton: this.props.steps.length > key + 1,
+        previousButton: key > 0,
+        finishButton: this.props.steps.length === key + 1
       });
       this.refreshAnimation(key);
     }
@@ -180,21 +183,62 @@ class CreateActivity extends React.Component {
           }
         },
         () => {
-          this.props.finishButtonClick(this.state.allStates);
+          let new_activity = this.state.allStates.act_chars;
+          let activity_trees = this.state.allStates.act_trees.trees;
+          switch (new_activity.activity) {
+            case "R":
+              this.props.addWatering(
+                new_activity.start_date,
+                new_activity.end_date,
+                Number(new_activity.farm),
+                new_activity.act_type,
+                activity_trees
+              );
+              break;
+            case "P":
+              this.props.addPruning(
+                new_activity.start_date,
+                new_activity.end_date,
+                Number(new_activity.farm),
+                new_activity.act_type,
+                activity_trees
+              );
+              break;
+            case "F":
+              this.props.addFertilization(
+                new_activity.start_date,
+                new_activity.end_date,
+                Number(new_activity.farm),
+                new_activity.act_type,
+                activity_trees
+              );
+              break;
+            case "U":
+              this.props.addFumigation(
+                new_activity.start_date,
+                new_activity.end_date,
+                Number(new_activity.farm),
+                new_activity.act_type,
+                activity_trees
+              );
+              break;
+          }
+          this.setState({ done: true });
+          alert(`¡La granja fue creada correctamente!`);
         }
       );
     }
   }
   refreshAnimation(index) {
-    var total = this.props.steps.length;
-    var li_width = 100 / total;
-    var total_steps = this.props.steps.length;
-    var move_distance =
+    let total = this.props.steps.length;
+    let li_width = 100 / total;
+    let total_steps = this.props.steps.length;
+    let move_distance =
       this.createActivity.current.children[0].offsetWidth / total_steps;
-    var index_temp = index;
-    var vertical_level = 0;
+    let index_temp = index;
+    let vertical_level = 0;
 
-    var mobile_device = window.innerWidth < 600 && total > 3;
+    let mobile_device = window.innerWidth < 600 && total > 3;
 
     if (mobile_device) {
       move_distance = this.createActivity.current.children[0].offsetWidth / 2;
@@ -204,10 +248,10 @@ class CreateActivity extends React.Component {
 
     this.setState({ width: li_width + "%" });
 
-    var step_width = move_distance;
+    let step_width = move_distance;
     move_distance = move_distance * index_temp;
 
-    var current = index + 1;
+    let current = index + 1;
 
     if (current === 1 || (mobile_device === true && index % 2 === 0)) {
       move_distance -= 8;
@@ -222,7 +266,7 @@ class CreateActivity extends React.Component {
       vertical_level = parseInt(index / 2, 10);
       vertical_level = vertical_level * 38;
     }
-    var movingTabStyle = {
+    let movingTabStyle = {
       width: step_width,
       transform:
         "translate3d(" + move_distance + "px, " + vertical_level + "px, 0)",
@@ -232,6 +276,7 @@ class CreateActivity extends React.Component {
   }
   render() {
     const { classes, title, subtitle, color, steps } = this.props;
+    if (this.state.done) return <Redirect to={`/admin/activities`} />;
     return (
       <div className={classes.wizardContainer} ref={this.createActivity}>
         <Card className={classes.card}>
@@ -364,5 +409,28 @@ CreateActivity.propTypes = {
   finishButtonClick: PropTypes.func,
   validate: PropTypes.bool
 };
+const mapStateToProps = state => {
+  return {};
+};
 
-export default withStyles(wizardStyle)(CreateActivity);
+const mapDispatchToProps = dispatch => {
+  return {
+    addFertilization: (start_date, end_date, farm, type, trees) =>
+      dispatch(
+        fertilizations.addFertilization(start_date, end_date, farm, type, trees)
+      ),
+    addPruning: (start_date, end_date, farm, type, trees) =>
+      dispatch(prunings.addPruning(start_date, end_date, farm, type, trees)),
+    addFumigation: (start_date, end_date, farm, type, trees) =>
+      dispatch(
+        fumigations.addFumigation(start_date, end_date, farm, type, trees)
+      ),
+    addWatering: (start_date, end_date, farm, type, trees) =>
+      dispatch(waterings.addWatering(start_date, end_date, farm, type, trees))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(wizardStyle)(CreateActivity));

@@ -23,7 +23,10 @@ export const fetchFertilizations = () => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "FETCH_FERTILIZATIONS", fertilizations: res.data });
+          return dispatch({
+            type: "FETCH_FERTILIZATIONS",
+            fertilizations: res.data
+          });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -32,7 +35,7 @@ export const fetchFertilizations = () => {
   };
 };
 
-export const fetchFertilization = (id) => {
+export const fetchFertilization = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -54,7 +57,10 @@ export const fetchFertilization = (id) => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "FETCH_FERTILIZATION", fertilization: res.data });
+          return dispatch({
+            type: "FETCH_FERTILIZATION",
+            fertilization: res.data
+          });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -63,7 +69,7 @@ export const fetchFertilization = (id) => {
   };
 };
 
-export const addFertilization = () => {
+export const addFertilization = (start_date, end_date, farm, type, trees) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -77,12 +83,17 @@ export const addFertilization = () => {
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
       },
       redirect: "follow",
       referrer: "no-referrer",
       body: JSON.stringify({
-
+        start_date: start_date,
+        end_date: end_date,
+        farm: farm,
+        trees: trees,
+        type: type
       })
     })
       .then(res => {
@@ -106,7 +117,7 @@ export const addFertilization = () => {
   };
 };
 
-export const updateFertilization = (id) => {
+export const updateFertilization = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -137,7 +148,11 @@ export const updateFertilization = (id) => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "UPDATE_FERTILIZATION", note: res.data, index: id });
+          return dispatch({
+            type: "UPDATE_FERTILIZATION",
+            note: res.data,
+            index: id
+          });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -155,7 +170,10 @@ export const deleteFertilization = id => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/app/fertilizations/${id}/`, { headers, method: "DELETE" })
+    return fetch(`${base_url}/app/fertilizations/${id}/`, {
+      headers,
+      method: "DELETE"
+    })
       .then(res => {
         if (res.status === 204) {
           return { status: res.status, data: {} };
