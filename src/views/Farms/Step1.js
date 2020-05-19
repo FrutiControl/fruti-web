@@ -78,7 +78,6 @@ class Step1 extends React.Component {
   }
   polygonRef = React.createRef();
   render() {
-    console.log(`CENTER ${JSON.stringify(this.state.center)}`);
     const SatelliteMap = withScriptjs(
       withGoogleMap(() => (
         <GoogleMap
@@ -99,26 +98,36 @@ class Step1 extends React.Component {
             draggable
             path={this.state.path}
             onDragEnd={() => {
+              const google = window.google;
+              let bounds = new google.maps.LatLngBounds();
+              this.polygonRef.current.getPath().forEach((element, index) => {
+                bounds.extend(element);
+              });
               let path_array = this.polygonRef.current.getPath().getArray();
               this.setState({
                 path: path_array.map(latLng => {
                   return { lat: latLng.lat(), lng: latLng.lng() };
                 }),
                 center: {
-                  lat: path_array[0].lat(),
-                  lng: path_array[0].lng()
+                  lat: bounds.getCenter().lat(),
+                  lng: bounds.getCenter().lng()
                 }
               });
             }}
             onMouseUp={() => {
+              const google = window.google;
+              let bounds = new google.maps.LatLngBounds();
+              this.polygonRef.current.getPath().forEach((element, index) => {
+                bounds.extend(element);
+              });
               let path_array = this.polygonRef.current.getPath().getArray();
               this.setState({
                 path: path_array.map(latLng => {
-                    return { lat: latLng.lat(), lng: latLng.lng() };
-                  }),
+                  return { lat: latLng.lat(), lng: latLng.lng() };
+                }),
                 center: {
-                  lat: path_array[0].lat(),
-                  lng: path_array[0].lng()
+                  lat: bounds.getCenter().lat(),
+                  lng: bounds.getCenter().lng()
                 }
               });
             }}
