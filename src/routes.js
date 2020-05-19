@@ -7,6 +7,7 @@ import SeeFarm from "views/Farms/SeeFarm.js";
 import CreateTree from "views/Trees/CreateTree.js";
 import SeeTree from "views/Trees/SeeTree.js";
 import CreateActivity from "views/Activities/CreateActivity.js";
+import CreateSeeding from "views/Activities/CreateSeeding";
 import SeeActivity from "views/Activities/SeeActivity.js";
 import CreateTransaction from "views/Finances/CreateTransaction.js";
 import SeeIncome from "views/Finances/SeeIncome.js";
@@ -88,6 +89,13 @@ var dashRoutes = [
         name: "Crear Actividad",
         mini: "CA",
         component: CreateActivity,
+        layout: "/admin"
+      },
+      {
+        path: "/create_seeding",
+        name: "Crear Siembra",
+        mini: "CS",
+        component: CreateSeeding,
         layout: "/admin"
       },
       {

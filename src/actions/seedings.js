@@ -69,7 +69,7 @@ export const fetchSeeding = id => {
   };
 };
 
-export const addSeeding = () => {
+export const addSeeding = (start_date, end_date,farm, type, trees_quantity, distance, polygon) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -77,17 +77,35 @@ export const addSeeding = () => {
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
+    console.log(`Body ${JSON.stringify({
+      "start_date": start_date,
+      "end_date": end_date,
+      "farm": farm,
+      "type": type,
+      "trees_quantity": trees_quantity,
+      "distance": distance,
+      "polygon": polygon
+    })}`)
     return fetch(`${base_url}/app/seedings/`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Authorization: `Token ${token}`
       },
       redirect: "follow",
       referrer: "no-referrer",
-      body: JSON.stringify({})
+      body: JSON.stringify({
+        "start_date": start_date,
+        "end_date": end_date,
+        "farm": farm,
+        "type": type,
+        "trees_quantity": trees_quantity,
+        "distance": distance,
+        "polygon": polygon
+      })
     })
       .then(res => {
         if (res.status < 500) {
@@ -141,7 +159,11 @@ export const updateSeeding = id => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "UPDATE_SEEDING", note: res.data, index: id });
+          return dispatch({
+            type: "UPDATE_SEEDING",
+            note: res.data,
+            index: id
+          });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
