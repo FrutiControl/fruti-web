@@ -37,7 +37,7 @@ function Calendar(props) {
   const mapActivities = myActivities => {
     return myActivities.map(activity => {
       return {
-        title: `${activity.name+mapActType(activity.name, activity.type)}`,
+        title: `${activity.name + mapActType(activity.name, activity.type)}`,
         allDay: true,
         start: moment(activity.start_date, "YYYY-MM-DD"),
         end: moment(activity.end_date, "YYYY-MM-DD").add(1, "days"),
@@ -114,6 +114,7 @@ function Calendar(props) {
                   yesterday: "Ayer",
                   tomorrow: "Mañana",
                   allDay: "Todo el día",
+                  showMore: total => `+${total} más`,
                   noEventsInRange:
                     "No hay actividades para realizar en esta franja."
                 }}
@@ -123,7 +124,6 @@ function Calendar(props) {
                 scrollToTime={new Date(1970, 1, 1, 6)}
                 defaultDate={new Date()}
                 onSelectEvent={event => selectedEvent(event)}
-                // onSelectSlot={}
                 eventPropGetter={eventColors}
               />
             </CardBody>
