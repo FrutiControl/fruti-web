@@ -56,29 +56,29 @@ const prunes = [
   { value: "P4", name: "Limpieza" }
 ];
 const fertilizations = [
-  { value: "F1", name: "CRECIMIENTO" },
-  { value: "F2", name: "PRODUCCIÓN" },
-  { value: "F3", name: "MANTENIMINETO" }
+  { value: "F1", name: "Crecimineto" },
+  { value: "F2", name: "Producción" },
+  { value: "F3", name: "Mantenimiento" }
 ];
 const fumigations = [
-  { value: "U1", name: "INSECTOS" },
-  { value: "U2", name: "HONGOS" },
-  { value: "U3", name: "HIERBA" },
-  { value: "U4", name: "ACAROS" },
-  { value: "U5", name: "PESTE" }
+  { value: "U1", name: "Insectos" },
+  { value: "U2", name: "Hongos" },
+  { value: "U3", name: "Hierba" },
+  { value: "U4", name: "Ácaros" },
+  { value: "U5", name: "Peste" }
 ];
 const waterings = [
-  { value: "R2", name: "MANUAL" },
-  { value: "R3", name: "SISTEMA" }
+  { value: "R2", name: "Manual" },
+  { value: "R3", name: "Sistema" }
 ];
 const seedings = [
-  { value: "S1", name: "MANGO TOMMY" },
-  { value: "S2", name: "MANGO FARCHIL" },
-  { value: "S3", name: "NARANJA" },
-  { value: "S4", name: "AGUACATE" },
-  { value: "S5", name: "MANDARINA" },
-  { value: "S6", name: "LIMON" },
-  { value: "S7", name: "BANANO" }
+  { value: "S1", name: "Mango Tommy" },
+  { value: "S2", name: "Mango Farchil" },
+  { value: "S3", name: "Naranja" },
+  { value: "S4", name: "Aguacate" },
+  { value: "S5", name: "Mandarina" },
+  { value: "S6", name: "Limón" },
+  { value: "S7", name: "Banano" }
 ];
 
 class Step2 extends React.Component {
@@ -179,78 +179,6 @@ class Step2 extends React.Component {
         </MenuItem>
       );
     });
-    /*const prune_items = prunes.map((prune_type, key) => {
-      return (
-        <MenuItem
-          key={key}
-          classes={{
-            root: classes.selectMenuItem,
-            selected: classes.selectMenuItemSelected
-          }}
-          value={prune_type.value}
-        >
-          {prune_type.name}
-        </MenuItem>
-      );
-    });
-    const fertilization_items = fertilizations.map(
-      (fertilization_type, key) => {
-        return (
-          <MenuItem
-            key={key}
-            classes={{
-              root: classes.selectMenuItem,
-              selected: classes.selectMenuItemSelected
-            }}
-            value={fertilization_type.value}
-          >
-            {fertilization_type.name}
-          </MenuItem>
-        );
-      }
-    );
-    const fumigation_items = fumigations.map((fumigation_type, key) => {
-      return (
-        <MenuItem
-          key={key}
-          classes={{
-            root: classes.selectMenuItem,
-            selected: classes.selectMenuItemSelected
-          }}
-          value={fumigation_type.value}
-        >
-          {fumigation_type.name}
-        </MenuItem>
-      );
-    });
-    const watering_items = waterings.map((watering_type, key) => {
-      return (
-        <MenuItem
-          key={key}
-          classes={{
-            root: classes.selectMenuItem,
-            selected: classes.selectMenuItemSelected
-          }}
-          value={watering_type.value}
-        >
-          {watering_type.name}
-        </MenuItem>
-      );
-    });
-    const seeding_items = seedings.map((seeding_type, key) => {
-      return (
-        <MenuItem
-          key={key}
-          classes={{
-            root: classes.selectMenuItem,
-            selected: classes.selectMenuItemSelected
-          }}
-          value={seeding_type.value}
-        >
-          {seeding_type.name}
-        </MenuItem>
-      );
-    });*/
     return (
       <div>
         <h4 className={classes.infoText}>

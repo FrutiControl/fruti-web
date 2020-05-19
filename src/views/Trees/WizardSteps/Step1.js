@@ -61,7 +61,7 @@ class Step1 extends React.Component {
     this.state = {
       specie: "",
       seed_date: "",
-      farm: 0
+      farm: ""
     };
   }
   sendState() {

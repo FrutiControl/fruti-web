@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { farms } from "actions";
 import { connect } from "react-redux";
+import { farms } from "actions";
 import { stringify } from "wkt";
 import cx from "classnames";
 import PropTypes from "prop-types";
