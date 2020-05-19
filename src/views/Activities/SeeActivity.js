@@ -46,23 +46,23 @@ function SeeActivity(props) {
     switch (act) {
       case "Poda":
         props.deletePruning(id);
-        break
+        break;
       case "Fertilización":
         props.deleteFertilization(id);
-        break
+        break;
       case "Fumigación":
         props.deleteFumigation(id);
-        break
+        break;
       case "Riego":
         props.deleteWatering(id);
-        break
+        break;
       case "Siembra":
         props.deleteSeeding(id);
-        break
+        break;
       default:
         return " ";
     }
-  }
+  };
   const mapActivities = myActivities => {
     return myActivities.map(activity => {
       return {
@@ -71,7 +71,7 @@ function SeeActivity(props) {
         start: activity.start_date,
         end: activity.end_date,
         id: activity.id,
-        progress: activity.progress,
+        progress: `${Number(activity.progress * 100).toFixed(0)}%`,
         farm: activity.farm,
         actions: (
           // we've added some custom button actions
@@ -106,7 +106,7 @@ function SeeActivity(props) {
                     } ${mapActType(activity.name, activity.type)}?`
                   )
                 ) {
-                  deleteActivity(activity.name, activity.id)
+                  deleteActivity(activity.name, activity.id);
                 }
               }}
               color="danger"
@@ -184,6 +184,10 @@ function SeeActivity(props) {
                 {
                   Header: "Fecha fin",
                   accessor: "end"
+                },
+                {
+                  Header: "Progreso",
+                  accessor: "progress"
                 },
                 {
                   Header: "Editar - Eliminar",
