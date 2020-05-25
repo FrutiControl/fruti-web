@@ -66,7 +66,9 @@ function SeeActivity(props) {
   const mapActivities = myActivities => {
     return myActivities.map(activity => {
       return {
-        name: activity.name,
+        name: activity.recommended
+          ? `${activity.name} (recomendada)`
+          : activity.name,
         type: mapActType(activity.name, activity.type),
         start: activity.start_date,
         end: activity.end_date,
