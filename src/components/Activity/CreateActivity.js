@@ -224,7 +224,7 @@ class CreateActivity extends React.Component {
               break;
           }
           this.setState({ done: true });
-          alert(`¡La granja fue creada correctamente!`);
+          alert(`¡La actividad fue creada correctamente!`);
         }
       );
     }
