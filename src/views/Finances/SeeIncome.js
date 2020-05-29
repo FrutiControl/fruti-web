@@ -1,5 +1,5 @@
 import React from "react";
-import { incomes } from "actions";
+import { incomes, outcomes } from "actions";
 import { connect } from "react-redux";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
@@ -26,6 +26,12 @@ const styles = {
     ...cardTitle,
     marginTop: "15px",
     marginBottom: "0px"
+  },
+  infoText: {
+    fontWeight: "300",
+    margin: "10px 0 30px",
+    textAlign: "center",
+    fontSize: "20px"
   }
 };
 
@@ -33,6 +39,9 @@ const useStyles = makeStyles(styles);
 
 function SeeIncome(props) {
   const [data, setData] = React.useState([]);
+  const [outcomes, setOutcomes] = React.useState([]);
+  const [total_incomes, setTIncomes] = React.useState(0);
+  const [total_outcomes, setTOutcomes] = React.useState(0);
   const mapIncomes = myIncomes => {
     return myIncomes.map((income, key) => {
       return {
@@ -41,7 +50,7 @@ function SeeIncome(props) {
         type: getSpecie(income.fruit_type),
         quantity: income.quantity,
         date: income.date,
-        value: income.value*income.quantity,
+        value: income.value * income.quantity,
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -90,10 +99,24 @@ function SeeIncome(props) {
       filter.placeholder = "Buscar...";
     }
     props.fetchIncomes();
+    props.fetchOutcomes();
   }, []);
   React.useEffect(() => {
     setData(mapIncomes(props.incomes));
-  }, [props.incomes]);
+    setOutcomes(props.outcomes);
+  }, [props.outcomes, props.incomes]);
+  React.useEffect(() => {
+    let totalOutcome = 0;
+    for (let outcome of outcomes) {
+      totalOutcome += outcome.value;
+    }
+    let totalIncome = 0;
+    for (let income of data) {
+      totalIncome += income.value;
+    }
+    setTIncomes(totalIncome);
+    setTOutcomes(totalOutcome);
+  }, [data, outcomes]);
   const classes = useStyles();
   return (
     <GridContainer>
@@ -106,6 +129,27 @@ function SeeIncome(props) {
             <h4 className={classes.cardIconTitle}>Lista de Ingresos</h4>
           </CardHeader>
           <CardBody>
+            <GridContainer>
+              <GridItem xs={4}>
+                <h4 className={classes.infoText}>
+                  Total de Ingresos:
+                  {` ${total_incomes}`}
+                </h4>
+              </GridItem>
+              <GridItem xs={4}>
+                <h4 className={classes.infoText}>
+                  Total de Gastos:
+                  {` ${total_outcomes}`}
+                </h4>
+              </GridItem>
+              <GridItem xs={4}>
+                <h4 className={classes.infoText}>
+                  {total_outcomes > total_incomes
+                    ? `Pérdidas: ${total_incomes - total_outcomes}`
+                    : `Ganancias: ${total_incomes - total_outcomes}`}
+                </h4>
+              </GridItem>
+            </GridContainer>
             <ReactTable
               nextText={"Siguiente"}
               previousText={"Anterior"}
@@ -173,13 +217,14 @@ const getSpecie = specie => {
 };
 const mapStateToProps = state => {
   return {
-    incomes: state.incomes,
-    user: state.auth.user
+    outcomes: state.outcomes,
+    incomes: state.incomes
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchOutcomes: () => dispatch(outcomes.fetchOutcomes()),
     fetchIncomes: () => dispatch(incomes.fetchIncomes()),
     deleteIncome: id => dispatch(incomes.deleteIncome(id))
   };

@@ -11,6 +11,7 @@ import waterings from "./waterings";
 import incomes from "./incomes";
 import outcomes from "./outcomes";
 import dashboard from "./dashboard";
+import updates from "./updates";
 
 const frutiApp = combineReducers({
   auth,
@@ -24,6 +25,7 @@ const frutiApp = combineReducers({
   waterings,
   incomes,
   outcomes,
-  dashboard
+  dashboard,
+  updates
 });
 export default frutiApp;

@@ -1,5 +1,5 @@
 import React from "react";
-import { outcomes } from "actions";
+import { outcomes, incomes } from "actions";
 import { connect } from "react-redux";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
@@ -26,6 +26,12 @@ const styles = {
     ...cardTitle,
     marginTop: "15px",
     marginBottom: "0px"
+  },
+  infoText: {
+    fontWeight: "300",
+    margin: "10px 0 30px",
+    textAlign: "center",
+    fontSize: "20px"
   }
 };
 
@@ -33,6 +39,9 @@ const useStyles = makeStyles(styles);
 
 function SeeExpense(props) {
   const [data, setData] = React.useState([]);
+  const [incomes, setIncomes] = React.useState([]);
+  const [total_incomes, setTIncomes] = React.useState(0);
+  const [total_outcomes, setTOutcomes] = React.useState(0);
   const mapOutcomes = myOutcomes => {
     return myOutcomes.map((outcome, key) => {
       return {
@@ -90,11 +99,25 @@ function SeeExpense(props) {
     for (let filter of filters) {
       filter.placeholder = "Buscar...";
     }
+    props.fetchIncomes();
     props.fetchOutcomes();
   }, []);
   React.useEffect(() => {
     setData(mapOutcomes(props.outcomes));
-  }, [props.outcomes]);
+    setIncomes(props.incomes);
+  }, [props.outcomes, props.incomes]);
+  React.useEffect(() => {
+    let totalIncome = 0;
+    for (let income of incomes) {
+      totalIncome += income.value * income.quantity;
+    }
+    let totalOutcome = 0;
+    for (let outcome of data) {
+      totalOutcome += outcome.value;
+    }
+    setTIncomes(totalIncome);
+    setTOutcomes(totalOutcome);
+  }, [data, incomes]);
   const classes = useStyles();
   return (
     <GridContainer>
@@ -107,6 +130,27 @@ function SeeExpense(props) {
             <h4 className={classes.cardIconTitle}>Lista de Gastos</h4>
           </CardHeader>
           <CardBody>
+            <GridContainer>
+              <GridItem xs={4}>
+                <h5 className={classes.infoText}>
+                  Total de Ingresos:
+                  {` ${total_incomes}`}
+                </h5>
+              </GridItem>
+              <GridItem xs={4}>
+                <h5 className={classes.infoText}>
+                  Total de Gastos:
+                  {` ${total_outcomes}`}
+                </h5>
+              </GridItem>
+              <GridItem xs={4}>
+                <h5 className={classes.infoText}>
+                  {total_outcomes > total_incomes
+                    ? `Pérdidas: ${total_incomes - total_outcomes}`
+                    : `Ganancias: ${total_incomes - total_outcomes}`}
+                </h5>
+              </GridItem>
+            </GridContainer>
             <ReactTable
               nextText={"Siguiente"}
               previousText={"Anterior"}
@@ -221,13 +265,14 @@ const getActivity = activity => {
 const mapStateToProps = state => {
   return {
     outcomes: state.outcomes,
-    user: state.auth.user
+    incomes: state.incomes
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     fetchOutcomes: () => dispatch(outcomes.fetchOutcomes()),
+    fetchIncomes: () => dispatch(incomes.fetchIncomes()),
     deleteOutcome: id => dispatch(outcomes.deleteOutcome(id))
   };
 };

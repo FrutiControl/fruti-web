@@ -44,6 +44,15 @@ const style = {
     fontSize: "15px",
     color: "#a8abae"
   },
+  datePicker: {
+    marginTop: "16px",
+    fontSize: "14px",
+    fontWeight: "400",
+    lineHeight: "1.42857",
+    textDecoration: "none",
+    letterSpacing: "0",
+    color: "#3c4858"
+  },
   ...customSelectStyle
 };
 class Step3 extends React.Component {
@@ -317,7 +326,8 @@ class Step3 extends React.Component {
             labelText="Distancia (metros)"
             id="distance"
             formControlProps={{
-              fullWidth: true
+              fullWidth: true,
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
             }}
             inputProps={{
               onChange: event => {
@@ -326,7 +336,46 @@ class Step3 extends React.Component {
                   tree_quantity:
                     this.state.area / Math.pow(Number(event.target.value), 2)
                 });
-              }
+              },
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
+            }}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={8}>
+          <CustomInput
+            className={classes.datePicker}
+            labelText="Costos estimados de materiales (editable)"
+            id="distance"
+            formControlProps={{
+              fullWidth: true,
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
+            }}
+            inputProps={{
+              onChange: event => {
+                this.setState({
+                  tools_cost: Number(event.target.value)
+                });
+              },
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
+            }}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={8}>
+          <CustomInput
+            className={classes.datePicker}
+            labelText="Costos estimados de mano de obra (editable)"
+            id="distance"
+            formControlProps={{
+              fullWidth: true,
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
+            }}
+            inputProps={{
+              onChange: event => {
+                this.setState({
+                  work_cost: Number(event.target.value)
+                });
+              },
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
             }}
           />
         </GridItem>

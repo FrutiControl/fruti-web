@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import {
   seedings,
   fumigations,
@@ -6,12 +7,12 @@ import {
   prunings,
   waterings
 } from "actions";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 
 // @material-ui/core components
-import { makeStyles } from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
 import Dvr from "@material-ui/icons/Dvr";
@@ -25,10 +26,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import { dataTable } from "variables/general.js";
-
-import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
-import moment from "moment";
+import {cardTitle} from "assets/jss/material-dashboard-pro-react.js";
 
 const styles = {
   cardIconTitle: {
@@ -89,11 +87,41 @@ function SeeActivity(props) {
                     activity.name
                   } ${mapActType(activity.name, activity.type)}`
                 );
+                switch (activity.name) {
+                  case "Riego":
+                    props.setWateringToUpdate(activity.id);
+                    props.fetchWatering(activity.id);
+                    break;
+                  case "Poda":
+                    props.setPruningToUpdate(activity.id);
+                    props.fetchPruning(activity.id);
+                    break;
+                  case "Fertilización":
+                    props.setFertilizationToUpdate(activity.id);
+                    props.fetchFertilization(activity.id);
+                    break;
+                  case "Fumigación":
+                    props.setFumigationToUpdate(activity.id);
+                    props.fetchFumigation(activity.id);
+                    break;
+                  case "Siembra":
+                    props.setSeedingToUpdate(activity.id);
+                    props.fetchSeeding(activity.id);
+                    break;
+                }
               }}
-              color="warning"
-              className="edit"
             >
-              <Dvr />
+              <Link
+                style={{
+                  lineHeight: 0,
+                  color: "#ff9800"
+                }}
+                to={`/admin/create_${
+                  activity.name === "Siembra" ? "seeding" : "activity"
+                }`}
+              >
+                <Dvr/>
+              </Link>
             </Button>{" "}
             {/* use this button to remove the data row */}
             <Button
@@ -114,7 +142,7 @@ function SeeActivity(props) {
               color="danger"
               className="remove"
             >
-              <Close />
+              <Close/>
             </Button>{" "}
           </div>
         )
@@ -156,7 +184,7 @@ function SeeActivity(props) {
         <Card>
           <CardHeader color="primary" icon>
             <CardIcon color="primary">
-              <Assignment />
+              <Assignment/>
             </CardIcon>
             <h4 className={classes.cardIconTitle}>Lista de Actividades</h4>
           </CardHeader>
@@ -209,74 +237,75 @@ function SeeActivity(props) {
     </GridContainer>
   );
 }
+
 const mapActType = (act, type) => {
   switch (act) {
     case "Poda":
       switch (type) {
         case "S":
-          return "Sanitaria";
+          return " Sanitaria";
         case "F":
-          return "Formación";
+          return " Formación";
         case "M":
-          return "Mantenimiento";
+          return " Mantenimiento";
         case "L":
-          return "Limpieza";
+          return " Limpieza";
         default:
           return " ";
       }
     case "Fertilización":
       switch (type) {
         case "C":
-          return "Crecimiento";
+          return " Crecimiento";
         case "P":
-          return "Producción";
+          return " Producción";
         case "M":
-          return "Mantenimiento";
+          return " Mantenimiento";
         default:
           return " ";
       }
     case "Fumigación":
       switch (type) {
         case "I":
-          return "Insectos";
+          return " Insectos";
         case "F":
-          return "Hongo";
+          return " Hongo";
         case "H":
-          return "Hierba";
+          return " Hierba";
         case "A":
-          return "Ácaros";
+          return " Ácaros";
         case "P":
-          return "Peste";
+          return " Peste";
         default:
           return " ";
       }
     case "Riego":
       switch (type) {
         case "N":
-          return " ";
+          return "  ";
         case "S":
-          return "Sistema";
+          return " Sistema";
         case "M":
-          return "Manual";
+          return " Manual";
         default:
           return " ";
       }
     case "Siembra":
       switch (type) {
         case "M":
-          return "Mango Tommy";
+          return " Mango Tommy";
         case "F":
-          return "Mango Farchild";
+          return " Mango Farchild";
         case "N":
-          return "Naranjos";
+          return " Naranjos";
         case "A":
-          return "Aguacates";
+          return " Aguacates";
         case "D":
-          return "Mandarinas";
+          return " Mandarinas";
         case "L":
-          return "Limones";
+          return " Limones";
         case "B":
-          return "Bananos";
+          return " Bananos";
         default:
           return " ";
       }
@@ -306,7 +335,19 @@ const mapDispatchToProps = dispatch => {
     fetchFumigations: () => dispatch(fumigations.fetchFumigations()),
     deleteFumigation: id => dispatch(fumigations.deleteFumigation(id)),
     fetchFertilizations: () => dispatch(fertilizations.fetchFertilizations()),
-    deleteFertilization: id => dispatch(fertilizations.deleteFertilization(id))
+    deleteFertilization: id => dispatch(fertilizations.deleteFertilization(id)),
+    setWateringToUpdate: id => dispatch({type: "WATERING_UPDATE", id: id}),
+    setSeedingToUpdate: id => dispatch({type: "SEEDING_UPDATE", id: id}),
+    setFertilizationToUpdate: id =>
+      dispatch({type: "FERTILIZATION_UPDATE", id: id}),
+    setFumigationToUpdate: id =>
+      dispatch({type: "FUMIGATION_UPDATE", id: id}),
+    setPruningToUpdate: id => dispatch({type: "PRUNING_UPDATE", id: id}),
+    fetchWatering: id => dispatch(waterings.fetchWatering(id)),
+    fetchFertilization: id => dispatch(fertilizations.fetchFertilization(id)),
+    fetchFumigation: id => dispatch(fumigations.fetchFumigation(id)),
+    fetchPruning: id => dispatch(prunings.fetchPruning(id)),
+    fetchSeeding: id => dispatch(seedings.fetchSeeding(id))
   };
 };
 
