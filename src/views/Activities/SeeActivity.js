@@ -1,10 +1,12 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   seedings,
   fumigations,
   fertilizations,
   prunings,
-  waterings
+  waterings,
+  farms
 } from "actions";
 import { connect } from "react-redux";
 // react component for creating dynamic tables
@@ -25,10 +27,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import { dataTable } from "variables/general.js";
-
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
-import moment from "moment";
 
 const styles = {
   cardIconTitle: {
@@ -74,7 +73,7 @@ function SeeActivity(props) {
         end: activity.end_date,
         id: activity.id,
         progress: `${Number(activity.progress * 100).toFixed(0)}%`,
-        farm: activity.farm,
+        farm: getFarm(activity.farm, props.farms),
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -126,6 +125,7 @@ function SeeActivity(props) {
     for (let filter of filters) {
       filter.placeholder = "Buscar...";
     }
+    props.fetchFarms();
     props.fetchSeedings();
     props.fetchWaterings();
     props.fetchPrunings();
@@ -143,6 +143,7 @@ function SeeActivity(props) {
       ])
     );
   }, [
+    props.farms,
     props.waterings,
     props.prunings,
     props.fertilizations,
@@ -192,6 +193,10 @@ function SeeActivity(props) {
                   accessor: "progress"
                 },
                 {
+                  Header: "Granja",
+                  accessor: "farm"
+                },
+                {
                   Header: "Editar - Eliminar",
                   accessor: "actions",
                   sortable: false,
@@ -209,74 +214,75 @@ function SeeActivity(props) {
     </GridContainer>
   );
 }
+
 const mapActType = (act, type) => {
   switch (act) {
     case "Poda":
       switch (type) {
         case "S":
-          return "Sanitaria";
+          return " Sanitaria";
         case "F":
-          return "Formación";
+          return " Formación";
         case "M":
-          return "Mantenimiento";
+          return " Mantenimiento";
         case "L":
-          return "Limpieza";
+          return " Limpieza";
         default:
           return " ";
       }
     case "Fertilización":
       switch (type) {
         case "C":
-          return "Crecimiento";
+          return " Crecimiento";
         case "P":
-          return "Producción";
+          return " Producción";
         case "M":
-          return "Mantenimiento";
+          return " Mantenimiento";
         default:
           return " ";
       }
     case "Fumigación":
       switch (type) {
         case "I":
-          return "Insectos";
+          return " Insectos";
         case "F":
-          return "Hongo";
+          return " Hongo";
         case "H":
-          return "Hierba";
+          return " Hierba";
         case "A":
-          return "Ácaros";
+          return " Ácaros";
         case "P":
-          return "Peste";
+          return " Peste";
         default:
           return " ";
       }
     case "Riego":
       switch (type) {
         case "N":
-          return " ";
+          return "  ";
         case "S":
-          return "Sistema";
+          return " Sistema";
         case "M":
-          return "Manual";
+          return " Manual";
         default:
           return " ";
       }
     case "Siembra":
       switch (type) {
         case "M":
-          return "Mango Tommy";
+          return " Mango Tommy";
         case "F":
-          return "Mango Farchild";
+          return " Mango Farchild";
         case "N":
-          return "Naranjos";
+          return " Naranjos";
         case "A":
-          return "Aguacates";
+          return " Aguacates";
         case "D":
-          return "Mandarinas";
+          return " Mandarinas";
         case "L":
-          return "Limones";
+          return " Limones";
         case "B":
-          return "Bananos";
+          return " Bananos";
         default:
           return " ";
       }
@@ -284,9 +290,16 @@ const mapActType = (act, type) => {
       return " ";
   }
 };
-
+const getFarm = (id, farms) => {
+  for (let i = 0; i < farms.length; i++) {
+    if (farms[i].id === id) {
+      return farms[i].name;
+    }
+  }
+};
 const mapStateToProps = state => {
   return {
+    farms: state.farms,
     waterings: state.waterings,
     seedings: state.seedings,
     prunings: state.prunings,
@@ -297,6 +310,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
+    fetchFarms: () => dispatch(farms.fetchFarms()),
     fetchSeedings: () => dispatch(seedings.fetchSeedings()),
     deleteSeeding: id => dispatch(seedings.deleteSeeding(id)),
     fetchWaterings: () => dispatch(waterings.fetchWaterings()),
