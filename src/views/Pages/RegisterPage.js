@@ -52,26 +52,28 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(function RegisterPage(props) {
-  const [checked, setChecked] = React.useState([]);
   const [name, setName] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPass] = React.useState("");
   const [com_pass, setConPass] = React.useState("");
-  const handleToggle = value => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    setChecked(newChecked);
-  };
+  const [NameState, setNameState] = React.useState("");
+  const [EmailState, setEmailState] = React.useState("");
+  const [PasswordState, setPasswordState] = React.useState("");
+  const [ConfirmPasswordState, setConfirmPasswordState] = React.useState("");
+  const [valid, setValid] = React.useState(false);
   const wrapper = React.createRef();
   const classes = useStyles();
   if (props.isAuthenticated) {
     return <Redirect to="/admin/dashboard" />;
   }
+  const checkForm = () => {
+    return (
+      NameState === "success" &&
+      EmailState === "success" &&
+      PasswordState === "success" &&
+      ConfirmPasswordState === "success"
+    );
+  };
   return (
     <div>
       <AuthNavbar brandText={"Registro de usuarios"} />
@@ -130,6 +132,8 @@ export default connect(
                         </div>
                         <form className={classes.form}>
                           <CustomInput
+                            success={NameState === "success"}
+                            error={NameState === "error"}
                             formControlProps={{
                               fullWidth: true,
                               className: classes.customFormControlClasses
@@ -147,11 +151,16 @@ export default connect(
                               ),
                               placeholder: "Nombre",
                               onChange: e => {
-                                setName(e.target.value);
+                                if (e.target.value.length >= 5) {
+                                  setName(e.target.value);
+                                  setNameState("success");
+                                } else setNameState("error");
                               }
                             }}
                           />
                           <CustomInput
+                            success={EmailState === "success"}
+                            error={EmailState === "error"}
                             formControlProps={{
                               fullWidth: true,
                               className: classes.customFormControlClasses
@@ -168,7 +177,11 @@ export default connect(
                                 </InputAdornment>
                               ),
                               onChange: e => {
-                                setUsername(e.target.value);
+                                let emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                                if (emailRex.test(e.target.value)) {
+                                  setEmailState("success");
+                                  setUsername(e.target.value);
+                                } else setEmailState("error");
                               },
                               placeholder: "Correo",
                               type: "email"
@@ -176,6 +189,8 @@ export default connect(
                           />
                           <CustomInput
                             id="password"
+                            success={PasswordState === "success"}
+                            error={PasswordState === "error"}
                             formControlProps={{
                               fullWidth: true,
                               className: classes.customFormControlClasses
@@ -194,12 +209,18 @@ export default connect(
                               placeholder: "Contraseña",
                               type: "password",
                               onChange: e => {
-                                setPass(e.target.value);
+                                let passRex = /^(?=.*[A-Z][a-z])(?=.*\d)[A-Za-z\d^a-zA-Z0-9].{8,25}$/;
+                                if (passRex.test(e.target.value)) {
+                                  setPasswordState("success");
+                                  setPass(e.target.value);
+                                } else setPasswordState("error");
                               }
                             }}
                           />
                           <CustomInput
                             id="confirmacion"
+                            success={ConfirmPasswordState === "success"}
+                            error={ConfirmPasswordState === "error"}
                             formControlProps={{
                               fullWidth: true,
                               className: classes.customFormControlClasses
@@ -218,37 +239,12 @@ export default connect(
                               placeholder: "Confirmar Contraseña",
                               type: "password",
                               onChange: e => {
-                                setConPass(e.target.value);
+                                if (password === e.target.value) {
+                                  setConfirmPasswordState("success");
+                                  setConPass(e.target.value);
+                                } else setConfirmPasswordState("error");
                               }
                             }}
-                          />
-                          <FormControlLabel
-                            classes={{
-                              root: classes.checkboxLabelControl,
-                              label: classes.checkboxLabel
-                            }}
-                            control={
-                              <Checkbox
-                                tabIndex={-1}
-                                onClick={() => handleToggle(1)}
-                                checkedIcon={
-                                  <Check className={classes.checkedIcon} />
-                                }
-                                icon={
-                                  <Check className={classes.uncheckedIcon} />
-                                }
-                                classes={{
-                                  checked: classes.checked,
-                                  root: classes.checkRoot
-                                }}
-                              />
-                            }
-                            label={
-                              <span>
-                                Acepto los{" "}
-                                <a href="#pablo">términos y condiciones</a>.
-                              </span>
-                            }
                           />
                           <div className={classes.center}>
                             <Button
@@ -256,10 +252,14 @@ export default connect(
                               color="primary"
                               onClick={e => {
                                 e.preventDefault();
-                                if (password === com_pass) {
+                                if (checkForm()) {
                                   props.register(username, password, name);
                                   alert(
                                     "Su usuario fue registrado exitosamente! Click en aceptar para continuar."
+                                  );
+                                } else {
+                                  alert(
+                                    "Verifique la información ingresada para continuar"
                                   );
                                 }
                               }}
