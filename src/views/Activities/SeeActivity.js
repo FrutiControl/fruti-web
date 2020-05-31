@@ -6,6 +6,7 @@ import {
   fertilizations,
   prunings,
   waterings,
+  farms,
   trees
 } from "actions";
 import { connect } from "react-redux";
@@ -73,7 +74,7 @@ function SeeActivity(props) {
         end: activity.end_date,
         id: activity.id,
         progress: `${Number(activity.progress * 100).toFixed(0)}%`,
-        farm: activity.farm,
+        farm: getFarm(activity.farm, props.farms),
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -127,9 +128,8 @@ function SeeActivity(props) {
               onClick={() => {
                 if (
                   window.confirm(
-                    `¿Está seguro de eliminar la actividad ${
-                      activity.name
-                    } ${mapActType(activity.name, activity.type)}?`
+                    `¿Está seguro de eliminar la actividad ${activity.name +
+                      mapActType(activity.name, activity.type)}?`
                   )
                 ) {
                   deleteActivity(activity.name, activity.id);
@@ -151,6 +151,7 @@ function SeeActivity(props) {
       filter.placeholder = "Buscar...";
     }
     props.fetchTrees();
+    props.fetchFarms();
     props.fetchSeedings();
     props.fetchWaterings();
     props.fetchPrunings();
@@ -168,6 +169,7 @@ function SeeActivity(props) {
       ])
     );
   }, [
+    props.farms,
     props.waterings,
     props.prunings,
     props.fertilizations,
@@ -217,6 +219,10 @@ function SeeActivity(props) {
                   accessor: "progress"
                 },
                 {
+                  Header: "Granja",
+                  accessor: "farm"
+                },
+                {
                   Header: "Editar - Eliminar",
                   accessor: "actions",
                   sortable: false,
@@ -234,7 +240,6 @@ function SeeActivity(props) {
     </GridContainer>
   );
 }
-
 const mapActType = (act, type) => {
   switch (act) {
     case "Poda":
@@ -310,9 +315,16 @@ const mapActType = (act, type) => {
       return " ";
   }
 };
-
+const getFarm = (id, farms) => {
+  for (let i = 0; i < farms.length; i++) {
+    if (farms[i].id === id) {
+      return farms[i].name;
+    }
+  }
+};
 const mapStateToProps = state => {
   return {
+    farms: state.farms,
     waterings: state.waterings,
     seedings: state.seedings,
     prunings: state.prunings,
@@ -323,6 +335,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
+    fetchFarms: () => dispatch(farms.fetchFarms()),
     fetchTrees: () => dispatch(trees.fetchTrees()),
     fetchSeedings: () => dispatch(seedings.fetchSeedings()),
     deleteSeeding: id => dispatch(seedings.deleteSeeding(id)),

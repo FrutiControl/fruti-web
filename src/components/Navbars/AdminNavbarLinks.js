@@ -72,18 +72,20 @@ export default connect(
   });
   return (
     <div>
-      <Button
-        color="transparent"
-        simple
-        aria-label="Dashboard"
-        justIcon
-        className={classes.buttonLink}
-      >
-        <Dashboard className={classes.headerLinksSvg + " " + classes.links} />
-        <Hidden mdUp implementation="css">
-          <span className={classes.linkText}>Dashboard</span>
-        </Hidden>
-      </Button>
+      <Link to={"/admin/dashboard"} style={{ color: "#555555" }}>
+        <Button
+          color="transparent"
+          simple
+          aria-label="Dashboard"
+          justIcon
+          className={classes.buttonLink}
+        >
+          <Dashboard className={classes.headerLinksSvg + " " + classes.links} />
+          <Hidden mdUp implementation="css">
+            <span className={classes.linkText}>Dashboard</span>
+          </Hidden>
+        </Button>
+      </Link>
       <div className={managerClasses}>
         <Button
           color="transparent"

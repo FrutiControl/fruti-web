@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { trees } from "actions";
+import { trees, farms } from "actions";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 
@@ -40,7 +40,7 @@ function SeeTree(props) {
         id: tree.id,
         specie: getSpecie(tree.specie),
         seed_date: tree.seed_date,
-        farm: tree.farm,
+        farm: getFarm(tree.farm, props.farms),
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -87,10 +87,11 @@ function SeeTree(props) {
       filter.placeholder = "Buscar...";
     }
     props.fetchTrees();
+    props.fetchFarms();
   }, []);
   React.useEffect(() => {
     setData(mapTrees(props.trees));
-  }, [props.trees]);
+  }, [props.trees, props.farms]);
   const classes = useStyles();
   return (
     <GridContainer>
@@ -169,9 +170,17 @@ const getSpecie = specie => {
       return "Frutal";
   }
 };
+const getFarm = (id, farms) => {
+  for (let i = 0; i < farms.length; i++) {
+    if (farms[i].id === id) {
+      return farms[i].name;
+    }
+  }
+};
 const mapStateToProps = state => {
   return {
     trees: state.trees,
+    farms: state.farms,
     user: state.auth.user
   };
 };
@@ -179,6 +188,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchTrees: () => dispatch(trees.fetchTrees()),
+    fetchFarms: () => dispatch(farms.fetchFarms()),
     deleteTree: id => dispatch(trees.deleteTree(id))
   };
 };
