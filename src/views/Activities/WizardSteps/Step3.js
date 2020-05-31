@@ -117,7 +117,6 @@ class Step3 extends React.Component {
   polygonRef = React.createRef();
   render() {
     const { classes } = this.props;
-    console.log(`Tree_quantity: ${this.state.tree_quantity}`);
     const fruit_items = seedings.map((fruit_type, key) => {
       return (
         <MenuItem

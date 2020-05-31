@@ -40,14 +40,6 @@ export const addTree = (specie, seed_date, location, farm) => {
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
-    console.log(
-      JSON.stringify({
-        specie: specie,
-        seed_date: seed_date,
-        location: location,
-        farm: farm
-      })
-    );
     return fetch(`${base_url}/app/trees/`, {
       method: "POST",
       mode: "cors",

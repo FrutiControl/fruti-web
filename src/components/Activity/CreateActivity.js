@@ -185,9 +185,6 @@ class CreateActivity extends React.Component {
         () => {
           let new_activity = this.state.allStates.act_chars;
           let activity_trees = this.state.allStates.act_trees.trees;
-          console.log(
-            `========== NEW ACTIVITY ${JSON.stringify(new_activity)}`
-          );
           if (new_activity.update) {
             switch (new_activity.activity) {
               case "R":

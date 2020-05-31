@@ -69,7 +69,15 @@ export const fetchSeeding = id => {
   };
 };
 
-export const addSeeding = (start_date, end_date,farm, type, trees_quantity, distance, polygon) => {
+export const addSeeding = (
+  start_date,
+  end_date,
+  farm,
+  type,
+  trees_quantity,
+  distance,
+  polygon
+) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -77,15 +85,6 @@ export const addSeeding = (start_date, end_date,farm, type, trees_quantity, dist
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
-    console.log(`Body ${JSON.stringify({
-      "start_date": start_date,
-      "end_date": end_date,
-      "farm": farm,
-      "type": type,
-      "trees_quantity": trees_quantity,
-      "distance": distance,
-      "polygon": polygon
-    })}`)
     return fetch(`${base_url}/app/seedings/`, {
       method: "POST",
       mode: "cors",
@@ -98,13 +97,13 @@ export const addSeeding = (start_date, end_date,farm, type, trees_quantity, dist
       redirect: "follow",
       referrer: "no-referrer",
       body: JSON.stringify({
-        "start_date": start_date,
-        "end_date": end_date,
-        "farm": farm,
-        "type": type,
-        "trees_quantity": trees_quantity,
-        "distance": distance,
-        "polygon": polygon
+        start_date: start_date,
+        end_date: end_date,
+        farm: farm,
+        type: type,
+        trees_quantity: trees_quantity,
+        distance: distance,
+        polygon: polygon
       })
     })
       .then(res => {
