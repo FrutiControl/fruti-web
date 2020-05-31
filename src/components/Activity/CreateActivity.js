@@ -185,46 +185,100 @@ class CreateActivity extends React.Component {
         () => {
           let new_activity = this.state.allStates.act_chars;
           let activity_trees = this.state.allStates.act_trees.trees;
-          switch (new_activity.activity) {
-            case "R":
-              this.props.addWatering(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
-            case "P":
-              this.props.addPruning(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
-            case "F":
-              this.props.addFertilization(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
-            case "U":
-              this.props.addFumigation(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
+          console.log(
+            `========== NEW ACTIVITY ${JSON.stringify(new_activity)}`
+          );
+          if (new_activity.update) {
+            switch (new_activity.activity) {
+              case "R":
+                this.props.updateWatering(
+                  new_activity.act_id,
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "P":
+                this.props.updatePruning(
+                  new_activity.act_id,
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "F":
+                this.props.updateFertilization(
+                  new_activity.act_id,
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "U":
+                this.props.updateFumigation(
+                  new_activity.act_id,
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              default:
+                break;
+            }
+            this.setState({ done: true });
+            alert(`¡La actividad fue modificada correctamente!`);
+          } else {
+            switch (new_activity.activity) {
+              case "R":
+                this.props.addWatering(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "P":
+                this.props.addPruning(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "F":
+                this.props.addFertilization(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "U":
+                this.props.addFumigation(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              default:
+                break;
+            }
+            this.setState({ done: true });
+            alert(`¡La actividad fue creada correctamente!`);
           }
-          this.setState({ done: true });
-          alert(`¡La actividad fue creada correctamente!`);
         }
       );
     }
@@ -426,7 +480,37 @@ const mapDispatchToProps = dispatch => {
         fumigations.addFumigation(start_date, end_date, farm, type, trees)
       ),
     addWatering: (start_date, end_date, farm, type, trees) =>
-      dispatch(waterings.addWatering(start_date, end_date, farm, type, trees))
+      dispatch(waterings.addWatering(start_date, end_date, farm, type, trees)),
+    updatePruning: (id, start_date, end_date, farm, type, trees) =>
+      dispatch(
+        prunings.updatePruning(id, start_date, end_date, farm, type, trees)
+      ),
+    updateFertilization: (id, start_date, end_date, farm, type, trees) =>
+      dispatch(
+        fertilizations.updateFertilization(
+          id,
+          start_date,
+          end_date,
+          farm,
+          type,
+          trees
+        )
+      ),
+    updateFumigation: (id, start_date, end_date, farm, type, trees) =>
+      dispatch(
+        fumigations.updateFumigation(
+          id,
+          start_date,
+          end_date,
+          farm,
+          type,
+          trees
+        )
+      ),
+    updateWatering: (id, start_date, end_date, farm, type, trees) =>
+      dispatch(
+        waterings.updateWatering(id, start_date, end_date, farm, type, trees)
+      )
   };
 };
 

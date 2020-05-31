@@ -1,6 +1,6 @@
 const initialState = {
-  update_id: 0,
-  update_type: ""
+  id: 0,
+  type: ""
 };
 
 export default function updates(state = initialState, action) {
@@ -23,6 +23,8 @@ export default function updates(state = initialState, action) {
       return { id: action.id, type: "income" };
     case "OUTCOME_UPDATE":
       return { id: action.id, type: "outcome" };
+    case "RESET_UPDATE":
+      return { id: action.id, type: "" };
     default:
       return state;
   }

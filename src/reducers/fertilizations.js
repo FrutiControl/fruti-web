@@ -6,6 +6,9 @@ export default function fertilizations(state = initialState, action) {
     case "FETCH_FERTILIZATIONS":
       return [...action.fertilizations];
 
+    case "FETCH_FERTILIZATION":
+      return [action.fertilization];
+
     case "ADD_FERTILIZATION":
       return [...state, action.note];
 

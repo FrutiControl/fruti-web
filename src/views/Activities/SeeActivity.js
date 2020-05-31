@@ -1,18 +1,19 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   seedings,
   fumigations,
   fertilizations,
   prunings,
-  waterings
+  waterings,
+  trees
 } from "actions";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 // react component for creating dynamic tables
 import ReactTable from "react-table";
 
 // @material-ui/core components
-import {makeStyles} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 import Assignment from "@material-ui/icons/Assignment";
 import Dvr from "@material-ui/icons/Dvr";
@@ -26,7 +27,7 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import {cardTitle} from "assets/jss/material-dashboard-pro-react.js";
+import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
 
 const styles = {
   cardIconTitle: {
@@ -82,11 +83,6 @@ function SeeActivity(props) {
               round
               simple
               onClick={() => {
-                alert(
-                  `You've clicked EDIT button on:" ${
-                    activity.name
-                  } ${mapActType(activity.name, activity.type)}`
-                );
                 switch (activity.name) {
                   case "Riego":
                     props.setWateringToUpdate(activity.id);
@@ -120,7 +116,7 @@ function SeeActivity(props) {
                   activity.name === "Siembra" ? "seeding" : "activity"
                 }`}
               >
-                <Dvr/>
+                <Dvr />
               </Link>
             </Button>{" "}
             {/* use this button to remove the data row */}
@@ -142,7 +138,7 @@ function SeeActivity(props) {
               color="danger"
               className="remove"
             >
-              <Close/>
+              <Close />
             </Button>{" "}
           </div>
         )
@@ -154,6 +150,7 @@ function SeeActivity(props) {
     for (let filter of filters) {
       filter.placeholder = "Buscar...";
     }
+    props.fetchTrees();
     props.fetchSeedings();
     props.fetchWaterings();
     props.fetchPrunings();
@@ -184,7 +181,7 @@ function SeeActivity(props) {
         <Card>
           <CardHeader color="primary" icon>
             <CardIcon color="primary">
-              <Assignment/>
+              <Assignment />
             </CardIcon>
             <h4 className={classes.cardIconTitle}>Lista de Actividades</h4>
           </CardHeader>
@@ -326,6 +323,7 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
+    fetchTrees: () => dispatch(trees.fetchTrees()),
     fetchSeedings: () => dispatch(seedings.fetchSeedings()),
     deleteSeeding: id => dispatch(seedings.deleteSeeding(id)),
     fetchWaterings: () => dispatch(waterings.fetchWaterings()),
@@ -336,13 +334,13 @@ const mapDispatchToProps = dispatch => {
     deleteFumigation: id => dispatch(fumigations.deleteFumigation(id)),
     fetchFertilizations: () => dispatch(fertilizations.fetchFertilizations()),
     deleteFertilization: id => dispatch(fertilizations.deleteFertilization(id)),
-    setWateringToUpdate: id => dispatch({type: "WATERING_UPDATE", id: id}),
-    setSeedingToUpdate: id => dispatch({type: "SEEDING_UPDATE", id: id}),
+    setWateringToUpdate: id => dispatch({ type: "WATERING_UPDATE", id: id }),
+    setSeedingToUpdate: id => dispatch({ type: "SEEDING_UPDATE", id: id }),
     setFertilizationToUpdate: id =>
-      dispatch({type: "FERTILIZATION_UPDATE", id: id}),
+      dispatch({ type: "FERTILIZATION_UPDATE", id: id }),
     setFumigationToUpdate: id =>
-      dispatch({type: "FUMIGATION_UPDATE", id: id}),
-    setPruningToUpdate: id => dispatch({type: "PRUNING_UPDATE", id: id}),
+      dispatch({ type: "FUMIGATION_UPDATE", id: id }),
+    setPruningToUpdate: id => dispatch({ type: "PRUNING_UPDATE", id: id }),
     fetchWatering: id => dispatch(waterings.fetchWatering(id)),
     fetchFertilization: id => dispatch(fertilizations.fetchFertilization(id)),
     fetchFumigation: id => dispatch(fumigations.fetchFumigation(id)),

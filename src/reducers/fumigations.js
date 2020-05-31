@@ -6,6 +6,9 @@ export default function fumigations(state = initialState, action) {
     case "FETCH_FUMIGATIONS":
       return [...action.fumigations];
 
+    case "FETCH_FUMIGATION":
+      return [action.fumigation];
+
     case "ADD_FUMIGATION":
       return [...state, action.note];
 

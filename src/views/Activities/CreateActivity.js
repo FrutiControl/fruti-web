@@ -7,9 +7,13 @@ import GridItem from "components/Grid/GridItem.js";
 
 import Step1 from "views/Activities/WizardSteps/Step1.js";
 import Step2 from "views/Activities/WizardSteps/Step2.js";
-import Step3 from "views/Activities/WizardSteps/Step3.js";
+import { connect } from "react-redux";
 
-export default function CreateActivityView() {
+function CreateActivityView(props) {
+  const [update, setUpdate] = React.useState(false);
+  React.useEffect(() => {
+    setUpdate(props.update.id);
+  }, []);
   return (
     <GridContainer justify="center">
       <GridItem xs={12} sm={8}>
@@ -25,13 +29,27 @@ export default function CreateActivityView() {
               stepName: "Seleccionar Árboles",
               stepComponent: Step2,
               stepId: "act_trees"
-            },
+            }
           ]}
-          title="Crear Actividad"
-          subtitle="Ingrese los datos correspondientes en el formato para su nueva actividad."
+          title={`${update ? "Modificar" : "Crear"} Actividad`}
+          subtitle={`${
+            update
+              ? "Visualice y modifique los datos de su actividad. Registre el progreso realizado."
+              : "Ingrese los datos correspondientes en el formato para su nueva actividad."
+          }`}
           finishButtonClick={e => alert(e)}
+          finishButtonText={`${update ? "Modificar" : "Crear"} Actividad`}
         />
       </GridItem>
     </GridContainer>
   );
 }
+const mapStateToProps = state => {
+  return {
+    update: state.updates
+  };
+};
+export default connect(
+  mapStateToProps,
+  null
+)(CreateActivityView);

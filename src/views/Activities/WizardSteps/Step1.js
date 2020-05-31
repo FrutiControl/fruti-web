@@ -4,6 +4,7 @@ import {
   fertilizations,
   fumigations,
   prunings,
+  trees,
   waterings
 } from "actions";
 import { connect } from "react-redux";
@@ -80,6 +81,7 @@ class Step1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      act_id: 0,
       update: false,
       tools_cost: 0,
       work_cost: 0,
@@ -88,7 +90,8 @@ class Step1 extends React.Component {
       activity: "",
       act_type: "",
       act_typesItems: [],
-      farm: ""
+      farm: "",
+      act_trees: []
     };
   }
   sendState() {
@@ -130,42 +133,50 @@ class Step1 extends React.Component {
         switch (to_update.type) {
           case "watering":
             this.setState({
+              act_id: this.props.waterings[0].id,
               start_date: this.props.waterings[0].start_date,
               end_date: this.props.waterings[0].end_date,
               activity: "R",
               act_type: this.props.waterings[0].type,
               act_typesItems: waterings_objs,
-              farm: this.props.waterings[0].farm
+              farm: this.props.waterings[0].farm,
+              act_trees: this.props.waterings[0].trees
             });
             break;
           case "fumigation":
             this.setState({
+              act_id: this.props.fumigations[0].id,
               start_date: this.props.fumigations[0].start_date,
               end_date: this.props.fumigations[0].end_date,
               activity: "U",
               act_type: this.props.fumigations[0].type,
               act_typesItems: fumigations_objs,
-              farm: this.props.fumigations[0].farm
+              farm: this.props.fumigations[0].farm,
+              act_trees: this.props.fumigations[0].trees
             });
             break;
           case "fertilization":
             this.setState({
+              act_id: this.props.fertilizations[0].id,
               start_date: this.props.fertilizations[0].start_date,
               end_date: this.props.fertilizations[0].end_date,
               activity: "F",
               act_type: this.props.fertilizations[0].type,
               act_typesItems: fertilizations_objs,
-              farm: this.props.fertilizations[0].farm
+              farm: this.props.fertilizations[0].farm,
+              act_trees: this.props.fertilizations[0].trees
             });
             break;
           case "pruning":
             this.setState({
+              act_id: this.props.prunings[0].id,
               start_date: this.props.prunings[0].start_date,
               end_date: this.props.prunings[0].end_date,
               activity: "P",
               act_type: this.props.prunings[0].type,
               act_typesItems: prunes_objs,
-              farm: this.props.prunings[0].farm
+              farm: this.props.prunings[0].farm,
+              act_trees: this.props.prunings[0].trees
             });
             break;
         }
@@ -174,14 +185,6 @@ class Step1 extends React.Component {
   }
   render() {
     const { classes } = this.props;
-    console.log(`STATE: ${JSON.stringify(this.state)}`);
-    console.log(`end date ${this.state.end_date}`);
-    console.log(`END DATE ${new Date(this.state.end_date)}`);
-    console.log(
-      `MOMENT END DATE ${moment(this.state.end_date, "YYYY-MM-DD").format(
-        "YYYY-MM-DD"
-      )}`
-    );
     const activities_items = activities.map((act_type, key) => {
       return (
         <MenuItem
@@ -213,13 +216,17 @@ class Step1 extends React.Component {
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
-          <h4 className={classes.infoText}>
+          <h4 style={{ margin: "10px 0 40px", textAlign: "center" }}>
             A continuación se solicitan datos sobre la actividad
             correspondiente.
           </h4>
         </GridItem>
         <GridItem xs={12} sm={8}>
-          <FormControl fullWidth className={classes.selectFormControl}>
+          <FormControl
+            fullWidth
+            className={classes.selectFormControl}
+            disabled={this.state.update}
+          >
             <InputLabel htmlFor="activity" className={classes.selectLabel}>
               Seleccione la actividad <small>(requerido)</small>
             </InputLabel>
@@ -294,9 +301,13 @@ class Step1 extends React.Component {
           </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
-          <FormControl fullWidth className={classes.selectFormControl}>
+          <FormControl
+            fullWidth
+            className={classes.selectFormControl}
+            disabled={this.state.update}
+          >
             <InputLabel htmlFor="farm" className={classes.selectLabel}>
-              Seleccione granja a la que pertenece (requerido)
+              Seleccione granja a la que pertenece <small>(requerido)</small>
             </InputLabel>
             <Select
               MenuProps={{
@@ -325,22 +336,35 @@ class Step1 extends React.Component {
           </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
-          <Datetime
-            closeOnSelect
-            editable={false}
-            dateFormat={"YYYY-MM-DD"}
-            className={classes.datePicker}
-            timeFormat={false}
-            // defaultValue={this.state.start_date ? moment(this.state.start_date, "YYYY-MM-DD").format("YYYY-MM-DD"): new Date()}
-            onChange={date =>
-              this.setState({ start_date: date.format("YYYY-MM-DD") })
-            }
-            inputProps={{
-              placeholder:
-                "Seleccione fecha de inicio de la actividad (requerido)",
-              style: style.datePicker
-            }}
-          />
+          <FormControl
+            fullWidth
+            className={classes.selectFormControl}
+            disabled={this.state.update}
+          >
+            <InputLabel htmlFor="start_date" className={classes.selectLabel}>
+              Seleccione granja a la que pertenece <small>(requerido)</small>
+            </InputLabel>
+            <Datetime
+              closeOnSelect
+              editable={false}
+              dateFormat={"YYYY-MM-DD"}
+              className={classes.datePicker}
+              timeFormat={false}
+              value={this.state.start_date}
+              onChange={date =>
+                this.setState({ start_date: date.format("YYYY-MM-DD") })
+              }
+              isValidDate={currentDate => {
+                return currentDate.isAfter(moment().subtract(1, "day"));
+              }}
+              inputProps={{
+                name: "start_date",
+                id: "start_date",
+                style: style.datePicker,
+                disabled: this.state.update
+              }}
+            />
+          </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
           <Datetime
@@ -349,9 +373,7 @@ class Step1 extends React.Component {
             dateFormat={"YYYY-MM-DD"}
             className={classes.datePicker}
             timeFormat={false}
-            defaultValue={moment(this.state.end_date, "YYYY-MM-DD").format(
-              "YYYY-MM-DD"
-            )}
+            value={this.state.end_date}
             onChange={date =>
               this.setState({ end_date: date.format("YYYY-MM-DD") })
             }
@@ -365,44 +387,64 @@ class Step1 extends React.Component {
             }}
           />
         </GridItem>
-        <GridItem xs={12} sm={8}>
-          <CustomInput
-            className={classes.datePicker}
-            labelText="Costos estimados de materiales (editable)"
-            id="distance"
-            formControlProps={{
-              fullWidth: true,
-              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
-            }}
-            inputProps={{
-              onChange: event => {
-                this.setState({
-                  tools_cost: Number(event.target.value)
-                });
-              },
-              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
-            }}
-          />
-        </GridItem>
-        <GridItem xs={12} sm={8}>
-          <CustomInput
-            className={classes.datePicker}
-            labelText="Costos estimados de mano de obra (editable)"
-            id="distance"
-            formControlProps={{
-              fullWidth: true,
-              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
-            }}
-            inputProps={{
-              onChange: event => {
-                this.setState({
-                  work_cost: Number(event.target.value)
-                });
-              },
-              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
-            }}
-          />
-        </GridItem>
+        {!this.state.update && (
+          <GridItem xs={12} sm={8}>
+            <CustomInput
+              className={classes.datePicker}
+              labelText="Costos estimados de materiales (editable)"
+              id="distance"
+              formControlProps={{
+                fullWidth: true,
+                style: {
+                  ...style.datePicker,
+                  margin: "0",
+                  paddingTop: "10px"
+                }
+              }}
+              inputProps={{
+                onChange: event => {
+                  this.setState({
+                    tools_cost: Number(event.target.value)
+                  });
+                },
+                style: {
+                  ...style.datePicker,
+                  margin: "0",
+                  paddingTop: "10px"
+                }
+              }}
+            />
+          </GridItem>
+        )}
+        {!this.state.update && (
+          <GridItem xs={12} sm={8}>
+            <CustomInput
+              className={classes.datePicker}
+              labelText="Costos estimados de mano de obra (editable)"
+              id="distance"
+              formControlProps={{
+                fullWidth: true,
+                style: {
+                  ...style.datePicker,
+                  margin: "0",
+                  paddingTop: "10px"
+                }
+              }}
+              inputProps={{
+                onChange: event => {
+                  this.setState({
+                    work_cost: Number(event.target.value)
+                  });
+                },
+                style: {
+                  ...style.datePicker,
+                  margin: "0",
+                  paddingTop: "10px"
+                }
+              }}
+            />
+          </GridItem>
+        )}
       </GridContainer>
     );
   }

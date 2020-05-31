@@ -6,6 +6,9 @@ export default function seedings(state = initialState, action) {
     case "FETCH_SEEDINGS":
       return [...action.seedings];
 
+    case "FETCH_SEEDING":
+      return [action.seeding];
+
     case "ADD_SEEDING":
       return [...state, action.note];
 

@@ -6,6 +6,9 @@ export default function prunings(state = initialState, action) {
     case "FETCH_PRUNINGS":
       return [...action.prunings];
 
+    case "FETCH_PRUNING":
+      return [action.pruning];
+
     case "ADD_PRUNING":
       return [...state, action.note];
 
