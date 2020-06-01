@@ -5,6 +5,7 @@ import {
   fumigations,
   outcomes,
   prunings,
+  recollections,
   waterings
 } from "actions";
 import { connect } from "react-redux";
@@ -228,6 +229,15 @@ class CreateActivity extends React.Component {
                 activity_trees
               );
               break;
+            case "H":
+              this.props.addRecollection(
+                new_activity.start_date,
+                new_activity.end_date,
+                Number(new_activity.farm),
+                new_activity.act_type,
+                activity_trees
+              );
+              break;
           }
           this.props.addOutcome(
             new_activity.start_date,
@@ -235,7 +245,8 @@ class CreateActivity extends React.Component {
             "M",
             new_activity.activity,
             mapOutActType(new_activity.activity, new_activity.act_type),
-            `${getActivity(new_activity.activity)}: ${mapActType(
+            `${getActivity(new_activity.activity)}:${mapActType(
+              new_activity.activity,
               new_activity.act_type
             ) +
               " " +
@@ -248,7 +259,8 @@ class CreateActivity extends React.Component {
             "O",
             new_activity.activity,
             mapOutActType(new_activity.activity, new_activity.act_type),
-            `${getActivity(new_activity.activity)}: ${mapActType(
+            `${getActivity(new_activity.activity)}:${mapActType(
+              new_activity.activity,
               new_activity.act_type
             ) +
               " " +
@@ -412,7 +424,6 @@ CreateActivity.defaultProps = {
   finishButtonClasses: "",
   finishButtonText: "Crear Actividad"
 };
-
 CreateActivity.propTypes = {
   classes: PropTypes.object.isRequired,
   steps: PropTypes.arrayOf(
@@ -440,38 +451,6 @@ CreateActivity.propTypes = {
   finishButtonText: PropTypes.string,
   finishButtonClick: PropTypes.func,
   validate: PropTypes.bool
-};
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    addFertilization: (start_date, end_date, farm, type, trees) =>
-      dispatch(
-        fertilizations.addFertilization(start_date, end_date, farm, type, trees)
-      ),
-    addOutcome: (date, value, out_type, act, act_type, concept, recommended) =>
-      dispatch(
-        outcomes.addOutcome(
-          date,
-          value,
-          out_type,
-          act,
-          act_type,
-          concept,
-          recommended
-        )
-      ),
-    addPruning: (start_date, end_date, farm, type, trees) =>
-      dispatch(prunings.addPruning(start_date, end_date, farm, type, trees)),
-    addFumigation: (start_date, end_date, farm, type, trees) =>
-      dispatch(
-        fumigations.addFumigation(start_date, end_date, farm, type, trees)
-      ),
-    addWatering: (start_date, end_date, farm, type, trees) =>
-      dispatch(waterings.addWatering(start_date, end_date, farm, type, trees))
-  };
 };
 const mapActType = (act, type) => {
   switch (act) {
@@ -581,6 +560,25 @@ const mapOutActType = (act, type) => {
         default:
           return;
       }
+    case "H":
+      switch (type) {
+        case "M":
+          return "S1";
+        case "F":
+          return "S2";
+        case "N":
+          return "S3";
+        case "D":
+          return "S4";
+        case "L":
+          return "S5";
+        case "A":
+          return "S6";
+        case "B":
+          return "S7";
+        default:
+          return;
+      }
     default:
       break;
   }
@@ -597,11 +595,48 @@ const getActivity = activity => {
       return "Riego";
     case "S":
       return "Siembra";
+    case "H":
+      return "Recolección";
     default:
       return;
   }
 };
+const mapStateToProps = state => {
+  return {};
+};
 
+const mapDispatchToProps = dispatch => {
+  return {
+    addFertilization: (start_date, end_date, farm, type, trees) =>
+      dispatch(
+        fertilizations.addFertilization(start_date, end_date, farm, type, trees)
+      ),
+    addPruning: (start_date, end_date, farm, type, trees) =>
+      dispatch(prunings.addPruning(start_date, end_date, farm, type, trees)),
+    addFumigation: (start_date, end_date, farm, type, trees) =>
+      dispatch(
+        fumigations.addFumigation(start_date, end_date, farm, type, trees)
+      ),
+    addWatering: (start_date, end_date, farm, type, trees) =>
+      dispatch(waterings.addWatering(start_date, end_date, farm, type, trees)),
+    addRecollection: (start_date, end_date, farm, type, trees) =>
+      dispatch(
+        recollections.addRecollection(start_date, end_date, farm, type, trees)
+      ),
+    addOutcome: (date, value, out_type, act, act_type, concept, recommended) =>
+      dispatch(
+        outcomes.addOutcome(
+          date,
+          value,
+          out_type,
+          act,
+          act_type,
+          concept,
+          recommended
+        )
+      )
+  };
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps

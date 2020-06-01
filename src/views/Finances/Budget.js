@@ -231,6 +231,8 @@ const getActivity = activity => {
       return "Riego";
     case "S":
       return "Siembra";
+    case "H":
+      return "Recolección";
     default:
       return " ";
   }

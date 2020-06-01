@@ -17,11 +17,14 @@ import FormControl from "@material-ui/core/FormControl";
 import Datetime from "react-datetime";
 import moment from "moment";
 
+import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
+
 const style = {
   infoText: {
     fontWeight: "300",
     margin: "10px 0 30px",
-    textAlign: "center"
+    textAlign: "center",
+    fontSize: "16px"
   },
   inputAdornmentIcon: {
     color: "#555"
@@ -35,15 +38,16 @@ const style = {
     fontWeight: "400",
     lineHeight: "1.42857",
     textDecoration: "none",
-    letterSpacing: "0",
-    color: "#3c4858"
-  }
+    letterSpacing: "0"
+  },
+  ...customSelectStyle
 };
 const activities = [
   { value: "P", name: "Poda" },
   { value: "F", name: "Fertilización" },
   { value: "U", name: "Fumigación" },
-  { value: "R", name: "Riego" }
+  { value: "R", name: "Riego" },
+  { value: "H", name: "Recolección" }
 ];
 const prunes = [
   { value: "S", name: "Sanitaria" },
@@ -67,7 +71,15 @@ const waterings = [
   { value: "M", name: "Manual" },
   { value: "S", name: "Sistema" }
 ];
-
+const recollections = [
+  { value: "M", name: "Mango Tommy" },
+  { value: "F", name: "Mango Farchild" },
+  { value: "N", name: "Naranja" },
+  { value: "D", name: "Mandarina" },
+  { value: "L", name: "Limón" },
+  { value: "A", name: "Aguacate" },
+  { value: "B", name: "Banano" }
+];
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
@@ -100,6 +112,9 @@ class Step1 extends React.Component {
           break;
         case "R":
           this.setState({ act_typesItems: waterings, tools_cost: 10000 });
+          break;
+        case "H":
+          this.setState({ act_typesItems: recollections, tools_cost: 15000 });
           break;
       }
     });
