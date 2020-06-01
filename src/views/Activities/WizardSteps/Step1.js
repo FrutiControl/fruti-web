@@ -9,11 +9,13 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
+import CustomInput from "components/CustomInput/CustomInput";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Datetime from "react-datetime";
+import moment from "moment";
 
 const style = {
   infoText: {
@@ -75,7 +77,10 @@ class Step1 extends React.Component {
       activity: "",
       act_type: "",
       act_typesItems: [],
-      farm: ""
+      farm: "",
+      work_cost: 0,
+      tools_cost: 0,
+      days: 0
     };
   }
   sendState() {
@@ -85,16 +90,16 @@ class Step1 extends React.Component {
     this.setState({ activity: event.target.value }, () => {
       switch (event.target.value) {
         case "F":
-          this.setState({ act_typesItems: fertilizations });
+          this.setState({ act_typesItems: fertilizations, tools_cost: 60000 });
           break;
         case "U":
-          this.setState({ act_typesItems: fumigations });
+          this.setState({ act_typesItems: fumigations, tools_cost: 60000 });
           break;
         case "P":
-          this.setState({ act_typesItems: prunes });
+          this.setState({ act_typesItems: prunes, tools_cost: 15000 });
           break;
         case "R":
-          this.setState({ act_typesItems: waterings });
+          this.setState({ act_typesItems: waterings, tools_cost: 10000 });
           break;
       }
     });
@@ -105,6 +110,18 @@ class Step1 extends React.Component {
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+  handleDays(start_date, end_date) {
+    if (start_date && end_date) {
+      this.setState(
+        { days: moment(end_date).diff(start_date, "days") + 1 },
+        () => {
+          this.setState({
+            work_cost: this.state.days * this.props.owner.day_cost
+          });
+        }
+      );
+    }
+  }
   componentDidMount() {
     this.props.fetchFarms();
   }
@@ -224,7 +241,7 @@ class Step1 extends React.Component {
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
             <InputLabel htmlFor="farm" className={classes.selectLabel}>
-              Seleccione granja a la que pertenece (requerido)
+              Seleccione granja a la que pertenece <small>(requerido)</small>
             </InputLabel>
             <Select
               MenuProps={{
@@ -259,9 +276,12 @@ class Step1 extends React.Component {
             dateFormat={"YYYY-MM-DD"}
             className={classes.datePicker}
             timeFormat={false}
-            onChange={date =>
-              this.setState({ start_date: date.format("YYYY-MM-DD") })
-            }
+            onChange={date => {
+              this.setState({
+                start_date: date.format("YYYY-MM-DD")
+              });
+              this.handleDays(date, this.state.end_date);
+            }}
             inputProps={{
               placeholder:
                 "Seleccione fecha de inicio de la actividad (requerido)",
@@ -276,9 +296,12 @@ class Step1 extends React.Component {
             dateFormat={"YYYY-MM-DD"}
             className={classes.datePicker}
             timeFormat={false}
-            onChange={date =>
-              this.setState({ end_date: date.format("YYYY-MM-DD") })
-            }
+            onChange={date => {
+              this.setState({
+                end_date: date.format("YYYY-MM-DD")
+              });
+              this.handleDays(this.state.start_date, date);
+            }}
             isValidDate={currentDate => {
               return currentDate.isAfter(this.state.start_date);
             }}
@@ -286,6 +309,62 @@ class Step1 extends React.Component {
               placeholder:
                 "Seleccione fecha de fin de la actividad (requerido)",
               style: style.datePicker
+            }}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={8}>
+          <CustomInput
+            className={classes.datePicker}
+            labelText="Costos estimados de materiales (editable)"
+            id="tools_cost"
+            formControlProps={{
+              fullWidth: true,
+              style: {
+                ...style.datePicker,
+                margin: "0",
+                paddingTop: "10px"
+              }
+            }}
+            inputProps={{
+              onChange: event => {
+                this.setState({
+                  tools_cost: Number(event.target.value)
+                });
+              },
+              style: {
+                ...style.datePicker,
+                margin: "0",
+                paddingTop: "10px"
+              },
+              value: this.state.tools_cost
+            }}
+          />
+        </GridItem>
+        <GridItem xs={12} sm={8}>
+          <CustomInput
+            className={classes.datePicker}
+            labelText="Costos estimados de mano de obra (editable)"
+            id="work_cost"
+            formControlProps={{
+              fullWidth: true,
+              style: {
+                ...style.datePicker,
+                margin: "0",
+                paddingTop: "10px"
+              }
+            }}
+            inputProps={{
+              onChange: event => {
+                this.setState({
+                  work_cost: Number(event.target.value)
+                });
+              },
+              style: {
+                ...style.datePicker,
+                margin: "0",
+                paddingTop: "10px"
+              },
+              value: this.state.work_cost
             }}
           />
         </GridItem>
@@ -300,7 +379,8 @@ Step1.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    farms: state.farms
+    farms: state.farms,
+    owner: state.owner
   };
 };
 

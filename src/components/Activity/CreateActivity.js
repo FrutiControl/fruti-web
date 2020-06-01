@@ -1,6 +1,12 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import { fertilizations, fumigations, prunings, waterings } from "actions";
+import {
+  fertilizations,
+  fumigations,
+  outcomes,
+  prunings,
+  waterings
+} from "actions";
 import { connect } from "react-redux";
 import cx from "classnames";
 import PropTypes from "prop-types";
@@ -223,6 +229,32 @@ class CreateActivity extends React.Component {
               );
               break;
           }
+          this.props.addOutcome(
+            new_activity.start_date,
+            Number(new_activity.tools_cost),
+            "M",
+            new_activity.activity,
+            mapOutActType(new_activity.activity, new_activity.act_type),
+            `${getActivity(new_activity.activity)}: ${mapActType(
+              new_activity.act_type
+            ) +
+              " " +
+              new_activity.start_date}`,
+            true
+          );
+          this.props.addOutcome(
+            new_activity.start_date,
+            Number(new_activity.work_cost),
+            "O",
+            new_activity.activity,
+            mapOutActType(new_activity.activity, new_activity.act_type),
+            `${getActivity(new_activity.activity)}: ${mapActType(
+              new_activity.act_type
+            ) +
+              " " +
+              new_activity.start_date}`,
+            true
+          );
           this.setState({ done: true });
           alert(`¡La actividad fue creada correctamente!`);
         }
@@ -419,6 +451,18 @@ const mapDispatchToProps = dispatch => {
       dispatch(
         fertilizations.addFertilization(start_date, end_date, farm, type, trees)
       ),
+    addOutcome: (date, value, out_type, act, act_type, concept, recommended) =>
+      dispatch(
+        outcomes.addOutcome(
+          date,
+          value,
+          out_type,
+          act,
+          act_type,
+          concept,
+          recommended
+        )
+      ),
     addPruning: (start_date, end_date, farm, type, trees) =>
       dispatch(prunings.addPruning(start_date, end_date, farm, type, trees)),
     addFumigation: (start_date, end_date, farm, type, trees) =>
@@ -428,6 +472,134 @@ const mapDispatchToProps = dispatch => {
     addWatering: (start_date, end_date, farm, type, trees) =>
       dispatch(waterings.addWatering(start_date, end_date, farm, type, trees))
   };
+};
+const mapActType = (act, type) => {
+  switch (act) {
+    case "P":
+      switch (type) {
+        case "S":
+          return " Sanitaria";
+        case "F":
+          return " Formación";
+        case "M":
+          return " Mantenimiento";
+        case "L":
+          return " Limpieza";
+        default:
+          return " ";
+      }
+    case "F":
+      switch (type) {
+        case "C":
+          return " Crecimiento";
+        case "P":
+          return " Producción";
+        case "M":
+          return " Mantenimiento";
+        default:
+          return " ";
+      }
+    case "U":
+      switch (type) {
+        case "I":
+          return " Insectos";
+        case "F":
+          return " Hongo";
+        case "H":
+          return " Hierba";
+        case "A":
+          return " Ácaros";
+        case "P":
+          return " Peste";
+        default:
+          return " ";
+      }
+    case "R":
+      switch (type) {
+        case "N":
+          return "  ";
+        case "S":
+          return " Sistema";
+        case "M":
+          return " Manual";
+        default:
+          return " ";
+      }
+    default:
+      break;
+  }
+};
+const mapOutActType = (act, type) => {
+  switch (act) {
+    case "P":
+      switch (type) {
+        case "S":
+          return "P1";
+        case "F":
+          return "P2";
+        case "M":
+          return "P3";
+        case "L":
+          return "P4";
+        default:
+          return;
+      }
+    case "F":
+      switch (type) {
+        case "C":
+          return "F1";
+        case "P":
+          return "F2";
+        case "M":
+          return "F3";
+        default:
+          return;
+      }
+    case "U":
+      switch (type) {
+        case "I":
+          return "U1";
+        case "F":
+          return "U2";
+        case "H":
+          return "U3";
+        case "A":
+          return "U4";
+        case "P":
+          return "U5";
+        default:
+          return;
+      }
+    case "R":
+      switch (type) {
+        case "N":
+          return "R1";
+        case "M":
+          return "R2";
+        case "S":
+          return "R3";
+        default:
+          return;
+      }
+    default:
+      break;
+  }
+};
+const getActivity = activity => {
+  switch (activity) {
+    case "P":
+      return "Poda";
+    case "F":
+      return "Fertilización";
+    case "U":
+      return "Fumigación";
+    case "R":
+      return "Riego";
+    case "S":
+      return "Siembra";
+    default:
+      return;
+  }
 };
 
 export default connect(

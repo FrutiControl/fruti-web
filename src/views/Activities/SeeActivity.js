@@ -84,7 +84,7 @@ function SeeActivity(props) {
               simple
               onClick={() => {
                 alert(
-                  `You've clicked EDIT button on:" ${
+                  `You've clicked EDIT button on: ${
                     activity.name
                   } ${mapActType(activity.name, activity.type)}`
                 );
@@ -102,9 +102,8 @@ function SeeActivity(props) {
               onClick={() => {
                 if (
                   window.confirm(
-                    `¿Está seguro de eliminar la actividad ${
-                      activity.name
-                    } ${mapActType(activity.name, activity.type)}?`
+                    `¿Está seguro de eliminar la actividad ${activity.name +
+                      mapActType(activity.name, activity.type)}?`
                   )
                 ) {
                   deleteActivity(activity.name, activity.id);

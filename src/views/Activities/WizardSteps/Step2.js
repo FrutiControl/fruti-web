@@ -30,7 +30,7 @@ const style = {
   inputAdornmentIcon: {
     color: "#555"
   },
-  choiche: {
+  choice: {
     textAlign: "center",
     cursor: "pointer",
     marginTop: "20px"
@@ -49,9 +49,6 @@ class Step2 extends React.Component {
   sendState() {
     return this.state;
   }
-  handleSimple = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
@@ -75,7 +72,7 @@ class Step2 extends React.Component {
         id: tree.id,
         specie: getSpecie(tree.specie),
         seed_date: tree.seed_date,
-        farm: tree.farm,
+        farm: getFarm(tree.farm, this.props.farms),
         actions: (
           // we've added some custom button actions
           <div className="actions-right">
@@ -173,6 +170,13 @@ class Step2 extends React.Component {
 Step2.propTypes = {
   classes: PropTypes.object
 };
+const getFarm = (id, farms) => {
+  for (let i = 0; i < farms.length; i++) {
+    if (farms[i].id === id) {
+      return farms[i].name;
+    }
+  }
+};
 const getSpecie = specie => {
   switch (specie) {
     case "M":
@@ -195,7 +199,8 @@ const getSpecie = specie => {
 };
 const mapStateToProps = state => {
   return {
-    trees: state.trees
+    trees: state.trees,
+    farms: state.farms
   };
 };
 

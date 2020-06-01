@@ -26,7 +26,6 @@ const useStyles = makeStyles(styles);
 function UserProfile(props) {
   const [user, setUser] = React.useState(props.user);
   React.useEffect(() => {
-    console.log(`ENTRO AL 2do useEffect!!!!!!!!!`);
     setUser({ ...user, ...props.owner });
   }, [props.owner]);
   const classes = useStyles();

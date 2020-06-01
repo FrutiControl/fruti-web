@@ -31,12 +31,49 @@ export const fetchOutcomes = () => {
       });
   };
 };
-
-export const addOutcome = (date, value, out_type, act, act_type, concept) => {
+export const fetchRecommendedOutcomes = () => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
 
+    if (token) {
+      headers["Authorization"] = `Token ${token}`;
+    }
+
+    return fetch(`${base_url}/money/outcomes/?recommended=True`, { headers })
+      .then(res => {
+        if (res.status < 500) {
+          return res.json().then(data => {
+            return { status: res.status, data };
+          });
+        } else {
+          console.log("Server Error!");
+          throw res;
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          return dispatch({ type: "FETCH_OUTCOMES", outcomes: res.data });
+        } else if (res.status === 401 || res.status === 403) {
+          dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
+          throw res.data;
+        }
+      });
+  };
+};
+
+export const addOutcome = (
+  date,
+  value,
+  out_type,
+  act,
+  act_type,
+  concept,
+  recommended
+) => {
+  return (dispatch, getState) => {
+    let headers = { "Content-Type": "application/json" };
+    let { token } = getState().auth;
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
@@ -58,7 +95,7 @@ export const addOutcome = (date, value, out_type, act, act_type, concept) => {
         type: out_type,
         activity: act,
         act_type: act_type,
-        recommended: false
+        recommended: recommended
       })
     })
       .then(res => {
