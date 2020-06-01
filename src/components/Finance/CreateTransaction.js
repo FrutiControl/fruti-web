@@ -180,7 +180,8 @@ class CreateTransaction extends React.Component {
             new_outcome.out_type,
             new_outcome.activity,
             new_outcome.act_type,
-            new_outcome.concept
+            new_outcome.concept,
+            false
           );
           this.setState({ done: true });
           alert(`¡El gasto fue creado correctamente!`);
@@ -373,9 +374,17 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addOutcome: (date, value, out_type, act, act_type, concept) =>
+    addOutcome: (date, value, out_type, act, act_type, concept, recommended) =>
       dispatch(
-        outcomes.addOutcome(date, value, out_type, act, act_type, concept)
+        outcomes.addOutcome(
+          date,
+          value,
+          out_type,
+          act,
+          act_type,
+          concept,
+          recommended
+        )
       ),
     updateOutcome: id => dispatch(outcomes.updateOutcome(id)),
     addIncome: (date, value, quantity, fruit_type, concept) =>

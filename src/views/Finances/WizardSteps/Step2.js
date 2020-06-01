@@ -47,7 +47,8 @@ const activities = [
   { value: "F", name: "Fertilización" },
   { value: "U", name: "Fumigación" },
   { value: "S", name: "Siembra" },
-  { value: "R", name: "Riego" }
+  { value: "R", name: "Riego" },
+  { value: "H", name: "Recolección" }
 ];
 const prunes = [
   { value: "P1", name: "Sanitaria" },
@@ -72,6 +73,15 @@ const waterings = [
   { value: "R3", name: "Sistema" }
 ];
 const seedings = [
+  { value: "S1", name: "Mango Tommy" },
+  { value: "S2", name: "Mango Farchil" },
+  { value: "S3", name: "Naranja" },
+  { value: "S4", name: "Aguacate" },
+  { value: "S5", name: "Mandarina" },
+  { value: "S6", name: "Limón" },
+  { value: "S7", name: "Banano" }
+];
+const recollections = [
   { value: "S1", name: "Mango Tommy" },
   { value: "S2", name: "Mango Farchil" },
   { value: "S3", name: "Naranja" },
@@ -115,6 +125,9 @@ class Step2 extends React.Component {
           break;
         case "S":
           this.setState({ act_typesItems: seedings });
+          break;
+        case "H":
+          this.setState({ act_typesItems: recollections });
           break;
       }
     });

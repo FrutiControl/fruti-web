@@ -1,7 +1,7 @@
 import config from "../config";
 const base_url = config.base_url;
 
-export const fetchOutcomes = () => {
+export const fetchRecollections = () => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -10,7 +10,7 @@ export const fetchOutcomes = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/money/outcomes/?recommended=False`, { headers })
+    return fetch(`${base_url}/app/recollections/`, { headers })
       .then(res => {
         if (res.status < 500) {
           return res.json().then(data => {
@@ -23,7 +23,7 @@ export const fetchOutcomes = () => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "FETCH_OUTCOMES", outcomes: res.data });
+          return dispatch({ type: "FETCH_RECOLLECTIONS", recollections: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -31,7 +31,8 @@ export const fetchOutcomes = () => {
       });
   };
 };
-export const fetchRecommendedOutcomes = () => {
+
+export const fetchRecollection = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -40,7 +41,7 @@ export const fetchRecommendedOutcomes = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/money/outcomes/?recommended=True`, { headers })
+    return fetch(`${base_url}/app/recollections/${id}/`, { headers })
       .then(res => {
         if (res.status < 500) {
           return res.json().then(data => {
@@ -53,7 +54,7 @@ export const fetchRecommendedOutcomes = () => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "FETCH_OUTCOMES", outcomes: res.data });
+          return dispatch({ type: "FETCH_RECOLLECTION", recollection: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -62,22 +63,15 @@ export const fetchRecommendedOutcomes = () => {
   };
 };
 
-export const addOutcome = (
-  date,
-  value,
-  out_type,
-  act,
-  act_type,
-  concept,
-  recommended
-) => {
+export const addRecollection = (start_date, end_date, farm, type, trees) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
+
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
-    return fetch(`${base_url}/money/outcomes/`, {
+    return fetch(`${base_url}/app/recollections/`, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -89,13 +83,11 @@ export const addOutcome = (
       redirect: "follow",
       referrer: "no-referrer",
       body: JSON.stringify({
-        concept: concept,
-        date: date,
-        value: value,
-        type: out_type,
-        activity: act,
-        act_type: act_type,
-        recommended: recommended
+        start_date: start_date,
+        end_date: end_date,
+        farm: farm,
+        trees: trees,
+        type: type
       })
     })
       .then(res => {
@@ -110,7 +102,7 @@ export const addOutcome = (
       })
       .then(res => {
         if (res.status === 201) {
-          return dispatch({ type: "ADD_OUTCOME", note: res.data });
+          return dispatch({ type: "ADD_RECOLLECTION", note: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;
@@ -119,7 +111,7 @@ export const addOutcome = (
   };
 };
 
-export const updateOutcome = id => {
+export const updateRecollection = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -128,7 +120,7 @@ export const updateOutcome = id => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/money/outcomes/${id}/`, {
+    return fetch(`${base_url}/app/recollections/${id}/`, {
       method: "PUT",
       mode: "cors",
       cache: "no-cache",
@@ -151,7 +143,7 @@ export const updateOutcome = id => {
       .then(res => {
         if (res.status === 200) {
           return dispatch({
-            type: "UPDATE_OUTCOME",
+            type: "UPDATE_RECOLLECTION",
             note: res.data,
             index: id
           });
@@ -163,7 +155,7 @@ export const updateOutcome = id => {
   };
 };
 
-export const deleteOutcome = id => {
+export const deleteRecollection = id => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
     let { token } = getState().auth;
@@ -172,7 +164,7 @@ export const deleteOutcome = id => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/money/outcomes/${id}/`, {
+    return fetch(`${base_url}/app/recollections/${id}/`, {
       headers,
       method: "DELETE"
     })
@@ -190,7 +182,7 @@ export const deleteOutcome = id => {
       })
       .then(res => {
         if (res.status === 204) {
-          return dispatch({ type: "DELETE_OUTCOME", index: id });
+          return dispatch({ type: "DELETE_RECOLLECTION", index: id });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;

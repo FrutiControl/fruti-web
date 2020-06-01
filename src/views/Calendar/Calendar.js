@@ -37,7 +37,9 @@ function Calendar(props) {
   const mapActivities = myActivities => {
     return myActivities.map(activity => {
       return {
-        title: `${activity.name + mapActType(activity.name, activity.type)}`,
+        title: `${activity.name + mapActType(activity.name, activity.type)}${
+          activity.recommended ? " (recomendada)" : ""
+        }`,
         allDay: true,
         start: moment(activity.start_date, "YYYY-MM-DD"),
         end: moment(activity.end_date, "YYYY-MM-DD").add(1, "days"),
@@ -88,7 +90,7 @@ function Calendar(props) {
     <div>
       <Heading
         textAlign="center"
-        title="Mi Calendario de Actividades"
+        title="Calendario de Actividades"
         category={
           <span>
             El Calendario tiene todas las actividades disponibles para

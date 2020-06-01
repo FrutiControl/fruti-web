@@ -8,6 +8,7 @@ import fertilizations from "./fertilizations";
 import fumigations from "./fumigations";
 import prunings from "./prunings";
 import waterings from "./waterings";
+import recollections from "./recollections";
 import incomes from "./incomes";
 import outcomes from "./outcomes";
 import dashboard from "./dashboard";
@@ -23,6 +24,7 @@ const frutiApp = combineReducers({
   fumigations,
   prunings,
   waterings,
+  recollections,
   incomes,
   outcomes,
   dashboard,

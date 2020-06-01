@@ -1,5 +1,11 @@
 import React from "react";
-import { waterings, prunings, fumigations, fertilizations } from "actions";
+import {
+  waterings,
+  prunings,
+  fumigations,
+  fertilizations,
+  trees
+} from "actions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // @material-ui/core components
@@ -29,7 +35,7 @@ const style = {
   inputAdornmentIcon: {
     color: "#555"
   },
-  choiche: {
+  choice: {
     textAlign: "center",
     cursor: "pointer",
     marginTop: "20px"
@@ -39,7 +45,6 @@ const style = {
 };
 
 const update_types = ["watering", "pruning", "fertilization", "fumigation"];
-
 class Step2 extends React.Component {
   constructor(props) {
     super(props);
@@ -71,6 +76,7 @@ class Step2 extends React.Component {
     });
   }
   componentDidMount() {
+    this.props.fetchTrees();
     const filters = document.querySelectorAll("div.rt-th > input");
     for (let filter of filters) {
       filter.placeholder = "Buscar...";
@@ -253,6 +259,13 @@ class Step2 extends React.Component {
 Step2.propTypes = {
   classes: PropTypes.object
 };
+const getFarm = (id, farms) => {
+  for (let i = 0; i < farms.length; i++) {
+    if (farms[i].id === id) {
+      return farms[i].name;
+    }
+  }
+};
 const getSpecie = specie => {
   switch (specie) {
     case "M":
@@ -273,13 +286,6 @@ const getSpecie = specie => {
       return "Frutal";
   }
 };
-const getFarm = (id, farms) => {
-  for (let i = 0; i < farms.length; i++) {
-    if (farms[i].id === id) {
-      return farms[i].name;
-    }
-  }
-};
 const mapStateToProps = state => {
   return {
     update: state.updates,
@@ -294,6 +300,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchTrees: () => dispatch(trees.fetchTrees()),
     resetUpdate: () => dispatch({ type: "RESET_UPDATE", id: 0 }),
     wateringProgress: (tree_id, watering_id) =>
       dispatch(waterings.wateringProgress(tree_id, watering_id)),

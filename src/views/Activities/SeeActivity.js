@@ -6,6 +6,7 @@ import {
   fertilizations,
   prunings,
   waterings,
+  recollections,
   farms,
   trees
 } from "actions";
@@ -59,8 +60,11 @@ function SeeActivity(props) {
       case "Siembra":
         props.deleteSeeding(id);
         break;
+      case "Recolección":
+        props.deleteRecollection(id);
+        break;
       default:
-        return " ";
+        return;
     }
   };
   const mapActivities = myActivities => {
@@ -159,6 +163,7 @@ function SeeActivity(props) {
     props.fetchPrunings();
     props.fetchFumigations();
     props.fetchFertilizations();
+    props.fetchRecollections();
   }, []);
   React.useEffect(() => {
     setData(
@@ -167,7 +172,8 @@ function SeeActivity(props) {
         ...props.prunings,
         ...props.fertilizations,
         ...props.fumigations,
-        ...props.seedings
+        ...props.seedings,
+        ...props.recollections
       ])
     );
   }, [
@@ -176,7 +182,8 @@ function SeeActivity(props) {
     props.prunings,
     props.fertilizations,
     props.fumigations,
-    props.seedings
+    props.seedings,
+    props.recollections
   ]);
   const classes = useStyles();
   return (
@@ -255,7 +262,7 @@ const mapActType = (act, type) => {
         case "L":
           return " Limpieza";
         default:
-          return " ";
+          return;
       }
     case "Fertilización":
       switch (type) {
@@ -266,7 +273,7 @@ const mapActType = (act, type) => {
         case "M":
           return " Mantenimiento";
         default:
-          return " ";
+          return;
       }
     case "Fumigación":
       switch (type) {
@@ -281,7 +288,7 @@ const mapActType = (act, type) => {
         case "P":
           return " Peste";
         default:
-          return " ";
+          return;
       }
     case "Riego":
       switch (type) {
@@ -292,7 +299,7 @@ const mapActType = (act, type) => {
         case "M":
           return " Manual";
         default:
-          return " ";
+          return;
       }
     case "Siembra":
       switch (type) {
@@ -311,10 +318,29 @@ const mapActType = (act, type) => {
         case "B":
           return " Bananos";
         default:
-          return " ";
+          return;
+      }
+    case "Recolección":
+      switch (type) {
+        case "M":
+          return " Mango Tommy";
+        case "F":
+          return " Mango Farchild";
+        case "N":
+          return " Naranjos";
+        case "A":
+          return " Aguacates";
+        case "D":
+          return " Mandarinas";
+        case "L":
+          return " Limones";
+        case "B":
+          return " Bananos";
+        default:
+          return;
       }
     default:
-      return " ";
+      return;
   }
 };
 const getFarm = (id, farms) => {
@@ -332,6 +358,7 @@ const mapStateToProps = state => {
     prunings: state.prunings,
     fertilizations: state.fertilizations,
     fumigations: state.fumigations,
+    recollections: state.recollections,
     user: state.auth.user
   };
 };
@@ -349,6 +376,8 @@ const mapDispatchToProps = dispatch => {
     deleteFumigation: id => dispatch(fumigations.deleteFumigation(id)),
     fetchFertilizations: () => dispatch(fertilizations.fetchFertilizations()),
     deleteFertilization: id => dispatch(fertilizations.deleteFertilization(id)),
+    fetchRecollections: () => dispatch(recollections.fetchRecollections()),
+    deleteRecollection: id => dispatch(recollections.deleteRecollection(id)),
     setWateringToUpdate: id => dispatch({ type: "WATERING_UPDATE", id: id }),
     setSeedingToUpdate: id => dispatch({ type: "SEEDING_UPDATE", id: id }),
     setFertilizationToUpdate: id =>

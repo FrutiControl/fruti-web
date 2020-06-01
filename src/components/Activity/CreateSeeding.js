@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import { seedings } from "actions";
+import { outcomes, seedings } from "actions";
 import { stringify } from "wkt";
 import cx from "classnames";
 import PropTypes from "prop-types";
@@ -202,12 +202,34 @@ class CreateSeeding extends React.Component {
             new_seeding.end_date,
             new_seeding.farm,
             new_seeding.type,
-            new_seeding.tree_quantity,
+            new_seeding.trees_quantity,
             Number(new_seeding.distance),
             wkt_polygon
           );
           this.setState({ done: true });
-          alert(`¡La granja fue creada correctamente!`);
+          this.props.addOutcome(
+            new_seeding.start_date,
+            Number(new_seeding.tools_cost),
+            "M",
+            "S",
+            mapOutSeedType(new_seeding.type),
+            `Siembra:${mapSeedType(new_seeding.type) +
+              " " +
+              new_seeding.start_date}`,
+            true
+          );
+          this.props.addOutcome(
+            new_seeding.start_date,
+            Number(new_seeding.work_cost),
+            "O",
+            "S",
+            mapOutSeedType(new_seeding.type),
+            `Siembra:${mapSeedType(new_seeding.type) +
+              " " +
+              new_seeding.start_date}`,
+            true
+          );
+          alert(`¡La siembra fue creada correctamente!`);
         }
       );
     }
@@ -392,6 +414,46 @@ CreateSeeding.propTypes = {
   finishButtonClick: PropTypes.func,
   validate: PropTypes.bool
 };
+const mapSeedType = type => {
+  switch (type) {
+    case "M":
+      return " Mango Tommy";
+    case "F":
+      return " Mango Farchild";
+    case "N":
+      return " Naranjos";
+    case "A":
+      return " Aguacates";
+    case "D":
+      return " Mandarinas";
+    case "L":
+      return " Limones";
+    case "B":
+      return " Bananos";
+    default:
+      return;
+  }
+};
+const mapOutSeedType = type => {
+  switch (type) {
+    case "M":
+      return "S1";
+    case "F":
+      return "S2";
+    case "N":
+      return "S3";
+    case "D":
+      return "S4";
+    case "L":
+      return "S5";
+    case "A":
+      return "S6";
+    case "B":
+      return "S7";
+    default:
+      return;
+  }
+};
 const mapStateToProps = state => {
   return {};
 };
@@ -417,10 +479,21 @@ const mapDispatchToProps = dispatch => {
           distance,
           polygon
         )
+      ),
+    addOutcome: (date, value, out_type, act, act_type, concept, recommended) =>
+      dispatch(
+        outcomes.addOutcome(
+          date,
+          value,
+          out_type,
+          act,
+          act_type,
+          concept,
+          recommended
+        )
       )
   };
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps

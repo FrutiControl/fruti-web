@@ -17,11 +17,14 @@ import FormControl from "@material-ui/core/FormControl";
 import Datetime from "react-datetime";
 import CustomInput from "components/CustomInput/CustomInput";
 
+import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
+
 const style = {
   infoText: {
     fontWeight: "300",
-    margin: "10px 0 100px",
-    textAlign: "center"
+    margin: "10px 0 30px",
+    textAlign: "center",
+    fontSize: "16px"
   },
   inputAdornmentIcon: {
     color: "#555"
@@ -35,9 +38,9 @@ const style = {
     fontWeight: "400",
     lineHeight: "1.42857",
     textDecoration: "none",
-    letterSpacing: "0",
-    color: "#3c4858"
-  }
+    letterSpacing: "0"
+  },
+  ...customSelectStyle
 };
 const update_types = ["watering", "pruning", "fertilization", "fumigation"];
 const activities = [
@@ -69,7 +72,15 @@ const waterings_objs = [
   { value: "M", name: "Manual" },
   { value: "S", name: "Sistema" }
 ];
-
+const recollections_objs = [
+  { value: "M", name: "Mango Tommy" },
+  { value: "F", name: "Mango Farchild" },
+  { value: "N", name: "Naranja" },
+  { value: "D", name: "Mandarina" },
+  { value: "L", name: "Limón" },
+  { value: "A", name: "Aguacate" },
+  { value: "B", name: "Banano" }
+];
 class Step1 extends React.Component {
   constructor(props) {
     super(props);
@@ -84,7 +95,8 @@ class Step1 extends React.Component {
       act_type: "",
       act_typesItems: [],
       farm: "",
-      act_trees: []
+      act_trees: [],
+      days: 0
     };
   }
   sendState() {
@@ -94,16 +106,28 @@ class Step1 extends React.Component {
     this.setState({ activity: event.target.value }, () => {
       switch (event.target.value) {
         case "F":
-          this.setState({ act_typesItems: fertilizations_objs });
+          this.setState({
+            act_typesItems: fertilizations_objs,
+            tools_cost: 60000
+          });
           break;
         case "U":
-          this.setState({ act_typesItems: fumigations_objs });
+          this.setState({
+            act_typesItems: fumigations_objs,
+            tools_cost: 60000
+          });
           break;
         case "P":
-          this.setState({ act_typesItems: prunes_objs });
+          this.setState({ act_typesItems: prunes_objs, tools_cost: 15000 });
           break;
         case "R":
-          this.setState({ act_typesItems: waterings_objs });
+          this.setState({ act_typesItems: waterings_objs, tools_cost: 10000 });
+          break;
+        case "H":
+          this.setState({
+            act_typesItems: recollections_objs,
+            tools_cost: 15000
+          });
           break;
         default:
           break;
@@ -116,6 +140,18 @@ class Step1 extends React.Component {
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
+  handleDays(start_date, end_date) {
+    if (start_date && end_date) {
+      this.setState(
+        { days: moment(end_date).diff(start_date, "days") + 1 },
+        () => {
+          this.setState({
+            work_cost: this.state.days * this.props.owner.day_cost
+          });
+        }
+      );
+    }
+  }
   componentDidMount() {
     this.props.fetchFarms();
     if (this.props.update !== {}) {
@@ -349,9 +385,12 @@ class Step1 extends React.Component {
               className={classes.datePicker}
               timeFormat={false}
               value={this.state.start_date}
-              onChange={date =>
-                this.setState({ start_date: date.format("YYYY-MM-DD") })
-              }
+              onChange={date => {
+                this.setState({
+                  start_date: date.format("YYYY-MM-DD")
+                });
+                this.handleDays(date, this.state.end_date);
+              }}
               isValidDate={currentDate => {
                 return currentDate.isAfter(moment().subtract(1, "day"));
               }}
@@ -370,7 +409,7 @@ class Step1 extends React.Component {
             className={classes.selectFormControl}
             disabled={this.state.update}
           >
-            <InputLabel htmlFor="start_date" className={classes.selectLabel}>
+            <InputLabel htmlFor="end_date" className={classes.selectLabel}>
               Seleccione la fecha de fin de la actividad{" "}
               <small>(requerido)</small>
             </InputLabel>
@@ -381,13 +420,18 @@ class Step1 extends React.Component {
               className={classes.datePicker}
               timeFormat={false}
               value={this.state.end_date}
-              onChange={date =>
-                this.setState({ end_date: date.format("YYYY-MM-DD") })
-              }
+              onChange={date => {
+                this.setState({
+                  end_date: date.format("YYYY-MM-DD")
+                });
+                this.handleDays(this.state.start_date, date);
+              }}
               isValidDate={currentDate => {
                 return currentDate.isAfter(this.state.start_date);
               }}
               inputProps={{
+                name: "end_date",
+                id: "end_date",
                 style: style.datePicker
               }}
             />
@@ -398,7 +442,7 @@ class Step1 extends React.Component {
             <CustomInput
               className={classes.datePicker}
               labelText="Costos estimados de materiales (editable)"
-              id="distance"
+              id="tools_cost"
               formControlProps={{
                 fullWidth: true,
                 style: {
@@ -417,7 +461,8 @@ class Step1 extends React.Component {
                   ...style.datePicker,
                   margin: "0",
                   paddingTop: "10px"
-                }
+                },
+                value: this.state.tools_cost
               }}
             />
           </GridItem>
@@ -446,7 +491,8 @@ class Step1 extends React.Component {
                   ...style.datePicker,
                   margin: "0",
                   paddingTop: "10px"
-                }
+                },
+                value: this.state.work_cost
               }}
             />
           </GridItem>
@@ -467,7 +513,8 @@ const mapStateToProps = state => {
     waterings: state.waterings,
     fertilizations: state.fertilizations,
     fumigations: state.fumigations,
-    prunings: state.prunings
+    prunings: state.prunings,
+    owner: state.owner
   };
 };
 

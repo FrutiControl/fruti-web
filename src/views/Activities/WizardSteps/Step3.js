@@ -22,6 +22,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Datetime from "react-datetime";
+import moment from "moment";
 
 const seedings = [
   { value: "M", name: "Mango Tommy" },
@@ -50,8 +51,7 @@ const style = {
     fontWeight: "400",
     lineHeight: "1.42857",
     textDecoration: "none",
-    letterSpacing: "0",
-    color: "#3c4858"
+    letterSpacing: "0"
   },
   ...customSelectStyle
 };
@@ -62,7 +62,7 @@ class Step3 extends React.Component {
       start_date: "",
       end_date: "",
       distance: 0,
-      tree_quantity: 0,
+      trees_quantity: 0,
       farm: "",
       path: [
         { lat: 4.644048217838231, lng: -74.39119476824999 },
@@ -71,7 +71,10 @@ class Step3 extends React.Component {
       ],
       area: 0,
       type: "",
-      center: { lat: 4.643689981727881, lng: -74.39001694321632 }
+      center: { lat: 4.643689981727881, lng: -74.39001694321632 },
+      work_cost: 0,
+      tools_cost: 0,
+      days: 0
     };
   }
   sendState() {
@@ -113,6 +116,18 @@ class Step3 extends React.Component {
   }
   componentDidMount() {
     this.props.fetchFarms();
+  }
+  handleDays(start_date, end_date) {
+    if (start_date && end_date) {
+      this.setState(
+        { days: moment(end_date).diff(start_date, "days") + 1 },
+        () => {
+          this.setState({
+            work_cost: this.state.days * this.props.owner.day_cost
+          });
+        }
+      );
+    }
   }
   polygonRef = React.createRef();
   render() {
@@ -171,20 +186,28 @@ class Step3 extends React.Component {
               this.polygonRef.current.getPath().forEach((element, index) => {
                 bounds.extend(element);
               });
-              this.setState({
-                path: path_array.map(latLng => {
-                  return { lat: latLng.lat(), lng: latLng.lng() };
-                }),
-                center: {
-                  lat: bounds.getCenter().lat(),
-                  lng: bounds.getCenter().lng()
+              this.setState(
+                {
+                  path: path_array.map(latLng => {
+                    return { lat: latLng.lat(), lng: latLng.lng() };
+                  }),
+                  center: {
+                    lat: bounds.getCenter().lat(),
+                    lng: bounds.getCenter().lng()
+                  },
+                  area: google.maps.geometry.spherical.computeArea(path_array),
+                  trees_quantity: Number(
+                    google.maps.geometry.spherical.computeArea(path_array) /
+                      Math.pow(Number(this.state.distance), 2)
+                  ).toFixed(0)
                 },
-                area: google.maps.geometry.spherical.computeArea(path_array),
-                tree_quantity: Number(
-                  google.maps.geometry.spherical.computeArea(path_array) /
-                    Math.pow(Number(this.state.distance), 2)
-                ).toFixed(0)
-              });
+                () => {
+                  this.setState({
+                    tools_cost:
+                      Number(this.state.trees_quantity).toFixed(0) * 10000
+                  });
+                }
+              );
             }}
             onMouseUp={() => {
               const google = window.google;
@@ -193,20 +216,28 @@ class Step3 extends React.Component {
                 bounds.extend(element);
               });
               let path_array = this.polygonRef.current.getPath().getArray();
-              this.setState({
-                path: path_array.map(latLng => {
-                  return { lat: latLng.lat(), lng: latLng.lng() };
-                }),
-                center: {
-                  lat: bounds.getCenter().lat(),
-                  lng: bounds.getCenter().lng()
+              this.setState(
+                {
+                  path: path_array.map(latLng => {
+                    return { lat: latLng.lat(), lng: latLng.lng() };
+                  }),
+                  center: {
+                    lat: bounds.getCenter().lat(),
+                    lng: bounds.getCenter().lng()
+                  },
+                  area: google.maps.geometry.spherical.computeArea(path_array),
+                  trees_quantity: Number(
+                    google.maps.geometry.spherical.computeArea(path_array) /
+                      Math.pow(Number(this.state.distance), 2)
+                  ).toFixed(0)
                 },
-                area: google.maps.geometry.spherical.computeArea(path_array),
-                tree_quantity: Number(
-                  google.maps.geometry.spherical.computeArea(path_array) /
-                    Math.pow(Number(this.state.distance), 2)
-                ).toFixed(0)
-              });
+                () => {
+                  this.setState({
+                    tools_cost:
+                      Number(this.state.trees_quantity).toFixed(0) * 10000
+                  });
+                }
+              );
             }}
           />
         </GoogleMap>
@@ -233,7 +264,13 @@ class Step3 extends React.Component {
                 select: classes.select
               }}
               value={this.state.type}
-              onChange={this.handleSimple}
+              onChange={e => {
+                this.setState({
+                  type: e.target.value,
+                  tools_cost:
+                    Number(this.state.trees_quantity).toFixed(0) * 10000
+                });
+              }}
               inputProps={{
                 name: "type",
                 id: "type"
@@ -289,9 +326,12 @@ class Step3 extends React.Component {
             dateFormat={"YYYY-MM-DD"}
             className={classes.datePicker}
             timeFormat={false}
-            onChange={date =>
-              this.setState({ start_date: date.format("YYYY-MM-DD") })
-            }
+            onChange={date => {
+              this.setState({
+                start_date: date.format("YYYY-MM-DD")
+              });
+              this.handleDays(date, this.state.end_date);
+            }}
             inputProps={{
               placeholder:
                 "Seleccione fecha de inicio de la actividad (requerido)",
@@ -306,9 +346,12 @@ class Step3 extends React.Component {
             dateFormat={"YYYY-MM-DD"}
             className={classes.datePicker}
             timeFormat={false}
-            onChange={date =>
-              this.setState({ end_date: date.format("YYYY-MM-DD") })
-            }
+            onChange={date => {
+              this.setState({
+                end_date: date.format("YYYY-MM-DD")
+              });
+              this.handleDays(this.state.start_date, date);
+            }}
             isValidDate={currentDate => {
               return currentDate.isAfter(this.state.start_date);
             }}
@@ -321,7 +364,7 @@ class Step3 extends React.Component {
         </GridItem>
         <GridItem xs={12} sm={8}>
           <CustomInput
-            className={classes.infoText}
+            className={classes.datePicker}
             labelText="Distancia (metros)"
             id="distance"
             formControlProps={{
@@ -332,9 +375,15 @@ class Step3 extends React.Component {
               onChange: event => {
                 this.setState({
                   distance: event.target.value,
-                  tree_quantity:
-                    this.state.area / Math.pow(Number(event.target.value), 2)
-                });
+                  trees_quantity:
+                    Number(this.state.area / Math.pow(Number(event.target.value), 2))
+                },
+                  () => {
+                    this.setState({
+                      tools_cost:
+                        Number(this.state.trees_quantity).toFixed(0) * 10000
+                    });
+                  });
               },
               style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
             }}
@@ -343,8 +392,8 @@ class Step3 extends React.Component {
         <GridItem xs={12} sm={8}>
           <CustomInput
             className={classes.datePicker}
-            labelText="Costos estimados de materiales (editable)"
-            id="distance"
+            labelText="Costos estimados de los árboles (editable)"
+            id="tools_cost"
             formControlProps={{
               fullWidth: true,
               style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
@@ -355,7 +404,8 @@ class Step3 extends React.Component {
                   tools_cost: Number(event.target.value)
                 });
               },
-              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" },
+              value: this.state.tools_cost ? this.state.tools_cost : 0
             }}
           />
         </GridItem>
@@ -363,7 +413,7 @@ class Step3 extends React.Component {
           <CustomInput
             className={classes.datePicker}
             labelText="Costos estimados de mano de obra (editable)"
-            id="distance"
+            id="work_cost"
             formControlProps={{
               fullWidth: true,
               style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
@@ -374,14 +424,15 @@ class Step3 extends React.Component {
                   work_cost: Number(event.target.value)
                 });
               },
-              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" },
+              value: this.state.work_cost
             }}
           />
         </GridItem>
         <GridItem xs={12} sm={8}>
           <h5 className={classes.infoText}>
             Total de árboles que puede sembrar en el polígono:
-            {` ${Number(this.state.tree_quantity).toFixed(0)} árboles`}
+            {` ${Number(this.state.trees_quantity).toFixed(0)} árboles`}
           </h5>
         </GridItem>
         <GridItem xs={12} sm={8}>
@@ -417,7 +468,8 @@ Step3.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    farms: state.farms
+    farms: state.farms,
+    owner: state.owner
   };
 };
 

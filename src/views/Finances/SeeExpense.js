@@ -49,6 +49,7 @@ function SeeExpense(props) {
         id: outcome.id,
         activity: getActivity(outcome.activity),
         act_type: getActType(outcome.act_type),
+        type: getOutType(outcome.type),
         quantity: outcome.quantity,
         date: outcome.date,
         value: outcome.value,
@@ -167,12 +168,16 @@ function SeeExpense(props) {
                   accessor: "activity"
                 },
                 {
-                  Header: "Subtipo de actividad",
+                  Header: "Tipo de actividad",
                   accessor: "act_type"
                 },
                 {
                   Header: "Fecha",
                   accessor: "date"
+                },
+                {
+                  Header: "Tipo",
+                  accessor: "type"
                 },
                 {
                   Header: "Monto",
@@ -246,6 +251,16 @@ const getActType = act_type => {
       return " ";
   }
 };
+const getOutType = out_type => {
+  switch (out_type) {
+    case "M":
+      return "Materiales";
+    case "O":
+      return "Mano de obra";
+    default:
+      break;
+  }
+};
 const getActivity = activity => {
   switch (activity) {
     case "P":
@@ -258,6 +273,8 @@ const getActivity = activity => {
       return "Riego";
     case "S":
       return "Siembra";
+    case "H":
+      return "Recolección";
     default:
       return " ";
   }

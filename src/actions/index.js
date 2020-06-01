@@ -7,6 +7,7 @@ import * as fertilizations from "./fertilizations";
 import * as fumigations from "./fumigations";
 import * as prunings from "./prunings";
 import * as waterings from "./waterings";
+import * as recollections from "./recollections";
 import * as incomes from "./incomes";
 import * as outcomes from "./outcomes";
 import * as dashboard from "./dashboard";
@@ -21,6 +22,7 @@ export {
   fertilizations,
   prunings,
   waterings,
+  recollections,
   incomes,
   outcomes,
   dashboard

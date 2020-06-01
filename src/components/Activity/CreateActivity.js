@@ -1,7 +1,14 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
-import { fertilizations, fumigations, prunings, waterings } from "actions";
-import { connect } from "react-redux";
+import {Redirect} from "react-router-dom";
+import {
+  fertilizations,
+  fumigations,
+  outcomes,
+  prunings,
+  recollections,
+  waterings
+} from "actions";
+import {connect} from "react-redux";
 import cx from "classnames";
 import PropTypes from "prop-types";
 
@@ -53,17 +60,22 @@ class CreateActivity extends React.Component {
     this.finishButtonClick = this.finishButtonClick.bind(this);
     this.updateWidth = this.updateWidth.bind(this);
   }
+
   createActivity = React.createRef();
+
   componentDidMount() {
     this.refreshAnimation(0);
     window.addEventListener("resize", this.updateWidth);
   }
+
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateWidth);
   }
+
   updateWidth() {
     this.refreshAnimation(this.state.currentStep);
   }
+
   navigationStepChange(key) {
     if (this.props.steps) {
       let validationState = true;
@@ -75,7 +87,7 @@ class CreateActivity extends React.Component {
                 ...this.state.allStates,
                 [this.props.steps[i].stepId]: this[
                   this.props.steps[i].stepId
-                ].sendState()
+                  ].sendState()
               }
             });
           }
@@ -99,6 +111,7 @@ class CreateActivity extends React.Component {
       }
     }
   }
+
   nextButtonClick() {
     if (
       (this.props.validate &&
@@ -106,9 +119,9 @@ class CreateActivity extends React.Component {
           undefined &&
           this[
             this.props.steps[this.state.currentStep].stepId
-          ].isValidated()) ||
+            ].isValidated()) ||
           this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined)) ||
+          undefined)) ||
       this.props.validate === undefined
     ) {
       if (
@@ -120,7 +133,7 @@ class CreateActivity extends React.Component {
             ...this.state.allStates,
             [this.props.steps[this.state.currentStep].stepId]: this[
               this.props.steps[this.state.currentStep].stepId
-            ].sendState()
+              ].sendState()
           }
         });
       }
@@ -134,6 +147,7 @@ class CreateActivity extends React.Component {
       this.refreshAnimation(key);
     }
   }
+
   previousButtonClick() {
     if (
       this[this.props.steps[this.state.currentStep].stepId].sendState !==
@@ -144,7 +158,7 @@ class CreateActivity extends React.Component {
           ...this.state.allStates,
           [this.props.steps[this.state.currentStep].stepId]: this[
             this.props.steps[this.state.currentStep].stepId
-          ].sendState()
+            ].sendState()
         }
       });
     }
@@ -159,6 +173,7 @@ class CreateActivity extends React.Component {
       this.refreshAnimation(key);
     }
   }
+
   finishButtonClick() {
     if (
       (this.props.validate === false &&
@@ -168,9 +183,9 @@ class CreateActivity extends React.Component {
           undefined &&
           this[
             this.props.steps[this.state.currentStep].stepId
-          ].isValidated()) ||
+            ].isValidated()) ||
           this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined) &&
+          undefined) &&
         this.props.finishButtonClick !== undefined)
     ) {
       this.setState(
@@ -179,7 +194,7 @@ class CreateActivity extends React.Component {
             ...this.state.allStates,
             [this.props.steps[this.state.currentStep].stepId]: this[
               this.props.steps[this.state.currentStep].stepId
-            ].sendState()
+              ].sendState()
           }
         },
         () => {
@@ -230,7 +245,7 @@ class CreateActivity extends React.Component {
               default:
                 break;
             }
-            this.setState({ done: true });
+            this.setState({done: true});
             alert(`¡La actividad fue modificada correctamente!`);
           } else {
             switch (new_activity.activity) {
@@ -270,16 +285,54 @@ class CreateActivity extends React.Component {
                   activity_trees
                 );
                 break;
+              case "H":
+                this.props.addRecollection(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
               default:
                 break;
             }
-            this.setState({ done: true });
+            this.props.addOutcome(
+              new_activity.start_date,
+              Number(new_activity.tools_cost),
+              "M",
+              new_activity.activity,
+              mapOutActType(new_activity.activity, new_activity.act_type),
+              `${getActivity(new_activity.activity)}:${mapActType(
+                new_activity.activity,
+                new_activity.act_type
+              ) +
+              " " +
+              new_activity.start_date}`,
+              true
+            );
+            this.props.addOutcome(
+              new_activity.start_date,
+              Number(new_activity.work_cost),
+              "O",
+              new_activity.activity,
+              mapOutActType(new_activity.activity, new_activity.act_type),
+              `${getActivity(new_activity.activity)}:${mapActType(
+                new_activity.activity,
+                new_activity.act_type
+              ) +
+              " " +
+              new_activity.start_date}`,
+              true
+            );
+            this.setState({done: true});
             alert(`¡La actividad fue creada correctamente!`);
           }
         }
       );
     }
   }
+
   refreshAnimation(index) {
     let total = this.props.steps.length;
     let li_width = 100 / total;
@@ -297,7 +350,7 @@ class CreateActivity extends React.Component {
       li_width = 50;
     }
 
-    this.setState({ width: li_width + "%" });
+    this.setState({width: li_width + "%"});
 
     let step_width = move_distance;
     move_distance = move_distance * index_temp;
@@ -323,11 +376,12 @@ class CreateActivity extends React.Component {
         "translate3d(" + move_distance + "px, " + vertical_level + "px, 0)",
       transition: "all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)"
     };
-    this.setState({ movingTabStyle: movingTabStyle });
+    this.setState({movingTabStyle: movingTabStyle});
   }
+
   render() {
-    const { classes, title, subtitle, color, steps } = this.props;
-    if (this.state.done) return <Redirect to={`/admin/activities`} />;
+    const {classes, title, subtitle, color, steps} = this.props;
+    if (this.state.done) return <Redirect to={`/admin/activities`}/>;
     return (
       <div className={classes.wizardContainer} ref={this.createActivity}>
         <Card className={classes.card}>
@@ -342,7 +396,7 @@ class CreateActivity extends React.Component {
                   <li
                     className={classes.steps}
                     key={key}
-                    style={{ width: this.state.width }}
+                    style={{width: this.state.width}}
                   >
                     <a
                       href="#pablo"
@@ -412,7 +466,7 @@ class CreateActivity extends React.Component {
                 </Button>
               ) : null}
             </div>
-            <div className={classes.clearfix} />
+            <div className={classes.clearfix}/>
           </div>
         </Card>
       </div>
@@ -431,7 +485,6 @@ CreateActivity.defaultProps = {
   finishButtonClasses: "",
   finishButtonText: "Crear Actividad"
 };
-
 CreateActivity.propTypes = {
   classes: PropTypes.object.isRequired,
   steps: PropTypes.arrayOf(
@@ -460,6 +513,155 @@ CreateActivity.propTypes = {
   finishButtonClick: PropTypes.func,
   validate: PropTypes.bool
 };
+const mapActType = (act, type) => {
+  switch (act) {
+    case "P":
+      switch (type) {
+        case "S":
+          return " Sanitaria";
+        case "F":
+          return " Formación";
+        case "M":
+          return " Mantenimiento";
+        case "L":
+          return " Limpieza";
+        default:
+          return " ";
+      }
+    case "F":
+      switch (type) {
+        case "C":
+          return " Crecimiento";
+        case "P":
+          return " Producción";
+        case "M":
+          return " Mantenimiento";
+        default:
+          return " ";
+      }
+    case "U":
+      switch (type) {
+        case "I":
+          return " Insectos";
+        case "F":
+          return " Hongo";
+        case "H":
+          return " Hierba";
+        case "A":
+          return " Ácaros";
+        case "P":
+          return " Peste";
+        default:
+          return " ";
+      }
+    case "R":
+      switch (type) {
+        case "N":
+          return "  ";
+        case "S":
+          return " Sistema";
+        case "M":
+          return " Manual";
+        default:
+          return " ";
+      }
+    default:
+      break;
+  }
+};
+const mapOutActType = (act, type) => {
+  switch (act) {
+    case "P":
+      switch (type) {
+        case "S":
+          return "P1";
+        case "F":
+          return "P2";
+        case "M":
+          return "P3";
+        case "L":
+          return "P4";
+        default:
+          return;
+      }
+    case "F":
+      switch (type) {
+        case "C":
+          return "F1";
+        case "P":
+          return "F2";
+        case "M":
+          return "F3";
+        default:
+          return;
+      }
+    case "U":
+      switch (type) {
+        case "I":
+          return "U1";
+        case "F":
+          return "U2";
+        case "H":
+          return "U3";
+        case "A":
+          return "U4";
+        case "P":
+          return "U5";
+        default:
+          return;
+      }
+    case "R":
+      switch (type) {
+        case "N":
+          return "R1";
+        case "M":
+          return "R2";
+        case "S":
+          return "R3";
+        default:
+          return;
+      }
+    case "H":
+      switch (type) {
+        case "M":
+          return "S1";
+        case "F":
+          return "S2";
+        case "N":
+          return "S3";
+        case "D":
+          return "S4";
+        case "L":
+          return "S5";
+        case "A":
+          return "S6";
+        case "B":
+          return "S7";
+        default:
+          return;
+      }
+    default:
+      break;
+  }
+};
+const getActivity = activity => {
+  switch (activity) {
+    case "P":
+      return "Poda";
+    case "F":
+      return "Fertilización";
+    case "U":
+      return "Fumigación";
+    case "R":
+      return "Riego";
+    case "S":
+      return "Siembra";
+    case "H":
+      return "Recolección";
+    default:
+      return;
+  }
+};
 const mapStateToProps = state => {
   return {};
 };
@@ -478,6 +680,22 @@ const mapDispatchToProps = dispatch => {
       ),
     addWatering: (start_date, end_date, farm, type, trees) =>
       dispatch(waterings.addWatering(start_date, end_date, farm, type, trees)),
+    addRecollection: (start_date, end_date, farm, type, trees) =>
+      dispatch(
+        recollections.addRecollection(start_date, end_date, farm, type, trees)
+      ),
+    addOutcome: (date, value, out_type, act, act_type, concept, recommended) =>
+      dispatch(
+        outcomes.addOutcome(
+          date,
+          value,
+          out_type,
+          act,
+          act_type,
+          concept,
+          recommended
+        )
+      ),
     updatePruning: (id, start_date, end_date, farm, type, trees) =>
       dispatch(
         prunings.updatePruning(id, start_date, end_date, farm, type, trees)
@@ -510,7 +728,6 @@ const mapDispatchToProps = dispatch => {
       )
   };
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
