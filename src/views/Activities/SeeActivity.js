@@ -105,6 +105,8 @@ function SeeActivity(props) {
                     props.setSeedingToUpdate(activity.id);
                     props.fetchSeeding(activity.id);
                     break;
+                  default:
+                    break;
                 }
               }}
             >

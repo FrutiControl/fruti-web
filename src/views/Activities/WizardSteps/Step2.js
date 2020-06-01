@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Check from "@material-ui/icons/Check";
 
@@ -68,6 +67,7 @@ class Step2 extends React.Component {
           return tree;
         }
       }
+      return -1;
     });
   }
   componentDidMount() {
@@ -106,6 +106,8 @@ class Step2 extends React.Component {
               table_trees: this.mapId(this.props.prunings[0].trees),
               update_id: this.props.prunings[0].id
             });
+            break;
+          default:
             break;
         }
       }
@@ -157,6 +159,8 @@ class Step2 extends React.Component {
                       break;
                     case "pruning":
                       this.props.pruningProgress(tree.id, this.state.update_id);
+                      break;
+                    default:
                       break;
                   }
                 } else {

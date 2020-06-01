@@ -20,6 +20,7 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
+import { Link } from "react-router-dom";
 
 const styles = {
   cardIconTitle: {
@@ -40,6 +41,7 @@ function SeeTree(props) {
         id: tree.id,
         specie: getSpecie(tree.specie),
         seed_date: tree.seed_date,
+        phase: getPhase(tree.life_phase),
         farm: getFarm(tree.farm, props.farms),
         actions: (
           // we've added some custom button actions
@@ -50,12 +52,21 @@ function SeeTree(props) {
               round
               simple
               onClick={() => {
-                alert("You've clicked EDIT button on ID:" + tree.id);
+                props.setTreeToUpdate(tree.id);
+                props.fetchTree(tree.id);
               }}
               color="warning"
               className="edit"
             >
-              <Dvr />
+              <Link
+                style={{
+                  lineHeight: 0,
+                  color: "#ff9800"
+                }}
+                to={`/admin/create_tree`}
+              >
+                <Dvr />
+              </Link>
             </Button>{" "}
             {/* use this button to remove the data row */}
             <Button
@@ -128,6 +139,10 @@ function SeeTree(props) {
                   accessor: "seed_date"
                 },
                 {
+                  Header: "Fase productiva",
+                  accessor: "phase"
+                },
+                {
                   Header: "Granja",
                   accessor: "farm"
                 },
@@ -170,6 +185,20 @@ const getSpecie = specie => {
       return "Frutal";
   }
 };
+const getPhase = phase => {
+  switch (phase) {
+    case "1":
+      return "Crecimiento";
+    case "2":
+      return "Floración";
+    case "3":
+      return "Producción";
+    case "4":
+      return "Post-producción";
+    default:
+      break;
+  }
+};
 const getFarm = (id, farms) => {
   for (let i = 0; i < farms.length; i++) {
     if (farms[i].id === id) {
@@ -189,7 +218,9 @@ const mapDispatchToProps = dispatch => {
   return {
     fetchTrees: () => dispatch(trees.fetchTrees()),
     fetchFarms: () => dispatch(farms.fetchFarms()),
-    deleteTree: id => dispatch(trees.deleteTree(id))
+    deleteTree: id => dispatch(trees.deleteTree(id)),
+    setTreeToUpdate: id => dispatch({ type: "TREE_UPDATE", id: id }),
+    fetchTree: id => dispatch(trees.fetchTree(id))
   };
 };
 

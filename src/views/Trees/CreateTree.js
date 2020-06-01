@@ -7,8 +7,13 @@ import GridItem from "components/Grid/GridItem.js";
 
 import Step1 from "views/Trees/WizardSteps/Step1.js";
 import Step2 from "views/Trees/WizardSteps/Step2.js";
+import { connect } from "react-redux";
 
-export default function CreateTreeView() {
+function CreateTreeView(props) {
+  const [update, setUpdate] = React.useState(false);
+  React.useEffect(() => {
+    setUpdate(props.update.id);
+  }, []);
   return (
     <GridContainer justify="center">
       <GridItem xs={12} sm={8}>
@@ -26,11 +31,25 @@ export default function CreateTreeView() {
               stepId: "trees"
             }
           ]}
-          title="Crear Árbol"
-          subtitle="Ingrese los datos correspondientes en el formato para su nuevo árbol."
+          title={`${update ? "Modificar" : "Crear"} Árbol`}
+          subtitle={`${
+            update
+              ? "Visualice y modifique los datos de su árbol."
+              : "Ingrese los datos correspondientes en el formato para su nuevo árbol."
+          }`}
           finishButtonClick={e => alert(e)}
+          finishButtonText={`${update ? "Modificar" : "Crear"} Árbol`}
         />
       </GridItem>
     </GridContainer>
   );
 }
+const mapStateToProps = state => {
+  return {
+    update: state.updates
+  };
+};
+export default connect(
+  mapStateToProps,
+  null
+)(CreateTreeView);

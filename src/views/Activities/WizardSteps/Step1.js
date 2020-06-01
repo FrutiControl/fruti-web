@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  farms,
-  fertilizations,
-  fumigations,
-  prunings,
-  trees,
-  waterings
-} from "actions";
+import { farms } from "actions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import moment from "moment";
@@ -22,7 +15,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Datetime from "react-datetime";
-import CustomInput from "../../../components/CustomInput/CustomInput";
+import CustomInput from "components/CustomInput/CustomInput";
 
 const style = {
   infoText: {
@@ -112,6 +105,8 @@ class Step1 extends React.Component {
         case "R":
           this.setState({ act_typesItems: waterings_objs });
           break;
+        default:
+          break;
       }
     });
   };
@@ -178,6 +173,8 @@ class Step1 extends React.Component {
               farm: this.props.prunings[0].farm,
               act_trees: this.props.prunings[0].trees
             });
+            break;
+          default:
             break;
         }
       }
@@ -342,7 +339,8 @@ class Step1 extends React.Component {
             disabled={this.state.update}
           >
             <InputLabel htmlFor="start_date" className={classes.selectLabel}>
-              Seleccione granja a la que pertenece <small>(requerido)</small>
+              Seleccione la fecha de inicio de la actividad{" "}
+              <small>(requerido)</small>
             </InputLabel>
             <Datetime
               closeOnSelect
@@ -367,25 +365,33 @@ class Step1 extends React.Component {
           </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
-          <Datetime
-            closeOnSelect
-            editable={false}
-            dateFormat={"YYYY-MM-DD"}
-            className={classes.datePicker}
-            timeFormat={false}
-            value={this.state.end_date}
-            onChange={date =>
-              this.setState({ end_date: date.format("YYYY-MM-DD") })
-            }
-            isValidDate={currentDate => {
-              return currentDate.isAfter(this.state.start_date);
-            }}
-            inputProps={{
-              placeholder:
-                "Seleccione fecha de fin de la actividad (requerido)",
-              style: style.datePicker
-            }}
-          />
+          <FormControl
+            fullWidth
+            className={classes.selectFormControl}
+            disabled={this.state.update}
+          >
+            <InputLabel htmlFor="start_date" className={classes.selectLabel}>
+              Seleccione la fecha de fin de la actividad{" "}
+              <small>(requerido)</small>
+            </InputLabel>
+            <Datetime
+              closeOnSelect
+              editable={false}
+              dateFormat={"YYYY-MM-DD"}
+              className={classes.datePicker}
+              timeFormat={false}
+              value={this.state.end_date}
+              onChange={date =>
+                this.setState({ end_date: date.format("YYYY-MM-DD") })
+              }
+              isValidDate={currentDate => {
+                return currentDate.isAfter(this.state.start_date);
+              }}
+              inputProps={{
+                style: style.datePicker
+              }}
+            />
+          </FormControl>
         </GridItem>
         {!this.state.update && (
           <GridItem xs={12} sm={8}>
@@ -467,11 +473,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchFarms: () => dispatch(farms.fetchFarms()),
-    fetchWatering: id => dispatch(waterings.fetchWatering(id)),
-    fetchFertilization: id => dispatch(fertilizations.fetchFertilization(id)),
-    fetchFumigation: id => dispatch(fumigations.fetchFumigation(id)),
-    fetchPruning: id => dispatch(prunings.fetchPruning(id))
+    fetchFarms: () => dispatch(farms.fetchFarms())
   };
 };
 
