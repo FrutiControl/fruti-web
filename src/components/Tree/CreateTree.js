@@ -187,7 +187,6 @@ class CreateTree extends React.Component {
         () => {
           let tree_chars = this.state.allStates.tree_chars;
           let tree_location = this.state.allStates.trees.location;
-          console.log(`Tree_Location ${JSON.stringify(tree_location)}`);
           const point_obj = {
             type: "Point",
             coordinates: [tree_location.lat(), tree_location.lng()]

@@ -32,6 +32,37 @@ export const fetchTrees = () => {
   };
 };
 
+export const fetchTree = id => {
+  return (dispatch, getState) => {
+    let headers = { "Content-Type": "application/json" };
+    let { token } = getState().auth;
+
+    if (token) {
+      headers["Authorization"] = `Token ${token}`;
+    }
+
+    return fetch(`${base_url}/app/trees/${id}/`, { headers })
+      .then(res => {
+        if (res.status < 500) {
+          return res.json().then(data => {
+            return { status: res.status, data };
+          });
+        } else {
+          console.log("Server Error!");
+          throw res;
+        }
+      })
+      .then(res => {
+        if (res.status === 200) {
+          return dispatch({ type: "FETCH_TREE", tree: res.data });
+        } else if (res.status === 401 || res.status === 403) {
+          dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
+          throw res.data;
+        }
+      });
+  };
+};
+
 export const addTree = (specie, seed_date, location, farm) => {
   return (dispatch, getState) => {
     let headers = { "Content-Type": "application/json" };
@@ -40,14 +71,6 @@ export const addTree = (specie, seed_date, location, farm) => {
     if (token) {
       headers["Authorization"] = `Token ${token}`;
     }
-    console.log(
-      JSON.stringify({
-        specie: specie,
-        seed_date: seed_date,
-        location: location,
-        farm: farm
-      })
-    );
     return fetch(`${base_url}/app/trees/`, {
       method: "POST",
       mode: "cors",

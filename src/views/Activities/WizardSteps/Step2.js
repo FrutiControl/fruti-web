@@ -1,10 +1,15 @@
 import React from "react";
-import { trees } from "actions";
+import {
+  waterings,
+  prunings,
+  fumigations,
+  fertilizations,
+  trees
+} from "actions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Check from "@material-ui/icons/Check";
 
@@ -39,10 +44,15 @@ const style = {
   ...customCheckboxRadioSwitch
 };
 
+const update_types = ["watering", "pruning", "fertilization", "fumigation"];
 class Step2 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      update: false,
+      update_type: "",
+      update_id: 0,
+      table_trees: [],
       trees: []
     };
   }
@@ -55,18 +65,69 @@ class Step2 extends React.Component {
   isValidated() {
     return true;
   }
+  mapId(array) {
+    return array.map(id => {
+      for (let tree of this.props.trees) {
+        if (tree.id === id) {
+          return tree;
+        }
+      }
+      return -1;
+    });
+  }
   componentDidMount() {
     this.props.fetchTrees();
     const filters = document.querySelectorAll("div.rt-th > input");
     for (let filter of filters) {
       filter.placeholder = "Buscar...";
     }
+    if (this.props.update !== {}) {
+      const to_update = this.props.update;
+      const update_type = update_types.find(up_type => {
+        return up_type === to_update.type;
+      });
+      if (update_type) {
+        this.setState({ update: true, update_type: to_update.type });
+        switch (to_update.type) {
+          case "watering":
+            this.setState({
+              table_trees: this.mapId(this.props.waterings[0].trees),
+              update_id: this.props.waterings[0].id
+            });
+            break;
+          case "fumigation":
+            this.setState({
+              table_trees: this.mapId(this.props.fumigations[0].trees),
+              update_id: this.props.fumigations[0].id
+            });
+            break;
+          case "fertilization":
+            this.setState({
+              table_trees: this.mapId(this.props.fertilizations[0].trees),
+              update_id: this.props.fertilizations[0].id
+            });
+            break;
+          case "pruning":
+            this.setState({
+              table_trees: this.mapId(this.props.prunings[0].trees),
+              update_id: this.props.prunings[0].id
+            });
+            break;
+          default:
+            break;
+        }
+      }
+    }
   }
-
+  componentWillMount() {
+    this.props.resetUpdate();
+  }
   render() {
     const { classes } = this.props;
-    console.log(`Árboles: ${this.state.trees}`);
-    const mapTrees = this.props.trees.map((tree, key) => {
+    const treesToMap = this.state.update
+      ? this.state.table_trees
+      : this.props.trees;
+    const mapTrees = treesToMap.map((tree, key) => {
       return {
         pos: key,
         id: tree.id,
@@ -82,17 +143,45 @@ class Step2 extends React.Component {
               checkedIcon={<Check className={classes.checkedIcon} />}
               icon={<Check className={classes.uncheckedIcon} />}
               onClick={() => {
-                let found = false;
-                let my_trees = this.state.trees;
-                for (let i = 0; i < my_trees.length; i++) {
-                  if (my_trees[i] === tree.id) {
-                    found = true;
-                    my_trees.splice(i, 1);
-                    this.setState({ trees: my_trees });
+                if (this.state.update) {
+                  switch (this.state.update_type) {
+                    case "watering":
+                      this.props.wateringProgress(
+                        tree.id,
+                        this.state.update_id
+                      );
+                      break;
+                    case "fumigation":
+                      this.props.fumigationProgress(
+                        tree.id,
+                        this.state.update_id
+                      );
+                      break;
+                    case "fertilization":
+                      this.props.fertilizationProgress(
+                        tree.id,
+                        this.state.update_id
+                      );
+                      break;
+                    case "pruning":
+                      this.props.pruningProgress(tree.id, this.state.update_id);
+                      break;
+                    default:
+                      break;
                   }
+                } else {
+                  let found = false;
+                  let my_trees = this.state.trees;
+                  for (let i = 0; i < my_trees.length; i++) {
+                    if (my_trees[i] === tree.id) {
+                      found = true;
+                      my_trees.splice(i, 1);
+                      this.setState({ trees: my_trees });
+                    }
+                  }
+                  if (!found)
+                    this.setState({ trees: [...this.state.trees, tree.id] });
                 }
-                if (!found)
-                  this.setState({ trees: [...this.state.trees, tree.id] });
               }}
               classes={{
                 checked: classes.checked,
@@ -199,14 +288,28 @@ const getSpecie = specie => {
 };
 const mapStateToProps = state => {
   return {
+    update: state.updates,
     trees: state.trees,
-    farms: state.farms
+    farms: state.farms,
+    waterings: state.waterings,
+    fertilizations: state.fertilizations,
+    fumigations: state.fumigations,
+    prunings: state.prunings
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchTrees: () => dispatch(trees.fetchTrees())
+    fetchTrees: () => dispatch(trees.fetchTrees()),
+    resetUpdate: () => dispatch({ type: "RESET_UPDATE", id: 0 }),
+    wateringProgress: (tree_id, watering_id) =>
+      dispatch(waterings.wateringProgress(tree_id, watering_id)),
+    fumigationProgress: (tree_id, fumigation_id) =>
+      dispatch(fumigations.fumigationProgress(tree_id, fumigation_id)),
+    fertilizationProgress: (tree_id, fertilization_id) =>
+      dispatch(fertilizations.fertilizationProgress(tree_id, fertilization_id)),
+    pruningProgress: (tree_id, pruning_id) =>
+      dispatch(prunings.pruningProgress(tree_id, pruning_id))
   };
 };
 

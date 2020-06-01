@@ -7,7 +7,8 @@ import {
   prunings,
   waterings,
   recollections,
-  farms
+  farms,
+  trees
 } from "actions";
 import { connect } from "react-redux";
 // react component for creating dynamic tables
@@ -87,17 +88,43 @@ function SeeActivity(props) {
               round
               simple
               onClick={() => {
-                alert(
-                  `You've clicked EDIT button on: ${activity.name} ${mapActType(
-                    activity.name,
-                    activity.type
-                  )}`
-                );
+                switch (activity.name) {
+                  case "Riego":
+                    props.setWateringToUpdate(activity.id);
+                    props.fetchWatering(activity.id);
+                    break;
+                  case "Poda":
+                    props.setPruningToUpdate(activity.id);
+                    props.fetchPruning(activity.id);
+                    break;
+                  case "Fertilización":
+                    props.setFertilizationToUpdate(activity.id);
+                    props.fetchFertilization(activity.id);
+                    break;
+                  case "Fumigación":
+                    props.setFumigationToUpdate(activity.id);
+                    props.fetchFumigation(activity.id);
+                    break;
+                  case "Siembra":
+                    props.setSeedingToUpdate(activity.id);
+                    props.fetchSeeding(activity.id);
+                    break;
+                  default:
+                    break;
+                }
               }}
-              color="warning"
-              className="edit"
             >
-              <Dvr />
+              <Link
+                style={{
+                  lineHeight: 0,
+                  color: "#ff9800"
+                }}
+                to={`/admin/create_${
+                  activity.name === "Siembra" ? "seeding" : "activity"
+                }`}
+              >
+                <Dvr />
+              </Link>
             </Button>{" "}
             {/* use this button to remove the data row */}
             <Button
@@ -129,6 +156,7 @@ function SeeActivity(props) {
     for (let filter of filters) {
       filter.placeholder = "Buscar...";
     }
+    props.fetchTrees();
     props.fetchFarms();
     props.fetchSeedings();
     props.fetchWaterings();
@@ -221,7 +249,6 @@ function SeeActivity(props) {
     </GridContainer>
   );
 }
-
 const mapActType = (act, type) => {
   switch (act) {
     case "Poda":
@@ -338,6 +365,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchFarms: () => dispatch(farms.fetchFarms()),
+    fetchTrees: () => dispatch(trees.fetchTrees()),
     fetchSeedings: () => dispatch(seedings.fetchSeedings()),
     deleteSeeding: id => dispatch(seedings.deleteSeeding(id)),
     fetchWaterings: () => dispatch(waterings.fetchWaterings()),
@@ -349,7 +377,19 @@ const mapDispatchToProps = dispatch => {
     fetchFertilizations: () => dispatch(fertilizations.fetchFertilizations()),
     deleteFertilization: id => dispatch(fertilizations.deleteFertilization(id)),
     fetchRecollections: () => dispatch(recollections.fetchRecollections()),
-    deleteRecollection: id => dispatch(recollections.deleteRecollection(id))
+    deleteRecollection: id => dispatch(recollections.deleteRecollection(id)),
+    setWateringToUpdate: id => dispatch({ type: "WATERING_UPDATE", id: id }),
+    setSeedingToUpdate: id => dispatch({ type: "SEEDING_UPDATE", id: id }),
+    setFertilizationToUpdate: id =>
+      dispatch({ type: "FERTILIZATION_UPDATE", id: id }),
+    setFumigationToUpdate: id =>
+      dispatch({ type: "FUMIGATION_UPDATE", id: id }),
+    setPruningToUpdate: id => dispatch({ type: "PRUNING_UPDATE", id: id }),
+    fetchWatering: id => dispatch(waterings.fetchWatering(id)),
+    fetchFertilization: id => dispatch(fertilizations.fetchFertilization(id)),
+    fetchFumigation: id => dispatch(fumigations.fetchFumigation(id)),
+    fetchPruning: id => dispatch(prunings.fetchPruning(id)),
+    fetchSeeding: id => dispatch(seedings.fetchSeeding(id))
   };
 };
 

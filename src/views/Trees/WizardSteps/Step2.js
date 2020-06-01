@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -7,8 +8,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 
-import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle.js";
-import customCheckboxRadioSwitch from "assets/jss/material-dashboard-pro-react/customCheckboxRadioSwitch.js";
 import {
   GoogleMap,
   Marker,
@@ -21,17 +20,7 @@ const style = {
     fontWeight: "300",
     margin: "10px 0 30px",
     textAlign: "center"
-  },
-  inputAdornmentIcon: {
-    color: "#555"
-  },
-  choiche: {
-    textAlign: "center",
-    cursor: "pointer",
-    marginTop: "20px"
-  },
-  ...customSelectStyle,
-  ...customCheckboxRadioSwitch
+  }
 };
 
 class Step2 extends React.Component {
@@ -44,14 +33,11 @@ class Step2 extends React.Component {
   sendState() {
     return this.state;
   }
-  handleSimple = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
   isValidated() {
     return true;
+  }
+  componentWillMount() {
+    this.props.resetUpdate();
   }
   markerRef = React.createRef();
   render() {
@@ -85,7 +71,7 @@ class Step2 extends React.Component {
     );
     return (
       <div>
-        <h4 className={classes.infoText}> Ubicación del Nuevo Árbol </h4>
+        <h4 className={classes.infoText}> Ubicación del Árbol </h4>
         <GridContainer justify="center">
           <GridItem xs={12} sm={9}>
             <h5>
@@ -118,5 +104,21 @@ class Step2 extends React.Component {
 Step2.propTypes = {
   classes: PropTypes.object
 };
+const mapStateToProps = state => {
+  return {
+    update: state.updates,
+    trees: state.trees,
+    farms: state.farms,
+  };
+};
 
-export default withStyles(style)(Step2);
+const mapDispatchToProps = dispatch => {
+  return {
+    resetUpdate: () => dispatch({ type: "RESET_UPDATE", id: 0 })
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(style)(Step2));

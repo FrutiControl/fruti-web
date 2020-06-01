@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import {Redirect} from "react-router-dom";
 import {
   fertilizations,
   fumigations,
@@ -8,7 +8,7 @@ import {
   recollections,
   waterings
 } from "actions";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import cx from "classnames";
 import PropTypes from "prop-types";
 
@@ -60,17 +60,22 @@ class CreateActivity extends React.Component {
     this.finishButtonClick = this.finishButtonClick.bind(this);
     this.updateWidth = this.updateWidth.bind(this);
   }
+
   createActivity = React.createRef();
+
   componentDidMount() {
     this.refreshAnimation(0);
     window.addEventListener("resize", this.updateWidth);
   }
+
   componentWillUnmount() {
     window.removeEventListener("resize", this.updateWidth);
   }
+
   updateWidth() {
     this.refreshAnimation(this.state.currentStep);
   }
+
   navigationStepChange(key) {
     if (this.props.steps) {
       let validationState = true;
@@ -82,7 +87,7 @@ class CreateActivity extends React.Component {
                 ...this.state.allStates,
                 [this.props.steps[i].stepId]: this[
                   this.props.steps[i].stepId
-                ].sendState()
+                  ].sendState()
               }
             });
           }
@@ -106,6 +111,7 @@ class CreateActivity extends React.Component {
       }
     }
   }
+
   nextButtonClick() {
     if (
       (this.props.validate &&
@@ -113,9 +119,9 @@ class CreateActivity extends React.Component {
           undefined &&
           this[
             this.props.steps[this.state.currentStep].stepId
-          ].isValidated()) ||
+            ].isValidated()) ||
           this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined)) ||
+          undefined)) ||
       this.props.validate === undefined
     ) {
       if (
@@ -127,7 +133,7 @@ class CreateActivity extends React.Component {
             ...this.state.allStates,
             [this.props.steps[this.state.currentStep].stepId]: this[
               this.props.steps[this.state.currentStep].stepId
-            ].sendState()
+              ].sendState()
           }
         });
       }
@@ -141,6 +147,7 @@ class CreateActivity extends React.Component {
       this.refreshAnimation(key);
     }
   }
+
   previousButtonClick() {
     if (
       this[this.props.steps[this.state.currentStep].stepId].sendState !==
@@ -151,7 +158,7 @@ class CreateActivity extends React.Component {
           ...this.state.allStates,
           [this.props.steps[this.state.currentStep].stepId]: this[
             this.props.steps[this.state.currentStep].stepId
-          ].sendState()
+            ].sendState()
         }
       });
     }
@@ -166,6 +173,7 @@ class CreateActivity extends React.Component {
       this.refreshAnimation(key);
     }
   }
+
   finishButtonClick() {
     if (
       (this.props.validate === false &&
@@ -175,9 +183,9 @@ class CreateActivity extends React.Component {
           undefined &&
           this[
             this.props.steps[this.state.currentStep].stepId
-          ].isValidated()) ||
+            ].isValidated()) ||
           this[this.props.steps[this.state.currentStep].stepId].isValidated ===
-            undefined) &&
+          undefined) &&
         this.props.finishButtonClick !== undefined)
     ) {
       this.setState(
@@ -186,93 +194,145 @@ class CreateActivity extends React.Component {
             ...this.state.allStates,
             [this.props.steps[this.state.currentStep].stepId]: this[
               this.props.steps[this.state.currentStep].stepId
-            ].sendState()
+              ].sendState()
           }
         },
         () => {
           let new_activity = this.state.allStates.act_chars;
           let activity_trees = this.state.allStates.act_trees.trees;
-          switch (new_activity.activity) {
-            case "R":
-              this.props.addWatering(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
-            case "P":
-              this.props.addPruning(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
-            case "F":
-              this.props.addFertilization(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
-            case "U":
-              this.props.addFumigation(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
-            case "H":
-              this.props.addRecollection(
-                new_activity.start_date,
-                new_activity.end_date,
-                Number(new_activity.farm),
-                new_activity.act_type,
-                activity_trees
-              );
-              break;
+          if (new_activity.update) {
+            switch (new_activity.activity) {
+              case "R":
+                this.props.updateWatering(
+                  new_activity.act_id,
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "P":
+                this.props.updatePruning(
+                  new_activity.act_id,
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "F":
+                this.props.updateFertilization(
+                  new_activity.act_id,
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "U":
+                this.props.updateFumigation(
+                  new_activity.act_id,
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              default:
+                break;
+            }
+            this.setState({done: true});
+            alert(`¡La actividad fue modificada correctamente!`);
+          } else {
+            switch (new_activity.activity) {
+              case "R":
+                this.props.addWatering(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "P":
+                this.props.addPruning(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "F":
+                this.props.addFertilization(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "U":
+                this.props.addFumigation(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              case "H":
+                this.props.addRecollection(
+                  new_activity.start_date,
+                  new_activity.end_date,
+                  Number(new_activity.farm),
+                  new_activity.act_type,
+                  activity_trees
+                );
+                break;
+              default:
+                break;
+            }
+            this.props.addOutcome(
+              new_activity.start_date,
+              Number(new_activity.tools_cost),
+              "M",
+              new_activity.activity,
+              mapOutActType(new_activity.activity, new_activity.act_type),
+              `${getActivity(new_activity.activity)}:${mapActType(
+                new_activity.activity,
+                new_activity.act_type
+              ) +
+              " " +
+              new_activity.start_date}`,
+              true
+            );
+            this.props.addOutcome(
+              new_activity.start_date,
+              Number(new_activity.work_cost),
+              "O",
+              new_activity.activity,
+              mapOutActType(new_activity.activity, new_activity.act_type),
+              `${getActivity(new_activity.activity)}:${mapActType(
+                new_activity.activity,
+                new_activity.act_type
+              ) +
+              " " +
+              new_activity.start_date}`,
+              true
+            );
+            this.setState({done: true});
+            alert(`¡La actividad fue creada correctamente!`);
           }
-          this.props.addOutcome(
-            new_activity.start_date,
-            Number(new_activity.tools_cost),
-            "M",
-            new_activity.activity,
-            mapOutActType(new_activity.activity, new_activity.act_type),
-            `${getActivity(new_activity.activity)}:${mapActType(
-              new_activity.activity,
-              new_activity.act_type
-            ) +
-              " " +
-              new_activity.start_date}`,
-            true
-          );
-          this.props.addOutcome(
-            new_activity.start_date,
-            Number(new_activity.work_cost),
-            "O",
-            new_activity.activity,
-            mapOutActType(new_activity.activity, new_activity.act_type),
-            `${getActivity(new_activity.activity)}:${mapActType(
-              new_activity.activity,
-              new_activity.act_type
-            ) +
-              " " +
-              new_activity.start_date}`,
-            true
-          );
-          this.setState({ done: true });
-          alert(`¡La actividad fue creada correctamente!`);
         }
       );
     }
   }
+
   refreshAnimation(index) {
     let total = this.props.steps.length;
     let li_width = 100 / total;
@@ -290,7 +350,7 @@ class CreateActivity extends React.Component {
       li_width = 50;
     }
 
-    this.setState({ width: li_width + "%" });
+    this.setState({width: li_width + "%"});
 
     let step_width = move_distance;
     move_distance = move_distance * index_temp;
@@ -316,11 +376,12 @@ class CreateActivity extends React.Component {
         "translate3d(" + move_distance + "px, " + vertical_level + "px, 0)",
       transition: "all 0.5s cubic-bezier(0.29, 1.42, 0.79, 1)"
     };
-    this.setState({ movingTabStyle: movingTabStyle });
+    this.setState({movingTabStyle: movingTabStyle});
   }
+
   render() {
-    const { classes, title, subtitle, color, steps } = this.props;
-    if (this.state.done) return <Redirect to={`/admin/activities`} />;
+    const {classes, title, subtitle, color, steps} = this.props;
+    if (this.state.done) return <Redirect to={`/admin/activities`}/>;
     return (
       <div className={classes.wizardContainer} ref={this.createActivity}>
         <Card className={classes.card}>
@@ -335,7 +396,7 @@ class CreateActivity extends React.Component {
                   <li
                     className={classes.steps}
                     key={key}
-                    style={{ width: this.state.width }}
+                    style={{width: this.state.width}}
                   >
                     <a
                       href="#pablo"
@@ -405,7 +466,7 @@ class CreateActivity extends React.Component {
                 </Button>
               ) : null}
             </div>
-            <div className={classes.clearfix} />
+            <div className={classes.clearfix}/>
           </div>
         </Card>
       </div>
@@ -634,6 +695,36 @@ const mapDispatchToProps = dispatch => {
           concept,
           recommended
         )
+      ),
+    updatePruning: (id, start_date, end_date, farm, type, trees) =>
+      dispatch(
+        prunings.updatePruning(id, start_date, end_date, farm, type, trees)
+      ),
+    updateFertilization: (id, start_date, end_date, farm, type, trees) =>
+      dispatch(
+        fertilizations.updateFertilization(
+          id,
+          start_date,
+          end_date,
+          farm,
+          type,
+          trees
+        )
+      ),
+    updateFumigation: (id, start_date, end_date, farm, type, trees) =>
+      dispatch(
+        fumigations.updateFumigation(
+          id,
+          start_date,
+          end_date,
+          farm,
+          type,
+          trees
+        )
+      ),
+    updateWatering: (id, start_date, end_date, farm, type, trees) =>
+      dispatch(
+        waterings.updateWatering(id, start_date, end_date, farm, type, trees)
       )
   };
 };

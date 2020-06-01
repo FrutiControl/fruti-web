@@ -6,8 +6,6 @@ import { auth } from "actions";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
-import Checkbox from "@material-ui/core/Checkbox";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Icon from "@material-ui/core/Icon";
 
 // @material-ui/icons
@@ -17,7 +15,6 @@ import Group from "@material-ui/icons/Group";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
 // import LockOutline from "@material-ui/icons/LockOutline";
-import Check from "@material-ui/icons/Check";
 
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
@@ -55,12 +52,10 @@ export default connect(
   const [name, setName] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPass] = React.useState("");
-  const [com_pass, setConPass] = React.useState("");
   const [NameState, setNameState] = React.useState("");
   const [EmailState, setEmailState] = React.useState("");
   const [PasswordState, setPasswordState] = React.useState("");
   const [ConfirmPasswordState, setConfirmPasswordState] = React.useState("");
-  const [valid, setValid] = React.useState(false);
   const wrapper = React.createRef();
   const classes = useStyles();
   if (props.isAuthenticated) {
@@ -241,7 +236,6 @@ export default connect(
                               onChange: e => {
                                 if (password === e.target.value) {
                                   setConfirmPasswordState("success");
-                                  setConPass(e.target.value);
                                 } else setConfirmPasswordState("error");
                               }
                             }}

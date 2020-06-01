@@ -132,8 +132,6 @@ class Step3 extends React.Component {
   polygonRef = React.createRef();
   render() {
     const { classes } = this.props;
-    console.log(`Tree_quantity: ${this.state.trees_quantity}`);
-    console.log(`Tools_cost: ${this.state.tools_cost}`);
     const fruit_items = seedings.map((fruit_type, key) => {
       return (
         <MenuItem
@@ -375,26 +373,19 @@ class Step3 extends React.Component {
             }}
             inputProps={{
               onChange: event => {
-                this.setState(
-                  {
-                    distance: event.target.value,
-                    trees_quantity: Number(
-                      this.state.area / Math.pow(Number(event.target.value), 2)
-                    )
-                  },
+                this.setState({
+                  distance: event.target.value,
+                  trees_quantity:
+                    Number(this.state.area / Math.pow(Number(event.target.value), 2))
+                },
                   () => {
                     this.setState({
                       tools_cost:
                         Number(this.state.trees_quantity).toFixed(0) * 10000
                     });
-                  }
-                );
+                  });
               },
-              style: {
-                ...style.datePicker,
-                margin: "0",
-                paddingTop: "10px"
-              }
+              style: { ...style.datePicker, margin: "0", paddingTop: "10px" }
             }}
           />
         </GridItem>

@@ -6,6 +6,9 @@ export default function trees(state = initialState, action) {
     case "FETCH_TREES":
       return [...action.trees];
 
+    case "FETCH_TREE":
+      return [action.tree];
+
     case "ADD_TREE":
       return [...state, action.note];
 

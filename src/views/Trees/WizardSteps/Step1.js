@@ -1,9 +1,7 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
-import { farms, trees } from "actions";
+import { farms } from "actions";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import moment from "moment";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -16,10 +14,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
-import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle";
-import Button from "../../../components/CustomButtons/Button";
-import Dvr from "@material-ui/icons/Dvr";
-import Close from "@material-ui/icons/Close";
+import moment from "moment";
 
 const style = {
   infoText: {
@@ -41,8 +36,7 @@ const style = {
     textDecoration: "none",
     letterSpacing: "0",
     color: "#3c4858"
-  },
-  ...customSelectStyle
+  }
 };
 
 const fruit_types = [
@@ -59,6 +53,8 @@ class Step1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      update: false,
+      id: 0,
       specie: "",
       seed_date: "",
       farm: ""
@@ -71,27 +67,6 @@ class Step1 extends React.Component {
   verifyLength(value, length) {
     return value.length >= length;
   }
-  change(event, stateName, type, stateNameEqualTo) {
-    switch (type) {
-      case "email":
-        if (this.verifyEmail(event.target.value)) {
-          this.setState({ [stateName + "State"]: "success" });
-        } else {
-          this.setState({ [stateName + "State"]: "error" });
-        }
-        break;
-      case "length":
-        if (this.verifyLength(event.target.value, stateNameEqualTo)) {
-          this.setState({ [stateName + "State"]: "success" });
-        } else {
-          this.setState({ [stateName + "State"]: "error" });
-        }
-        break;
-      default:
-        break;
-    }
-    this.setState({ [stateName]: event.target.value });
-  }
   handleSimple = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -100,6 +75,17 @@ class Step1 extends React.Component {
   };
   componentDidMount() {
     this.props.fetchFarms();
+    if (this.props.update !== {}) {
+      const to_update = this.props.update;
+      if (to_update.id) {
+        this.setState({
+          update: true,
+          id: this.props.trees[0].id,
+          specie: this.props.trees[0].specie,
+          seed_date: this.props.trees[0].seed_date
+        });
+      }
+    }
   }
   render() {
     const { classes } = this.props;
@@ -134,12 +120,12 @@ class Step1 extends React.Component {
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
-          <h4 className={classes.infoText}>Información del nuevo árbol</h4>
+          <h4 className={classes.infoText}>Información del árbol</h4>
         </GridItem>
         <GridItem xs={12} sm={8}>
           <FormControl fullWidth className={classes.selectFormControl}>
             <InputLabel htmlFor="specie" className={classes.selectLabel}>
-              Seleccione tipo de árbol (requerido)
+              Seleccione tipo de árbol <small>(requerido)</small>
             </InputLabel>
             <Select
               MenuProps={{
@@ -168,9 +154,13 @@ class Step1 extends React.Component {
           </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
-          <FormControl fullWidth className={classes.selectFormControl}>
+          <FormControl
+            fullWidth
+            className={classes.selectFormControl}
+            disabled={this.state.update}
+          >
             <InputLabel htmlFor="farm" className={classes.selectLabel}>
-              Seleccione granja a la que pertenece (requerido)
+              Seleccione granja a la que pertenece <small>(requerido)</small>
             </InputLabel>
             <Select
               MenuProps={{
@@ -199,20 +189,34 @@ class Step1 extends React.Component {
           </FormControl>
         </GridItem>
         <GridItem xs={8}>
-          <Datetime
-            closeOnSelect
-            editable={false}
-            dateFormat={"YYYY-MM-DD"}
-            className={classes.datePicker}
-            timeFormat={false}
-            onChange={date =>
-              this.setState({ seed_date: date.format("YYYY-MM-DD") })
-            }
-            inputProps={{
-              placeholder: "Seleccione fecha de siembra del árbol (requerido)",
-              style: style.datePicker
-            }}
-          />
+          <FormControl
+            fullWidth
+            className={classes.selectFormControl}
+            disabled={this.state.update}
+          >
+            <InputLabel htmlFor="seed_date" className={classes.selectLabel}>
+              Seleccione fecha de siembra del árbol <small>(requerido)</small>
+            </InputLabel>
+            <Datetime
+              closeOnSelect
+              editable={false}
+              dateFormat={"YYYY-MM-DD"}
+              className={classes.datePicker}
+              timeFormat={false}
+              value={this.state.seed_date}
+              onChange={date =>
+                this.setState({ seed_date: date.format("YYYY-MM-DD") })
+              }
+              isValidDate={currentDate => {
+                return currentDate.isBefore(moment());
+              }}
+              inputProps={{
+                name: "seed_date",
+                id: "seed_date",
+                style: style.datePicker
+              }}
+            />
+          </FormControl>
         </GridItem>
       </GridContainer>
     );
@@ -224,13 +228,15 @@ Step1.propTypes = {
 };
 const mapStateToProps = state => {
   return {
-    farms: state.farms
+    update: state.updates,
+    farms: state.farms,
+    trees: state.trees
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchFarms: () => dispatch(farms.fetchFarms()),
+    fetchFarms: () => dispatch(farms.fetchFarms())
   };
 };
 

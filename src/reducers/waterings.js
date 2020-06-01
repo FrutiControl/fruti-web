@@ -6,6 +6,9 @@ export default function waterings(state = initialState, action) {
     case "FETCH_WATERINGS":
       return [...action.waterings];
 
+    case "FETCH_WATERING":
+      return [action.watering];
+
     case "ADD_WATERING":
       return [...state, action.note];
 
