@@ -344,7 +344,7 @@ function Dashboard(props) {
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Link to="/admin/movements">
+                  <Link to="/admin/incomes">
                     <Button color="transparent">
                       <i className="fas fa-arrow-circle-up" />
                     </Button>
@@ -402,7 +402,7 @@ function Dashboard(props) {
                   placement="bottom"
                   classes={{ tooltip: classes.tooltip }}
                 >
-                  <Link to="/admin/movements">
+                  <Link to="/admin/outcomes">
                     <Button color="transparent">
                       <i className="fas fa-arrow-circle-up" />
                     </Button>
@@ -410,13 +410,13 @@ function Dashboard(props) {
                 </Tooltip>
               </div>
               <h4 className={classes.cardTitle}>Gastos</h4>
-              <p className={classes.cardCategory}>
+              {/*<p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowDownwardIcon className={classes.upArrowCardCategory} />{" "}
                   25%
                 </span>{" "}
                 de disminución en los gastos.
-              </p>
+              </p>*/}
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
