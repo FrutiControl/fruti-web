@@ -352,12 +352,12 @@ function Dashboard(props) {
                 </Tooltip>
               </div>
               <h4 className={classes.cardTitle}>Ingresos</h4>
-              <p className={classes.cardCategory}>
+             {/* <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
                 </span>{" "}
                 de incremento en los ingresos.
-              </p>
+              </p>*/}
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
