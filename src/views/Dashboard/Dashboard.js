@@ -352,12 +352,15 @@ function Dashboard(props) {
                 </Tooltip>
               </div>
               <h4 className={classes.cardTitle}>Ingresos</h4>
-             {/* <p className={classes.cardCategory}>
+              {/* <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <ArrowUpward className={classes.upArrowCardCategory} /> 55%
                 </span>{" "}
                 de incremento en los ingresos.
               </p>*/}
+              <p className={classes.cardCategory}>
+                Ingresos recibidos por la venta de frutos
+              </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
@@ -417,6 +420,10 @@ function Dashboard(props) {
                 </span>{" "}
                 de disminución en los gastos.
               </p>*/}
+              <p className={classes.cardCategory}>
+                Gastos en materiales y mano de obra por la realización de
+                actividades
+              </p>
             </CardBody>
             <CardFooter chart>
               <div className={classes.stats}>
