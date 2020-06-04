@@ -6,6 +6,9 @@ export default function outcomes(state = initialState, action) {
     case "FETCH_OUTCOMES":
       return [...action.outcomes];
 
+    case "FETCH_RECOMMENDED_OUTCOMES":
+      return [...action.outcomes];
+
     case "ADD_OUTCOME":
       return [...state, action.note];
 

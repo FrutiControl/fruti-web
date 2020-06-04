@@ -19,8 +19,6 @@ import CardBody from "components/Card/CardBody.js";
 import CardIcon from "components/Card/CardIcon.js";
 import CardHeader from "components/Card/CardHeader.js";
 
-import { dataTable } from "variables/general.js";
-
 import { cardTitle } from "assets/jss/material-dashboard-pro-react.js";
 
 const styles = {
@@ -28,6 +26,12 @@ const styles = {
     ...cardTitle,
     marginTop: "15px",
     marginBottom: "0px"
+  },
+  infoText: {
+    fontWeight: "300",
+    margin: "10px 0 30px",
+    textAlign: "center",
+    fontSize: "20px"
   }
 };
 
@@ -35,58 +39,87 @@ const useStyles = makeStyles(styles);
 
 function Budget(props) {
   const [data, setData] = React.useState([]);
-  const mapOutcomes = myOutcomes => {
-    return myOutcomes.map((outcome, key) => {
-      return {
-        pos: key,
-        id: outcome.id,
-        activity: getActivity(outcome.activity),
-        act_type: getActType(outcome.act_type),
-        type: getOutType(outcome.type),
-        quantity: outcome.quantity,
-        date: outcome.date,
-        value: outcome.value,
-        actions: (
-          // we've added some custom button actions
-          <div className="actions-right">
-            {/* use this button to add a edit kind of action */}
-            <Button
-              justIcon
-              round
-              simple
-              onClick={() => {
-                alert("You've clicked EDIT button on ID:" + outcome.id);
-              }}
-              color="warning"
-              className="edit"
-            >
-              <Dvr />
-            </Button>{" "}
-            {/* use this button to remove the data row */}
-            <Button
-              justIcon
-              round
-              simple
-              onClick={() => {
-                if (
-                  window.confirm(
-                    `¿Está seguro de eliminar el gasto por ${getActivity(
-                      outcome.activity
-                    )} del ${outcome.date}?`
-                  )
-                ) {
-                  props.deleteOutcome(outcome.id);
-                }
-              }}
-              color="danger"
-              className="remove"
-            >
-              <Close />
-            </Button>{" "}
-          </div>
-        )
-      };
+  const [outcomes, setOutcomes] = React.useState([]);
+  const [total_recommended, setTRecommended] = React.useState(0);
+  const [total_outcomes, setTOutcomes] = React.useState(0);
+  const mapRecommendedOutcomes = myOutcomes => {
+    let recommendedOutcomes = myOutcomes.map(outcome => {
+      if (outcome.recommended) {
+        return outcome;
+      }
     });
+    let len = recommendedOutcomes.length;
+    for (let i = 0; i < len; i++) {
+      if (!recommendedOutcomes[i]) {
+        recommendedOutcomes.splice(i, 1);
+        len--;
+        i--;
+      }
+    }
+    if (recommendedOutcomes.length > 0) {
+      return recommendedOutcomes.map((outcome, key) => {
+        return {
+          pos: key,
+          id: outcome.id,
+          activity: getActivity(outcome.activity),
+          act_type: getActType(outcome.act_type),
+          type: getOutType(outcome.type),
+          quantity: outcome.quantity,
+          date: outcome.date,
+          value: outcome.value,
+          actions: (
+            // we've added some custom button actions
+            <div className="actions-right">
+              {/* use this button to add a edit kind of action */}
+              <Button
+                justIcon
+                round
+                simple
+                onClick={() => {
+                  alert("You've clicked EDIT button on ID:" + outcome.id);
+                }}
+                color="warning"
+                className="edit"
+              >
+                <Dvr />
+              </Button>{" "}
+              {/* use this button to remove the data row */}
+              <Button
+                justIcon
+                round
+                simple
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      `¿Está seguro de eliminar el gasto por ${getActivity(
+                        outcome.activity
+                      )} del ${outcome.date}?`
+                    )
+                  ) {
+                    props.deleteOutcome(outcome.id);
+                  }
+                }}
+                color="danger"
+                className="remove"
+              >
+                <Close />
+              </Button>{" "}
+            </div>
+          )
+        };
+      });
+    } else {
+      return [];
+    }
+  };
+  const getRealOutcomes = allOutcomes => {
+    let realOutcomes = [];
+    for (let i = 0; i < allOutcomes.length; i++) {
+      if (!allOutcomes[i].recommended) {
+        realOutcomes.push(allOutcomes[i]);
+      }
+    }
+    return realOutcomes;
   };
   React.useEffect(() => {
     const filters = document.querySelectorAll("div.rt-th > input");
@@ -96,8 +129,21 @@ function Budget(props) {
     props.fetchRecommendedOutcomes();
   }, []);
   React.useEffect(() => {
-    setData(mapOutcomes(props.outcomes));
+    setData(mapRecommendedOutcomes(props.outcomes));
+    setOutcomes(getRealOutcomes(props.outcomes));
   }, [props.outcomes]);
+  React.useEffect(() => {
+    let totalOutcome = 0;
+    for (let outcome of outcomes) {
+      totalOutcome += outcome.value;
+    }
+    let totalRecommended = 0;
+    for (let outcome of data) {
+      totalRecommended += outcome.value;
+    }
+    setTRecommended(totalRecommended);
+    setTOutcomes(totalOutcome);
+  }, [data, outcomes]);
   const classes = useStyles();
   return (
     <GridContainer justify="center">
@@ -110,6 +156,27 @@ function Budget(props) {
             <h4 className={classes.cardIconTitle}>Presupuesto Estimado</h4>
           </CardHeader>
           <CardBody>
+            <GridContainer>
+              <GridItem xs={4}>
+                <h5 className={classes.infoText}>
+                  Total de Gastos presupuestados:
+                  {` ${total_recommended}`}
+                </h5>
+              </GridItem>
+              <GridItem xs={4}>
+                <h5 className={classes.infoText}>
+                  {total_outcomes > total_recommended
+                    ? `Desfase: ${total_recommended - total_outcomes}`
+                    : `Ahorro: ${total_recommended - total_outcomes}`}
+                </h5>
+              </GridItem>
+              <GridItem xs={4}>
+                <h5 className={classes.infoText}>
+                  Total de Gastos reales:
+                  {` ${total_outcomes}`}
+                </h5>
+              </GridItem>
+            </GridContainer>
             <ReactTable
               nextText={"Siguiente"}
               previousText={"Anterior"}
@@ -243,7 +310,6 @@ const mapStateToProps = state => {
     user: state.auth.user
   };
 };
-
 const mapDispatchToProps = dispatch => {
   return {
     fetchRecommendedOutcomes: () =>
@@ -251,7 +317,6 @@ const mapDispatchToProps = dispatch => {
     deleteOutcome: id => dispatch(outcomes.deleteOutcome(id))
   };
 };
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps

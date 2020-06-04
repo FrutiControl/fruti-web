@@ -68,6 +68,13 @@ function Dashboard(props) {
     props.fetchOwner();
   }, []);
   const classes = useStyles();
+  const sumActivities = last_activities => {
+    let total_activities = 0;
+    for (let day_activities of last_activities) {
+      total_activities += day_activities;
+    }
+    return total_activities;
+  };
   return (
     <div>
       <GridContainer>
@@ -263,7 +270,7 @@ function Dashboard(props) {
                 className="ct-chart-white-colors"
                 data={{
                   labels: mapDays(props.dashboard.last_days),
-                  data: [props.dashboard.last_activities]
+                  series: [props.dashboard.last_activities]
                 }}
                 type="Line"
                 options={completedTasksChart.options}
@@ -289,8 +296,10 @@ function Dashboard(props) {
               <p className={classes.cardCategory}>
                 <span className={classes.successText}>
                   <i className="fas fa-check-circle" />
-                </span>{" "}
-                14 actividades completadas en la semana.
+                </span>
+                {` ${sumActivities(
+                  props.dashboard.last_activities
+                )} actividades completadas en los ultimos 7 días.`}
               </p>
             </CardBody>
             <CardFooter chart>
@@ -644,6 +653,7 @@ function Dashboard(props) {
     </div>
   );
 }
+
 const mapDays = days => {
   return days.map(day => {
     switch (day) {

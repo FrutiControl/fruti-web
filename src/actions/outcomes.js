@@ -40,7 +40,7 @@ export const fetchRecommendedOutcomes = () => {
       headers["Authorization"] = `Token ${token}`;
     }
 
-    return fetch(`${base_url}/money/outcomes/?recommended=True`, { headers })
+    return fetch(`${base_url}/money/outcomes/`, { headers })
       .then(res => {
         if (res.status < 500) {
           return res.json().then(data => {
@@ -53,7 +53,7 @@ export const fetchRecommendedOutcomes = () => {
       })
       .then(res => {
         if (res.status === 200) {
-          return dispatch({ type: "FETCH_OUTCOMES", outcomes: res.data });
+          return dispatch({ type: "FETCH_RECOMMENDED_OUTCOMES", outcomes: res.data });
         } else if (res.status === 401 || res.status === 403) {
           dispatch({ type: "AUTHENTICATION_ERROR", data: res.data });
           throw res.data;

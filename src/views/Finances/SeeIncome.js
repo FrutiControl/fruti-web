@@ -138,15 +138,15 @@ function SeeIncome(props) {
               </GridItem>
               <GridItem xs={4}>
                 <h4 className={classes.infoText}>
-                  Total de Gastos:
-                  {` ${total_outcomes}`}
+                  {total_outcomes > total_incomes
+                    ? `Pérdidas: ${total_incomes - total_outcomes}`
+                    : `Ganancias: ${total_incomes - total_outcomes}`}
                 </h4>
               </GridItem>
               <GridItem xs={4}>
                 <h4 className={classes.infoText}>
-                  {total_outcomes > total_incomes
-                    ? `Pérdidas: ${total_incomes - total_outcomes}`
-                    : `Ganancias: ${total_incomes - total_outcomes}`}
+                  Total de Gastos:
+                  {` ${total_outcomes}`}
                 </h4>
               </GridItem>
             </GridContainer>
