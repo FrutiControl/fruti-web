@@ -32,7 +32,14 @@ export const fetchIncomes = () => {
   };
 };
 
-export const addIncome = (date, value, quantity, fruit_type, concept) => {
+export const addIncome = (
+  date,
+  value,
+  quantity,
+  fruit_type,
+  concept,
+  units
+) => {
   return (dispatch, getState) => {
     let { token } = getState().auth;
     return fetch(`${base_url}/money/incomes/`, {
@@ -52,7 +59,8 @@ export const addIncome = (date, value, quantity, fruit_type, concept) => {
         value: value,
         quantity: quantity,
         fruit_type: fruit_type,
-        recommended: false
+        recommended: false,
+        units: units
       })
     })
       .then(res => {

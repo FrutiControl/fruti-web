@@ -115,7 +115,8 @@ class CreateTransaction extends React.Component {
               Number(new_income.unit_value),
               Number(new_income.quantity),
               new_income.fruit_type,
-              new_income.concept
+              new_income.concept,
+              new_income.units
             );
             this.setState({ done: true });
             alert(`¡El ingreso fue creado correctamente!`);
@@ -387,8 +388,10 @@ const mapDispatchToProps = dispatch => {
         )
       ),
     updateOutcome: id => dispatch(outcomes.updateOutcome(id)),
-    addIncome: (date, value, quantity, fruit_type, concept) =>
-      dispatch(incomes.addIncome(date, value, quantity, fruit_type, concept)),
+    addIncome: (date, value, quantity, fruit_type, concept, units) =>
+      dispatch(
+        incomes.addIncome(date, value, quantity, fruit_type, concept, units)
+      ),
     updateIncome: id => dispatch(incomes.updateIncome(id))
   };
 };

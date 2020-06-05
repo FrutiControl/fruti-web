@@ -204,57 +204,6 @@ class Step2 extends React.Component {
                 htmlFor="simple-select"
                 className={classes.selectLabel}
               >
-                Seleccione el tipo de gasto <small>(requerido)</small>
-              </InputLabel>
-              <Select
-                MenuProps={{
-                  className: classes.selectMenu
-                }}
-                classes={{
-                  select: classes.select
-                }}
-                value={this.state.out_type}
-                onChange={this.handleSimple}
-                inputProps={{
-                  name: "out_type",
-                  id: "out_type"
-                }}
-              >
-                <MenuItem
-                  disabled
-                  classes={{
-                    root: classes.selectMenuItem
-                  }}
-                >
-                  Tipo del gasto
-                </MenuItem>
-                <MenuItem
-                  classes={{
-                    root: classes.selectMenuItem,
-                    selected: classes.selectMenuItemSelected
-                  }}
-                  value="M"
-                >
-                  Materiales
-                </MenuItem>
-                <MenuItem
-                  classes={{
-                    root: classes.selectMenuItem,
-                    selected: classes.selectMenuItemSelected
-                  }}
-                  value="O"
-                >
-                  Mano de obra
-                </MenuItem>
-              </Select>
-            </FormControl>
-          </GridItem>
-          <GridItem xs={12} sm={8}>
-            <FormControl fullWidth className={classes.selectFormControl}>
-              <InputLabel
-                htmlFor="simple-select"
-                className={classes.selectLabel}
-              >
                 Seleccione la actividad <small>(requerido)</small>
               </InputLabel>
               <Select
@@ -327,6 +276,57 @@ class Step2 extends React.Component {
                     </MenuItem>
                   );
                 })}
+              </Select>
+            </FormControl>
+          </GridItem>
+          <GridItem xs={12} sm={8}>
+            <FormControl fullWidth className={classes.selectFormControl}>
+              <InputLabel
+                htmlFor="simple-select"
+                className={classes.selectLabel}
+              >
+                Seleccione el tipo de gasto <small>(requerido)</small>
+              </InputLabel>
+              <Select
+                MenuProps={{
+                  className: classes.selectMenu
+                }}
+                classes={{
+                  select: classes.select
+                }}
+                value={this.state.out_type}
+                onChange={this.handleSimple}
+                inputProps={{
+                  name: "out_type",
+                  id: "out_type"
+                }}
+              >
+                <MenuItem
+                  disabled
+                  classes={{
+                    root: classes.selectMenuItem
+                  }}
+                >
+                  Tipo del gasto
+                </MenuItem>
+                <MenuItem
+                  classes={{
+                    root: classes.selectMenuItem,
+                    selected: classes.selectMenuItemSelected
+                  }}
+                  value="M"
+                >
+                  Materiales
+                </MenuItem>
+                <MenuItem
+                  classes={{
+                    root: classes.selectMenuItem,
+                    selected: classes.selectMenuItemSelected
+                  }}
+                  value="O"
+                >
+                  Mano de obra
+                </MenuItem>
               </Select>
             </FormControl>
           </GridItem>

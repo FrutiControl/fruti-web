@@ -13,7 +13,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Datetime from "react-datetime";
-import customSelectStyle from "../../../assets/jss/material-dashboard-pro-react/customSelectStyle";
+import customSelectStyle from "assets/jss/material-dashboard-pro-react/customSelectStyle";
 
 const style = {
   infoText: {
@@ -52,6 +52,11 @@ const fruit_types = [
   { value: "A", name: "Aguacate" },
   { value: "B", name: "Banano" }
 ];
+const units = [
+  { value: "C", name: "Canastillas" },
+  { value: "K", name: "Kilos" },
+  { value: "U", name: "Unidades" }
+];
 
 class Step1 extends React.Component {
   constructor(props) {
@@ -60,6 +65,7 @@ class Step1 extends React.Component {
       fruit_type: "",
       income_date: "",
       quantity: 0,
+      units: "",
       unit_value: 0,
       total_value: 0,
       concept: "",
@@ -134,6 +140,20 @@ class Step1 extends React.Component {
           value={fruit_type.value}
         >
           {fruit_type.name}
+        </MenuItem>
+      );
+    });
+    const units_items = units.map((units, key) => {
+      return (
+        <MenuItem
+          key={key}
+          classes={{
+            root: classes.selectMenuItem,
+            selected: classes.selectMenuItemSelected
+          }}
+          value={units.value}
+        >
+          {units.name}
         </MenuItem>
       );
     });
@@ -217,6 +237,37 @@ class Step1 extends React.Component {
               }
             }}
           />
+        </GridItem>
+        <GridItem xs={12} sm={8}>
+          <FormControl fullWidth className={classes.selectFormControl}>
+            <InputLabel htmlFor="simple-select" className={classes.selectLabel}>
+              Seleccione unidades de venta <small>(requerido)</small>
+            </InputLabel>
+            <Select
+              MenuProps={{
+                className: classes.selectMenu
+              }}
+              classes={{
+                select: classes.select
+              }}
+              value={this.state.units}
+              onChange={this.handleSimple}
+              inputProps={{
+                name: "units",
+                id: "units"
+              }}
+            >
+              <MenuItem
+                disabled
+                classes={{
+                  root: classes.selectMenuItem
+                }}
+              >
+                Unidades de venta
+              </MenuItem>
+              {units_items}
+            </Select>
+          </FormControl>
         </GridItem>
         <GridItem xs={12} sm={8}>
           <CustomInput

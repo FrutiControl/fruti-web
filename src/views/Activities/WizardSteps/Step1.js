@@ -33,7 +33,7 @@ const style = {
     position: "relative"
   },
   datePicker: {
-    marginTop: "16px",
+    marginTop: "20px",
     fontSize: "14px",
     fontWeight: "400",
     lineHeight: "1.42857",
