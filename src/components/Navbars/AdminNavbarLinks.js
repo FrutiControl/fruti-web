@@ -86,7 +86,7 @@ export default connect(
           </Hidden>
         </Button>
       </Link>
-      <div className={managerClasses}>
+      {/*<div className={managerClasses}>
         <Button
           color="transparent"
           justIcon
@@ -154,8 +154,7 @@ export default connect(
             </Grow>
           )}
         </Popper>
-      </div>
-
+      </div>*/}
       <div className={managerClasses}>
         <Button
           color="transparent"
