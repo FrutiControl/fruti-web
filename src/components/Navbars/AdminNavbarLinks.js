@@ -86,7 +86,7 @@ export default connect(
           </Hidden>
         </Button>
       </Link>
-      {/*<div className={managerClasses}>
+      <div className={managerClasses}>
         <Button
           color="transparent"
           justIcon
@@ -99,7 +99,7 @@ export default connect(
           <Notifications
             className={classes.headerLinksSvg + " " + classes.links}
           />
-          <span className={classes.notifications}>3</span>
+          {/*<span className={classes.notifications}>3</span>*/}
           <Hidden mdUp implementation="css">
             <span
               onClick={handleClickNotification}
@@ -109,7 +109,8 @@ export default connect(
             </span>
           </Hidden>
         </Button>
-        <Popper
+      </div>
+      {/* <Popper
           open={Boolean(openNotification)}
           anchorEl={openNotification}
           transition
