@@ -29,6 +29,7 @@ export default function HeaderLinks(props) {
             <ListItem className={classes.listItem}>
                 <Link to={"/login"}>
                     <Button
+                        id="initButton"
                         color="primary"
                         size="md">
                         Iniciar sesión

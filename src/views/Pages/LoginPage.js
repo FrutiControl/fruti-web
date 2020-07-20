@@ -129,6 +129,7 @@ export default connect(
                     </CardBody>
                     <CardFooter className={classes.justifyContentCenter}>
                       <Button
+                        id="loginBtn"
                         color="primary"
                         simple
                         size="lg"
