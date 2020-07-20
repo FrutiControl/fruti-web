@@ -313,7 +313,7 @@ class Step3 extends React.Component {
                   root: classes.selectMenuItem
                 }}
               >
-                Granja
+                Finca
               </MenuItem>
               {farms_items}
             </Select>

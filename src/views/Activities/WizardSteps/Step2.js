@@ -45,6 +45,7 @@ const style = {
 };
 
 const update_types = ["watering", "pruning", "fertilization", "fumigation"];
+
 class Step2 extends React.Component {
   constructor(props) {
     super(props);
@@ -56,15 +57,19 @@ class Step2 extends React.Component {
       trees: []
     };
   }
+
   sendState() {
     return this.state;
   }
+
   handleChange = name => event => {
     this.setState({ [name]: event.target.checked });
   };
+
   isValidated() {
     return true;
   }
+
   mapId(array) {
     return array.map(id => {
       for (let tree of this.props.trees) {
@@ -75,6 +80,7 @@ class Step2 extends React.Component {
       return -1;
     });
   }
+
   componentDidMount() {
     this.props.fetchTrees();
     const filters = document.querySelectorAll("div.rt-th > input");
@@ -119,9 +125,11 @@ class Step2 extends React.Component {
       }
     }
   }
+
   componentWillMount() {
     this.props.resetUpdate();
   }
+
   render() {
     const { classes } = this.props;
     const treesToMap = this.state.update
@@ -144,6 +152,7 @@ class Step2 extends React.Component {
               icon={<Check className={classes.uncheckedIcon} />}
               onClick={() => {
                 if (this.state.update) {
+                  //TODO: try [] notation instead of switch
                   switch (this.state.update_type) {
                     case "watering":
                       this.props.wateringProgress(
@@ -232,7 +241,7 @@ class Step2 extends React.Component {
                       accessor: "seed_date"
                     },
                     {
-                      Header: "Granja",
+                      Header: "Finca",
                       accessor: "farm"
                     },
                     {

@@ -1,6 +1,6 @@
 import React from "react";
-import { farms } from "actions";
-import { connect } from "react-redux";
+import {farms} from "actions";
+import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
@@ -40,13 +40,13 @@ const style = {
 };
 
 const fruit_types = [
-  { value: "M", name: "Mango Tommy" },
-  { value: "F", name: "Mango Farchild" },
-  { value: "N", name: "Naranja" },
-  { value: "D", name: "Mandarina" },
-  { value: "L", name: "Limón" },
-  { value: "A", name: "Aguacate" },
-  { value: "B", name: "Banano" }
+  {value: "M", name: "Mango Tommy"},
+  {value: "F", name: "Mango Farchild"},
+  {value: "N", name: "Naranja"},
+  {value: "D", name: "Mandarina"},
+  {value: "L", name: "Limón"},
+  {value: "A", name: "Aguacate"},
+  {value: "B", name: "Banano"}
 ];
 
 class Step1 extends React.Component {
@@ -60,19 +60,23 @@ class Step1 extends React.Component {
       farm: ""
     };
   }
+
   sendState() {
     return this.state;
   }
+
   // function that verifies if a string has a given length or not
   verifyLength(value, length) {
     return value.length >= length;
   }
+
   handleSimple = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({[event.target.name]: event.target.value});
   };
   handleChange = name => event => {
-    this.setState({ [name]: event.target.checked });
+    this.setState({[name]: event.target.checked});
   };
+
   componentDidMount() {
     this.props.fetchFarms();
     if (this.props.update !== {}) {
@@ -87,8 +91,9 @@ class Step1 extends React.Component {
       }
     }
   }
+
   render() {
-    const { classes } = this.props;
+    const {classes} = this.props;
     const fruit_items = fruit_types.map((fruit_type, key) => {
       return (
         <MenuItem
@@ -182,7 +187,7 @@ class Step1 extends React.Component {
                   root: classes.selectMenuItem
                 }}
               >
-                Granja
+                Finca
               </MenuItem>
               {farms_items}
             </Select>
@@ -205,7 +210,7 @@ class Step1 extends React.Component {
               timeFormat={false}
               value={this.state.seed_date}
               onChange={date =>
-                this.setState({ seed_date: date.format("YYYY-MM-DD") })
+                this.setState({seed_date: date.format("YYYY-MM-DD")})
               }
               isValidDate={currentDate => {
                 return currentDate.isBefore(moment());

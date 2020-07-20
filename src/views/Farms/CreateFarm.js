@@ -20,8 +20,8 @@ export default function CreateFarmView() {
               stepId: "farms"
             }
           ]}
-          title="Crear Granja"
-          subtitle="Ingrese los datos correspondientes en la forma para su nueva granja."
+          title="Crear Finca"
+          subtitle="Ingrese los datos correspondientes en la forma para su nueva finca."
           finishButtonClick={e => alert(e)}
         />
       </GridItem>

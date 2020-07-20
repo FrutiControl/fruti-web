@@ -143,7 +143,7 @@ function SeeTree(props) {
                   accessor: "phase"
                 },
                 {
-                  Header: "Granja",
+                  Header: "Finca",
                   accessor: "farm"
                 },
                 {

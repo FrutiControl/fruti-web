@@ -139,7 +139,7 @@ class Step1 extends React.Component {
     return (
       <GridContainer justify="center">
         <GridItem xs={12} sm={12}>
-          <h4 className={classes.infoText}>Datos de la Granja Nueva</h4>
+          <h4 className={classes.infoText}>Datos de la Finca Nueva</h4>
         </GridItem>
         <GridItem xs={10}>
           <CustomInput

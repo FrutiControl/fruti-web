@@ -228,7 +228,7 @@ function SeeActivity(props) {
                   accessor: "progress"
                 },
                 {
-                  Header: "Granja",
+                  Header: "Finca",
                   accessor: "farm"
                 },
                 {

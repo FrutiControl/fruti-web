@@ -97,7 +97,7 @@ function SeeFarm(props) {
             <CardIcon color="primary">
               <Assignment />
             </CardIcon>
-            <h4 className={classes.cardIconTitle}>Lista de Granjas</h4>
+            <h4 className={classes.cardIconTitle}>Lista de Fincas</h4>
           </CardHeader>
           <CardBody>
             <ReactTable

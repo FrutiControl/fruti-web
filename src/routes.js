@@ -36,20 +36,20 @@ var dashRoutes = [
   },
   {
     collapse: true,
-    name: "Granjas",
+    name: "FIncas",
     icon: HomeIcon,
     state: "componentsCollapse",
     views: [
       {
         path: "/create_farm",
-        name: "Crear Granja",
+        name: "Crear Finca",
         mini: "CG",
         component: CreateFarm,
         layout: "/admin"
       },
       {
         path: "/farms",
-        name: "Ver Granjas",
+        name: "Ver Finca",
         mini: "VG",
         component: SeeFarm,
         layout: "/admin"
