@@ -1,5 +1,5 @@
 let config = {
-  base_url: "https://app.fruticontrol.me"
+  base_url: "http://localhost:8000"
 };
 
 export default config;
