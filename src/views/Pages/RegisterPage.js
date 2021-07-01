@@ -7,6 +7,12 @@ import { auth } from "actions";
 import { makeStyles } from "@material-ui/core/styles";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Icon from "@material-ui/core/Icon";
+import IconButton from "@material-ui/core/IconButton";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 // @material-ui/icons
 import LocalAtmIcon from "@material-ui/icons/LocalAtm";
@@ -14,6 +20,7 @@ import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
 import Group from "@material-ui/icons/Group";
 import Face from "@material-ui/icons/Face";
 import Email from "@material-ui/icons/Email";
+import {Visibility, VisibilityOff} from "@material-ui/icons";
 // import LockOutline from "@material-ui/icons/LockOutline";
 
 // core components
@@ -32,23 +39,11 @@ import styles from "assets/jss/material-dashboard-pro-react/views/registerPageSt
 
 const useStyles = makeStyles(styles);
 
-const mapStateToProps = state => {
-  return {
-    isAuthenticated: state.auth.isAuthenticated
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    register: (username, password, firstName) =>
-      dispatch(auth.register(username, password, firstName))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(function RegisterPage(props) {
+function RegisterPage(props) {
+  const [helperName, setHelperName] = React.useState("");
+  const [helperEmail, setHelperEmail] = React.useState("");
+  const [helperPass, setHelperPass] = React.useState("");
+  const [helperConfirmPass, setHelperConfirmPass] = React.useState("");
   const [name, setName] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [password, setPass] = React.useState("");
@@ -56,19 +51,59 @@ export default connect(
   const [EmailState, setEmailState] = React.useState("");
   const [PasswordState, setPasswordState] = React.useState("");
   const [ConfirmPasswordState, setConfirmPasswordState] = React.useState("");
+  const [registerTries, setRegisterTries] = React.useState(0);
+  const [registerError, setRegisterError] = React.useState(false);
+  const [showDialog, setShowDialog] = React.useState({
+    open:false,
+    title: '',
+    content: '',
+  });
+  const [valuesPass, setValuesPass] = React.useState({
+    password: '',
+    showPassword: false,
+    type: 'password',
+  });
   const wrapper = React.createRef();
+  const checkForm = () => {
+    setRegisterTries(registerTries+1);
+    return (
+        NameState === "success" &&
+        EmailState === "success" &&
+        PasswordState === "success" &&
+        ConfirmPasswordState === "success"
+    );
+  };
   const classes = useStyles();
+  const handleClickShowPassword = () => {
+    if(valuesPass.type === "text")
+      setValuesPass({ password: password, showPassword: !valuesPass.showPassword, type: "password" });
+    else
+      setValuesPass({ password: password, showPassword: !valuesPass.showPassword, type: "text" });
+  };
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  const handleCloseDialog = () => {
+    setShowDialog({open: false, title: '',content: '' });
+  };
+  const handleError = () =>{
+    setRegisterError(true);
+    if (registerError && registerTries>0) {
+      setShowDialog({open: true, title: 'Error al hacer el registro ',content: 'Verifique la información suministrada para continuar.' });
+    }
+  };
+  const handleSuccess = () =>{
+    if(registerError===false){
+      setShowDialog({open: true, title: 'Registro exitoso ',content: 'Su usuario fue registrado exitosamente! Click en aceptar para continuar.' });
+    }
+  };
+  React.useEffect(() => {
+      handleError();
+  }, [props.errors[0]])
   if (props.isAuthenticated) {
     return <Redirect to="/admin/dashboard" />;
   }
-  const checkForm = () => {
-    return (
-      NameState === "success" &&
-      EmailState === "success" &&
-      PasswordState === "success" &&
-      ConfirmPasswordState === "success"
-    );
-  };
+
   return (
     <div>
       <AuthNavbar brandText={"Registro de usuarios"} />
@@ -133,6 +168,7 @@ export default connect(
                               fullWidth: true,
                               className: classes.customFormControlClasses
                             }}
+                            helperText={helperName}
                             inputProps={{
                               startAdornment: (
                                 <InputAdornment
@@ -147,9 +183,13 @@ export default connect(
                               placeholder: "Nombre",
                               onChange: e => {
                                 if (e.target.value.length >= 5) {
+                                  setHelperName("");
                                   setName(e.target.value);
                                   setNameState("success");
-                                } else setNameState("error");
+                                } else {
+                                  setHelperName("Ingrese nombre completo");
+                                  setNameState("error");
+                                }
                               }
                             }}
                           />
@@ -160,6 +200,7 @@ export default connect(
                               fullWidth: true,
                               className: classes.customFormControlClasses
                             }}
+                            helperText={helperEmail}
                             inputProps={{
                               startAdornment: (
                                 <InputAdornment
@@ -175,8 +216,12 @@ export default connect(
                                 let emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
                                 if (emailRex.test(e.target.value)) {
                                   setEmailState("success");
+                                  setHelperEmail("");
                                   setUsername(e.target.value);
-                                } else setEmailState("error");
+                                } else{
+                                  setHelperEmail("Correo invalido.");
+                                  setEmailState("error");
+                                }
                               },
                               placeholder: "Correo",
                               type: "email"
@@ -190,25 +235,44 @@ export default connect(
                               fullWidth: true,
                               className: classes.customFormControlClasses
                             }}
+                            helperText={helperPass}
                             inputProps={{
                               startAdornment: (
+                                  <InputAdornment
+                                      position="start"
+                                      className={classes.inputAdornment}
+                                  >
+                                    <Icon className={classes.inputAdornmentIcon}>
+                                      lock_outline
+                                    </Icon>
+                                  </InputAdornment>
+                              ),
+                              endAdornment: (
                                 <InputAdornment
-                                  position="start"
+                                  position="end"
                                   className={classes.inputAdornment}
                                 >
-                                  <Icon className={classes.inputAdornmentIcon}>
-                                    lock_outline
-                                  </Icon>
+                                  <IconButton className={classes.inputAdornmentIcon}
+                                              aria-label="toggle password visibility"
+                                              onClick={handleClickShowPassword}
+                                              onMouseDown={handleMouseDownPassword}
+                                  >
+                                    {valuesPass.showPassword ? <Visibility /> : <VisibilityOff />}
+                                  </IconButton>
                                 </InputAdornment>
                               ),
                               placeholder: "Contraseña",
-                              type: "password",
+                              type: valuesPass.type,
                               onChange: e => {
                                 let passRex = /^(?=.*[A-Z][a-z])(?=.*\d)[A-Za-z\d^a-zA-Z0-9].{8,25}$/;
                                 if (passRex.test(e.target.value)) {
                                   setPasswordState("success");
+                                  setHelperPass("");
                                   setPass(e.target.value);
-                                } else setPasswordState("error");
+                                } else{
+                                  setPasswordState("error");
+                                  setHelperPass("Contraseña debe contener: Al menos una letra mayuscula al principio, al menos un numero y de minimo 8 caracteres y maximo 26 (Ejemplo123).")
+                                }
                               }
                             }}
                           />
@@ -220,6 +284,7 @@ export default connect(
                               fullWidth: true,
                               className: classes.customFormControlClasses
                             }}
+                            helperText={helperConfirmPass}
                             inputProps={{
                               startAdornment: (
                                 <InputAdornment
@@ -232,11 +297,15 @@ export default connect(
                                 </InputAdornment>
                               ),
                               placeholder: "Confirmar Contraseña",
-                              type: "password",
+                              type: valuesPass.type,
                               onChange: e => {
                                 if (password === e.target.value) {
                                   setConfirmPasswordState("success");
-                                } else setConfirmPasswordState("error");
+                                  setHelperConfirmPass("Contraseñas coinciden");
+                                } else{
+                                  setConfirmPasswordState("error");
+                                  setHelperConfirmPass("Contraseñas NO coinciden");
+                                }
                               }
                             }}
                           />
@@ -248,18 +317,32 @@ export default connect(
                                 e.preventDefault();
                                 if (checkForm()) {
                                   props.register(username, password, name);
-                                  alert(
-                                    "Su usuario fue registrado exitosamente! Click en aceptar para continuar."
-                                  );
+                                  handleSuccess();
                                 } else {
-                                  alert(
-                                    "Verifique la información ingresada para continuar"
-                                  );
+                                  setShowDialog({open: true, title: 'No es posible continuar con el registro ',content: 'Verifique la información suministrada para continuar.' });
                                 }
                               }}
                             >
                               Registrarme
                             </Button>
+                            <Dialog
+                                open={showDialog.open}
+                                onClose={handleCloseDialog}
+                                aria-labelledby="alert-dialog-title"
+                                aria-describedby="alert-dialog-description"
+                            >
+                              <DialogTitle id="alert-dialog-title">{showDialog.title}</DialogTitle>
+                              <DialogContent>
+                                <DialogContentText id="alert-dialog-description">
+                                  {showDialog.content}
+                                </DialogContentText>
+                              </DialogContent>
+                              <DialogActions>
+                                <Button onClick={handleCloseDialog} color="primary" autoFocus>
+                                  Aceptar
+                                </Button>
+                              </DialogActions>
+                            </Dialog>
                           </div>
                         </form>
                       </GridItem>
@@ -274,4 +357,27 @@ export default connect(
       </div>
     </div>
   );
-});
+}
+const mapStateToProps = state => {
+  let errors = [];
+  if (state.auth.errors) {
+    errors = Object.keys(state.auth.errors).map(field => {
+      return {field, message: state.auth.errors[field]};
+    });
+  }
+  return {
+    errors,
+    isAuthenticated: state.auth.isAuthenticated
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    register: (username, password, firstName) =>
+        dispatch(auth.register(username, password, firstName))
+  };
+};
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(RegisterPage);
