@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^7.2.1",
     "chartist": "0.10.1",
     "classnames": "2.2.6",
-    "cldr-data": "^36.0.0",
+    "cldr-data": "^36.0.1",
     "globalize": "^1.5.0",
     "history": "4.9.0",
     "iana-tz-data": "^2019.1.0",
